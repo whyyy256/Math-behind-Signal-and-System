@@ -4874,6 +4874,8 @@ $$\frac{d\mathbf{y}}{dt}=\mathbf{f}(t,\mathbf{y})$$
     设系统的状态矩阵、输入矩阵和输出矩阵分别为$A,B,C$，则其\textbf{对偶系统}的状态矩阵、输入矩阵和输出矩阵分别为$A^T,C^T,B^T$。
 \end{definition}
 
+未提及直接传递矩阵$D$，是因为它不会影响系统的本质属性。
+
 对偶系统可以看作是原系统的时间反演，即时间倒流的情况下，原系统的输入、输出分别变为对偶系统的输出、输入。可控性要求“未来的状态由过去的输入决定”，而可观性要求“过去的初始状态由未来的输出决定”。因此，我们从物理直观上解释了：
 
 \begin{theorem}
@@ -8618,7 +8620,153 @@ Q(s)&=a_n\left(s^{n-1}c_0 +s^{n-2}c_1 +\cdots +c_{n-1}\right)+a_{n-1}\left(s^{n-
     \end{figure}
 \end{example}
 
-\subsection{常系数线性方程组的拉普拉斯变换解法}\label{sub:laplace_ode_system}
+\subsection{常系数线性微分方程组的拉普拉斯变换解法}\label{sub:laplace_ode_system}
+
+拉普拉斯变换同样能够处理常系数线性微分方程组，并且能够一并处理初始条件。我们首先对矩阵值函数定义改进版的拉普拉斯变换：
+\begin{definition}[矩阵值函数的拉普拉斯变换]
+    设矩阵值函数$A(t)$的每个分量局部可积，并且对于每个分量$a_{ij}(t)$，$\exists \alpha_{ij}\in\mathbb{R}$，使得$a_{ij}(t)e^{-\alpha_{ij} t}$绝对可积，则在所有分量的公共收敛域
+    $$\text{Re}\ s\geq \max\{\alpha_{ij}|1\leq i\leq m,1\leq j\leq n\}$$上，矩阵值函数$A(t)$的拉普拉斯变换是每个分量的拉普拉斯变换构成的矩阵：
+    \[\mathcal{L} A(s)=\int_{0-}^{\infty}A(t)e^{-st}\,dt\]
+\end{definition}
+
+考虑如下常系数线性微分方程组：
+\begin{align*}
+    \frac{d\mathbf{y}}{dt}=A\mathbf{y}+\mathbf{f}(t),\mathbf{y}(0-)=\mathbf{y}_0
+\end{align*}
+其中$A\in\mathbb{R} ^{n\times n},\mathbf{y},\mathbf{f}\in\mathcal{E} ^n$，并且$\mathbf{y}_0\in\mathbb{R} ^n$。对方程两边进行拉普拉斯变换，有
+\begin{align*}
+    s\mathbf{Y}(s)-\mathbf{y}_0=A\mathbf{Y}(s)+\mathbf{F}(s)
+\end{align*}
+因此
+\begin{align*}
+    \mathbf{Y}(s)=(sI-A)^{-1}(\mathbf{y}_0+\mathbf{F}(s))
+\end{align*}
+两边同时求拉普拉斯逆变换，即可得到方程的解：\begin{align*}
+    \mathbf{y}(t)=\mathcal{L} ^{-1} \left[(sI-A)^{-1}\mathbf{y}_0\right](t)+\mathcal{L} ^{-1} \left[(sI-A)^{-1}\mathbf{F}(s)\right](t)
+\end{align*}
+根据拉普拉斯变换的卷积定理，令$\mathcal{L} ^{-1} \left[(sI-A)^{-1}\right](t)=\Phi(t)$，则解为\begin{align*}
+    \mathbf{y}(t)&=\Phi(t)\mathbf{y}_0+\Phi(t)*\mathbf{f}(t)\\
+    &=\Phi(t)\mathbf{y}_0+\int_0^{t}\Phi(t-\tau)\mathbf{f}(\tau)\,d\tau
+\end{align*}
+可以看出，$\Phi(t)$正是方程的基本解，即
+$$\mathcal{L}^{-1} \left[(sI-A)^{-1}\right](t)=\Phi(t)=e^{At}u(t)$$
+这样，我们就得到了第三章中提到的矩阵指数函数$e^{At}$的拉普拉斯变换求法。
+
+\begin{definition}[特征矩阵/预解矩阵]
+    设系统的状态矢量为$\mathbf{q}(t)$，由以下状态变量方程方程描述：
+    $$\frac{d\mathbf{q}}{dt}=A\mathbf{q}+\mathbf{f}(t)$$
+    求解该方程的关键是求矩阵$(sI-A)^{-1}=\mathcal{L}\{e^{At}\}$。我们将矩阵$(sI-A)^{-1}$称为系统的\textbf{特征矩阵}(characteristic matrix)或\textbf{预解矩阵}(pre-solution matrix)。
+\end{definition}
+
+称$(sI-A)^{-1}$为特征矩阵，是因为它的行列式的极点就是矩阵$A$的特征值\footnote{$(sI-A)$的每个分量都是分式函数，因此其逆矩阵的每个分量也是分式函数，行列式只会有极点而不会有其它形式的奇点}，在状态变量的可逆线性变换下，特征值是不变的，因此我们也将系统矩阵$A$的特征值称为\textbf{系统的特征值}。
+
+\begin{example}
+    设系统由如下状态变量方程描述：
+    \begin{align*}
+        \frac{d}{dt}\begin{bmatrix}
+            q_1(t)\\
+            q_2(t)
+        \end{bmatrix}=\begin{bmatrix}
+            0 & 1\\
+            -2 & -3
+        \end{bmatrix}\begin{bmatrix}
+            q_1(t)\\
+            q_2(t)
+        \end{bmatrix}+\begin{bmatrix}
+            0\\
+            t
+        \end{bmatrix},\begin{bmatrix}
+            q_1(0-)\\
+            q_2(0-)
+        \end{bmatrix}=\begin{bmatrix}
+            1\\
+            2
+        \end{bmatrix}
+    \end{align*}
+    则特征矩阵为\begin{align*}
+        (sI-A)^{-1}=\begin{bmatrix}
+            s & -1\\
+            2 & s+3
+        \end{bmatrix}^{-1}=\frac{1}{s^2+3s+2}\begin{bmatrix}
+            s+3 & 1\\
+            -2 & s
+        \end{bmatrix}
+    \end{align*}
+    可以看出，系统的特征值为$-1,-2$。对$(sI-A)^{-1}$求拉普拉斯逆变换，即可得到系统的基本解矩阵$e^{At}$：\begin{align*}
+        e^{At}u(t)&=\mathcal{L} ^{-1} \left[(sI-A)^{-1}\right](t)\\
+        &=\mathcal{L} ^{-1} \left[\frac{1}{s^2+3s+2}\begin{bmatrix}
+            s+3 & 1\\
+            -2 & s
+        \end{bmatrix}\right](t)\\
+        &=\begin{bmatrix}
+            2e^{-t}-e^{-2t} & e^{-t}-e^{-2t}\\
+            -2e^{-t}+2e^{-2t} & -2e^{-t}+3e^{-2t}
+        \end{bmatrix}u(t)
+    \end{align*}
+    状态变量方程的解为\begin{align*}
+        \begin{bmatrix}
+            q_1(t)\\
+            q_2(t)
+        \end{bmatrix}&=e^{At}\begin{bmatrix}
+            1\\
+            2
+        \end{bmatrix}+\int_0^{t}e^{A(t-\tau)}\begin{bmatrix}
+            0\\
+            \tau
+        \end{bmatrix}\,d\tau\\
+        &=\begin{bmatrix}
+            4e^{-t}-5e^{-2t}\\
+            -6e^{-t}+8e^{-2t}
+        \end{bmatrix}+\int_0^{t}\begin{bmatrix}
+            e^{-(t-\tau)}-e^{-2(t-\tau)}\\
+            -2e^{-(t-\tau)}+3e^{-2(t-\tau)}
+        \end{bmatrix}\tau\,d\tau\\
+        &=\begin{bmatrix}
+            5e^{-t}-\frac{11}{2}e^{-2t}+te^{-t}-\frac{7}{2}te^{-2t}-\frac{1}{2}\\
+            -4e^{-t}+\frac{13}{2}e^{-2t}-2te^{-t}+\frac{9}{2}te^{-2t}-\frac{3}{2}
+        \end{bmatrix}
+    \end{align*}
+\end{example}
+
+考虑一个$q$输入、$p$输出的线性时不变系统，其状态变量方程为
+\begin{align*}
+    \frac{d\mathbf{q}}{dt}=&A\mathbf{q}+B\mathbf{e},\\
+    \mathbf{r}=&C\mathbf{q}+D\mathbf{e}
+\end{align*}
+其中$A$为$n$阶矩阵，$n$为系统的状态变量个数；$B,C,D$分别为$n\times q$、$p\times n$和$p\times q$的矩阵。
+
+要求其系统函数，使用输出与输入的复频域形式之比的定义较为方便。对状态变量方程两边进行拉普拉斯变换，有
+\begin{align*}
+    s\mathbf{Q}(s)-\mathbf{q}(0-)=&A\mathbf{Q}(s)+B\mathbf{E}(s),\\
+    \mathbf{R}(s)=&C\mathbf{Q}(s)+D\mathbf{E}(s)
+\end{align*}
+由前一方程，
+\begin{align*}
+    \mathbf{Q}(s)=(sI-A)^{-1}\mathbf{q}(0-)+(sI-A)^{-1}B\mathbf{E}(s)
+\end{align*}
+代入后一方程，得到
+\begin{align*}
+    \mathbf{R}(s)=&C\left[(sI-A)^{-1}\mathbf{q}(0-)+(sI-A)^{-1}B\mathbf{E}(s)\right]+D\mathbf{E}(s)\\
+    =&C(sI-A)^{-1}\mathbf{q}(0-)+\left[C(sI-A)^{-1}B+D\right]\mathbf{E}(s)
+\end{align*}
+因此系统函数为
+\begin{align*}
+    H(s)=\frac{R_{zs}(s)}{E(s)}=C(sI-A)^{-1}B+D
+\end{align*}
+这是一个$p\times q$的矩阵值函数。特别地，对于单输入单输出系统，系统函数为一个分式函数。
+
+利用系统函数，可以得到系统的可控性、可观性的其他判断方法，但由于这个方法比较复杂，这里仅仅给出它的一个简化版本：
+\begin{claim}
+    设单输入单输出系统的状态变量方程为
+    \begin{align*}
+        \frac{d\mathbf{q}}{dt}=&A\mathbf{q}+B e,r=C\mathbf{q}
+    \end{align*}
+    则系统的系统函数为
+    \begin{align*}
+        H(s)=\frac{R_{zs}(s)}{E(s)}=C(sI-A)^{-1}B
+    \end{align*}
+    如果在系统函数的计算过程中，没有出现零极点的抵消，即系统函数的分子和分母没有公共因子，则系统是可控且可观的，否则系统不完全可控或不完全可观。
+\end{claim}
 
 \section{系统的复频域分析}\label{sec:Complex_Freq_Analysis}
 
@@ -8636,41 +8784,56 @@ Q(s)&=a_n\left(s^{n-1}c_0 +s^{n-2}c_1 +\cdots +c_{n-1}\right)+a_{n-1}\left(s^{n-
     则其零极点图如下所示：
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth]{zero_pole}
+        \includegraphics[width=0.4\textwidth]{zero_pole}
         \caption{零极点图(1)}
     \end{figure}
 \end{example}
 
-根据\ref{sub:stability_of_system}中提出的系统的稳定性条件，因果的线性时不变系统是稳定的，当且仅当其系统函数的收敛域包含虚轴，此时系统函数的所有极点均位于左半平面$\text{Re}\ s<0$，\textbf{系统的频率响应特性即系统函数在虚轴上的限制}。此时，如果零极点图较为简单，则可以由零极点图判断系统的滤波特性，即判断系统函数在虚轴上不同位置的幅值大小。
+根据\ref{sub:stability_of_system}中提出的系统的稳定性条件，因果的线性时不变系统是稳定的，当且仅当其系统函数的收敛域包含虚轴，此时系统函数的所有极点均位于左半平面$\text{Re}\ s<0$，\textbf{系统的频率响应特性即系统函数在虚轴上的限制}。
+
+此时，如果零极点图较为简单，则可以由零极点图判断系统的滤波特性，即判断系统函数在虚轴上不同位置的幅值大小。
 
 零点通常会使得附近的系统函数幅值减小，特别地，如果虚轴上存在零点，则可直接判断该点处的幅频特性值为0：
 
 \begin{example}
-    设系统的零极点图如下图所示：\begin{figure}[H]
-        \centering
-        \includegraphics[width=0.5\textwidth]{zero_pole1}
-        \caption{零极点图(2)}
-    \end{figure}
-    可以看到系统函数在原点处由一个一阶零点，这表明系统的频率相应特性在低频处有一个零点，意味着系统对低频信号有抑制作用；系统的极点均位于实轴上，这意味系统函数形如
-    \[H(s)=\frac{K(s-z)}{(s+p_1)(s+p_2)}\]
-    考虑它在虚轴上的限制的幅值：
-    \[|H(i\omega)|=\frac{K\sqrt{\omega^2+z^2}}{\sqrt{(\omega^2+p_1^2)(\omega^2+p_2^2)}}\]
-    当$\omega\to\infty$时，$|H(i\omega)|\to 0$，这表明系统对高频信号有抑制作用。因此，该系统具有带通滤波特性。
-
-    可以定性地画出其幅频特性曲线，如下所示：
+    设系统的零极点图如下图(a)所示：
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth]{amplitude_response}
-        \caption{幅频特性曲线(1)}
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{zero_pole1}
+            \caption{零极点图(2)}
+        \end{subfigure}\hfill
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{amplitude_response}
+            \caption{幅频特性曲线(1)}
+        \end{subfigure}
     \end{figure}
+    可以看到系统函数在原点处由一个一阶零点，这表明系统的频率响应特性在$\omega=0$有零点，也就意味着系统对低频信号有抑制作用；系统的极点均位于实轴上，这意味着系统函数的分母是有两个实根的实系数多项式
+    \[H(s)=\frac{Ks}{(s+a)(s+b)}\]
+    考虑它在虚轴上的限制的幅值：
+    \[|H(i\omega)|=\frac{K\omega}{\sqrt{(\omega^2+a^2)(\omega^2+b^2)}}\]
+    当$\omega\to\infty$时，$|H(i\omega)|\to 0$，这表明系统对高频信号有抑制作用。因此，该系统具有带通滤波特性。
+
+    可以定性地画出其幅频特性曲线，如上图(b)所示。
 \end{example}
 
 极点通常会使得附近的系统函数幅值增大：
 \begin{example}
-    设系统的零极点图如图所示：\begin{figure}[H]
+    设系统的零极点图如图下图(a)所示：
+    \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth]{zero_pole2}
-        \caption{零极点图(3)}
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{zero_pole2}
+            \caption{零极点图(3)}
+        \end{subfigure}\hfill
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{amplitude_response1}
+            \caption{幅频特性曲线(2)}
+        \end{subfigure}
     \end{figure}
 
     系统函数的分母在虚轴左侧有一对共轭复根，这意味着系统函数形如
@@ -8679,30 +8842,30 @@ Q(s)&=a_n\left(s^{n-1}c_0 +s^{n-2}c_1 +\cdots +c_{n-1}\right)+a_{n-1}\left(s^{n-
     \[|H(i\omega)|=\frac{K}{\sqrt{(\omega^2-2\text{Re}(p)\omega+|p|^2)}}\]
     由于$\text{Re}(p)<0$，因此容易求得幅频特性在$\omega=\pm \text{Im}(p)$处取得极大值，这表明系统对该频率附近的信号有增强作用。因此，该系统具有带通滤波特性。
     
-    可以定性地画出其幅频特性曲线，如下所示：
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.5\textwidth]{amplitude_response1}
-        \caption{幅频特性曲线(2)}
-    \end{figure}
+    可以定性地画出其幅频特性曲线，如上图(b)所示。
 \end{example}
 
 以上推断系统函数的形式的过程，可以进一步简化。对于给定位置的零点$z$，其系统函数分子必然包含$s-z$这一因子，从而幅频特性是系统函数的其他部分与一个\textbf{起点为$z$，终点为$i\omega$的向量长度}的积；对于给定位置的极点$p$，其系统函数分分母必然包含$s-p$这一因子，从而幅频特性是系统函数的其他部分与一个\textbf{起点为$p$，终点为$i\omega$的向量长度}的商。
 
 \begin{example}
-    设系统的零极点图如图所示：\begin{figure}[H]
+    设系统的零极点图如下图(a)所示：
+    \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth]{zero_pole_vector}
-        \caption{零极点图及向量分析法}
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{zero_pole_vector}
+            \caption{零极点图及向量分析法}
+        \end{subfigure}\hfill
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{amplitude_response2}
+            \caption{幅频特性曲线(3)}
+        \end{subfigure}
     \end{figure}
 
     考虑不同角频率处的各向量长度，当角频率较小时，各向量的长度都较小；随角频率增大，极点向量的长度增长较快，且极点有两个，因此系统的幅频特性大小随角频率增大而减小，系统具有低通滤波特性。
     
-    可以定性地画出其幅频特性曲线：\begin{figure}[H]
-        \centering
-        \includegraphics[width=0.5\textwidth]{amplitude_response2}
-        \caption{幅频特性曲线(3)}
-    \end{figure}
+    可以定性地画出其幅频特性曲线，如上图(b)所示。
 \end{example}
 
 \subsection{系统流图与梅森增益公式}\label{sub:mason_gain_formula}
@@ -9100,6 +9263,7 @@ $$M_1\to M_3\to M_4\to M_1,M_2\to M_5\to M_2$$
 考虑如下信号流图：
 
 \begin{center}
+\scalebox{0.92}{%
 \begin{tikzpicture}[>=Stealth, node distance=1.6cm, auto]
     % 节点：M1 为矩形，其余中间节点用直径为2的小圆圈表示，节点内部不显示编号
     \node (x) {$x(t)$};
@@ -9133,7 +9297,8 @@ $$M_1\to M_3\to M_4\to M_1,M_2\to M_5\to M_2$$
     \draw[->, bend left=40] (M3) to node[below, yshift=-1pt] {$-a_2$} (M1);
     \draw[->, bend left=50] (Mn_2) to node[below, yshift=-1pt] {$-a_{n-1}$} (M1);
     \draw[->, bend left=60] (Mn_1) to node[below, yshift=-1pt] {$-a_{n}$} (M1);
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \end{center}
 
 注意到这个信号流图的所有前向通路和环路均经过节点$M_1$，去掉节点$M_1$后不再有环路，因此不含$M_1$的子图的特征行列式$\Delta_k$均为1。利用梅森增益公式，可以计算出系统增益为
@@ -9178,7 +9343,6 @@ $$M_1\to M_3\to M_4\to M_1,M_2\to M_5\to M_2$$
     也就是说，最小相位系统A的相时延和群时延均小于非最小相位系统B的相时延和群时延，因此系统A具有更好的延时特性。
 \end{example}
 
-可以归纳出：
 \begin{proposition}
     具有相同幅频特性的因果且稳定的连续线性时不变系统中，最小相位系统具有最小的相时延和群时延，因此具有最佳的延时特性。
 \end{proposition}
@@ -9240,7 +9404,9 @@ $$M_1\to M_3\to M_4\to M_1,M_2\to M_5\to M_2$$
     \begin{align*}
         e(t)=\cos(t)\cos(5t)=\frac{1}{2}[\cos(4t)+\cos(6t)],\tau_g(1)=-0.1
     \end{align*}
-    系统的响应为
+    由此可以预测，系统的响应中，包络峰将提前出现0.1s。
+
+    计算系统的响应：
     \begin{align*}
         y(t)&=(h*e)(t)\\
         &=\cos(t)\cos(5t)-\frac{1}{2}u(t)\int_{0}^{t}e^{-2\tau}[\cos(4(t-\tau))+\cos(6(t-\tau))]d\tau\\
@@ -9251,7 +9417,7 @@ $$M_1\to M_3\to M_4\to M_1,M_2\to M_5\to M_2$$
         \includegraphics[width=0.8\textwidth]{neg_taug}
         \caption{调幅信号通过具有负群时延系统的响应}
     \end{figure}
-    依稀能辨认出-0.1s的群时延，但由于输入稳态信号，并没有违反因果性。
+    上图中，依稀能辨认出-0.1s的群时延，但由于输入的是稳态信号，并没有违反因果性。
 \end{example}
 
 那么，对于暂态信号，情况又如何呢？考虑相时延
@@ -9261,12 +9427,22 @@ $$tau_p(\omega)=\dfrac{-\arctan(\omega)+\arctan(\frac{\omega}{2})}{\omega},\fora
 不过，时限函数不可能同时是带限的（见\ref{sub:time_freq_limit}），激励在全频域上均有频率分量，这当然可能使得响应的各分量提前出现，却在$t=0$时刻前抵消，最终呈现出响应与激励起始时刻相同，不违反因果性的结果。
 
 \begin{example}[暂态信号经过逆系统]
-    设激励信号为$\chi_{[0,1]}(t)$，系统函数为$H(s)=\frac{s+1}{s+2}$，则系统的响应为
+    设
+    $$e(t)=\chi_{[0,1]}(t),H(s)=\frac{s+1}{s+2}$$
+    则系统的响应为
     \begin{align*}
         y(t)&=(h*\chi_{[0,1]})(t)\\
-        &=\chi_{[0,1]}(t)-u(t)\int_0^t \chi_{[0,1]}(\tau)e^{-2(t-\tau)}d\tau\\
-        &=\chi_{[0,1]}(t)-u(t)\int_0^{\min(t,1)} e^{-2(t-\tau)}d\tau\\
-        &=\chi_{[0,1]}(t)-u(t)\frac{1}{2}(1-e^{-2\min(t,1)})e^{-2(t-\min(t,1))}
+        &=\chi_{[0,1]}(t)-u(t)\int_0^t \chi_{[0,1]}(\tau)e^{-2(t-\tau)}d\tau
+    \end{align*}
+    单位脉冲响应$h(t)$是因果的，因此响应也是因果的。
+
+    在$t<1$时，相应为\begin{align*}
+        y(t)&=\chi_{[0,1]}(t)-u(t)\int_0^t e^{-2(t-\tau)}d\tau\\
+        &=\chi_{[0,1]}(t)-\frac{1}{2}u(t)(1-e^{-2t})
+    \end{align*}
+    在$t\geq 1$时，相应为\begin{align*}
+        y(t)&=\chi_{[0,1]}(t)-u(t)\int_0^1 e^{-2(t-\tau)}d\tau\\
+        &=-\frac{1}{2}u(t)(e^{-2t}-e^{-2(t-1)})
     \end{align*}
     \begin{figure}[H]
         \centering
