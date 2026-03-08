@@ -1739,7 +1739,7 @@ $L^p$空间的完备性证明较为复杂，我们仅仅给出结论：
 由欧拉公式$\mathrm{e}^{\mathrm{i}k\omega t}=\cos(k\omega t)+\mathrm{i}\sin(k\omega t)$，得到
 \[\cos(k\omega t)=\frac{\mathrm{e}^{\mathrm{i}k\omega t}+\mathrm{e}^{-\mathrm{i}k\omega t}}{2},\sin(k\omega t)=\frac{\mathrm{e}^{\mathrm{i}k\omega t}-\mathrm{e}^{-\mathrm{i}k\omega t}}{2\mathrm{i}}\]
 故函数$f(t)$也可在指数函数系下展开：\begin{definition}[指数形式傅里叶展开]
-    \[f(t)=\sum_{k = 0}^{\infty}  c_k \mathrm{e}^{\mathrm{i}k\omega t} ,c_k=\frac{a_k-ib_k}{2},c_{-k}=\frac{a_k+ib_k}{2}=c_k^*,k\in \mathbb{N}\]
+    \[f(t)=\sum_{k = 0}^{\infty}  c_k \mathrm{e}^{\mathrm{i}k\omega t} ,c_k=\frac{a_k-\mathrm{i}b_k}{2},c_{-k}=\frac{a_k+\mathrm{i}b_k}{2}=c_k^*,k\in \mathbb{N}\]
 （特别地，$c_0=c_0^*\implies c_0\in\mathbb{R} $）
 \end{definition}
 容易验证$\{\mathrm{e}^{\mathrm{i}k\omega t}\}_{k=0}^{\infty}$是完备正交函数系：
@@ -1840,7 +1840,7 @@ $L^p$空间的完备性证明较为复杂，我们仅仅给出结论：
 综上我们证明了：
 \begin{theorem}[傅里叶级数的依范数收敛性]
     设$f\in L^2([0,T])$，指数形式的傅里叶系数为$c_k(k\in\mathbb{Z} )$，则
-    \[\lim_{N \to \infty} \left\| f(t)-\sum_{k=-N}^{N}c_k \mathrm{e}^{ik\omega t}\right\|_2=0\]
+    \[\lim_{N \to \infty} \left\| f(t)-\sum_{k=-N}^{N}c_k \mathrm{e}^{\mathrm{i}k\omega t}\right\|_2=0\]
 \end{theorem}
 
 对于逐点收敛性，狄利克雷给出了它的一个充分条件，称之为\textbf{狄利克雷条件}，满足这个条件的函数的傅里叶级数在任意点收敛于其左右极限的平均值。在此之前给出两个概念：
@@ -1859,7 +1859,7 @@ $L^p$空间的完备性证明较为复杂，我们仅仅给出结论：
 
 \begin{theorem}[狄利克雷定理]
     满足狄利克雷条件时，f的傅里叶级数展开在在任意点收敛到其左右极限的平均值：
-    \[\forall t\in \mathbb{R},\sum_{k=\infty}^{\infty}c_k \mathrm{e}^{2\pi ikt}=\frac{f(t+)+f(t-)}{2}\]
+    \[\forall t\in \mathbb{R},\sum_{k=\infty}^{\infty}c_k \mathrm{e}^{\mathrm{i}2\pi kt}=\frac{f(t+)+f(t-)}{2}\]
 \end{theorem}
 
 如果函数在有限个点处不连续，我们的确无法将这一结论加强到逐点收敛，因为在不连续点处函数的取值不影响积分值，也就不影响傅里叶系数，当然也就得不到不连续点处的收敛性，但是如果将分段连续函数在不连续点处的取值定义为左右极限的平均值，这样就能够得到逐点收敛性了。
@@ -3801,7 +3801,7 @@ $$\delta=0\ for\ t<0\implies h(t)=0\ for\ t<0$$
 \begin{definition}[常系数线性微分方程]
     一个形如
     \[y^{(n)}(t)+a_{1}y^{(n-1)}(t)+\cdots +a_{n-1} y'(t)+a_n y(t)=f(t)\]
-    称为\textbf{n阶常系数线性微分方程}，其中$f(t)\in C(a,b)$，将$f(t)$称为\textbf{非齐次项}。特别地，如果$f(t)=0$，称之为\textbf{n阶常系数线性齐次微分方程}。
+    的微分方程称为\textbf{n阶常系数线性微分方程}，其中$f(t)\in C(a,b)$，将$f(t)$称为\textbf{非齐次项}。特别地，如果$f(t)=0$，称之为\textbf{n阶常系数线性齐次微分方程}。
 \end{definition}
 
 不难看出，如果找到了n阶常系数线性齐次微分方程的两个解$y_1,y_2$，则$ay_1+by_2$也是齐次方程的解；另外，如果带入$y=\mathrm{e}^{\lambda t}$并消去这一项，则微分方程化为其\textbf{特征方程}：
@@ -3963,7 +3963,7 @@ $r(t)=f(t)u(t)$，求出其一阶、二阶导数：\begin{align*}
 对于以上例子中多次的出现满足$h(t)=y_h(t)u(t)$的信号，我们有一个专门的术语来称呼它们：
 
 \begin{definition}
-    如果信号满足$h(t)=y_h(t)u(t)$或$h(t)=0,\forall t<0$，则称之为\textbf{因果信号}(causal signal)；
+    如果信号满足$h(t)=y_h(t)u(t)$，或等价的，$h(t)=0,\forall t<0$，则称之为\textbf{因果信号}(causal signal)；
     
     如果信号满足$h(t)=y_h(t)u(-t)$，则称之为\textbf{反因果信号}(anti-causal signal)。
 \end{definition}
@@ -4541,7 +4541,7 @@ $$\frac{d\mathbf{y}}{dt}=\mathbf{f}(t,\mathbf{y})$$
 
 特别地，向量值函数和数量值函数也可视作特殊的矩阵值函数，只要矩阵的形状能够进行矩阵乘法即可。由于矩阵的乘法通常不具有交换律，\textbf{矩阵值函数的卷积也不具有交换律}。
 
-类似于用基本解得到的方程的解的公式，公式中给出的是基本解矩阵$\mathrm{e}^{At}$与非齐次项$\mathbf{b}(t)$在有限区间上的“卷积积分”。称之为卷积，一方面是因为施加一个向量形式的冲击项作为激励（非齐次项）时，$t\geq 0$时才会有响应，即单位脉冲响应为$\mathrm{e}^{At}u(t)$（这正是基本解矩阵这样命名的原因之一）；另一方面是因为激励是在$t_0$时刻才开始施加于系统的，这样，积分限就可以由$(-\infty,\infty)$改为$(t_0,t)$。
+类似于用基本解得到的方程的解的公式，公式中给出的是基本解矩阵$\mathrm{e}^{At}$与非齐次项$\mathbf{b}(t)$在有限区间上的“卷积积分”。称之为卷积，一方面是因为，施加一个向量形式的冲击项作为激励（非齐次项），$t\geq 0$时才会有响应，即单位脉冲响应为$\mathrm{e}^{At}u(t)$（这正是基本解矩阵这样命名的原因之一，代入方程容易验证它是单位脉冲响应）；另一方面是因为激励是在$t_0$时刻才开始施加于系统的，这样，积分限就可以由$(-\infty,\infty)$改为$(t_0,t)$。
 
 下面考虑方程及由方程转化而来的方程组。我们已经知道，$n$阶方程的解空间是$n$维的，因此只要给出$n$个线性无关的解$\phi_1(t),\phi_2(t),\cdots,\phi_n(t)$，就能得到通解；线性无关性可以通过Wronsky行列式来判断；给出$n$个无关的条件，就能唯一确定一个解，特别地，这个条件经常为初始条件，它包含函数及其前$n-1$阶导数在某一点处的值。
 
@@ -9448,7 +9448,7 @@ $$tau_p(\omega)=\dfrac{-\arctan(\omega)+\arctan(\frac{\omega}{2})}{\omega},\fora
     响应与激励的起始时刻一致，满足因果性。
 \end{example}
 
-\chapter{z变换与z域分析}
+\chapter{离散时间变换}
 
 \section{z变换}\label{sec:z_Transform}
 
@@ -9867,164 +9867,6 @@ $$\text{Res}(f,\infty)=\dfrac{1}{2\pi \mathrm{i}}\oint_{C^-_R}f(z)\,dz$$
 %    可以猜想，$x[n]=n u[n]$。
 %\end{example}
 
-\section{离散系统与z域分析}\label{sec:Discrete_System_z_Analysis}
-
-离散系统是指激励与响应均为离散信号的系统。本节中，我们将介绍离散系统的基本特性并介绍由z变换引出的离散系统的系统函数。
-
-典型的离散系统是通过差分方程来描述的，差分方程就是我们所熟知的数列递推式的一种推广。其中，常系数线性差分方程是我们主要关注的线性时不变离散系统，我们将在下一节介绍差分方程。
-
-\begin{example}
-    设离散系统的激励$e[n]$与响应$r[n]$满足差分方程
-    \[r[n]-\frac{1}{2}r[n-1]=e[n]\]
-    该系统是一个因果的离散线性时不变系统。
-\end{example}
-
-更为特殊的情况下，激励与响应都是周期信号，称之为周期离散系统。此时不妨将激励与响应都视作有限维的向量，用矩阵乘法描述线性系统。这种系统将在\ref{sub:period_discrete_system}介绍。
-
-\subsection{离散系统概述}\label{sub:discrete_system_overview}
-
-本小节中，我们先列举一些离散系统的基本特性，然后讨论离散系统的级联。
-
-\begin{definition}[离散系统的基本特性]
-    设离散系统的激励为$e[n]$，响应为$r[n]=H(e[n])$，则该系统具有以下基本特性：
-    \begin{itemize}
-        \item \textbf{线性性}：满足叠加定理，即对于任意激励$e_1[n],e_2[n]$及任意常数$a,b\in\mathbb{C}$，有
-        \[H(ae_1[n]+be_2[n])=aH(e_1[n])+bH(e_2[n])\]
-        \item \textbf{时不变性}：系统的作用不依赖于时间，即对于任意激励$e[n]$及任意整数$k\in\mathbb{Z}$，有
-        \[H(\tau_k e[n])=\tau_k H(e[n])\]
-        其中$\tau_k$表示时间平移算子，即$\tau_k e[n]=e[n-k]$。
-        \item \textbf{因果性}：系统的响应不早于激励，即
-        \[\forall e[n],e[n]=0,n<0\implies r[n]=0,n<0\]
-        \item \textbf{稳定性}：激励信号有界时，响应也是有界的，即
-        \[\forall e[n]\in l^{\infty}(\mathbb{Z}),r[n]\in l^{\infty}(\mathbb{Z})\]
-        \item \textbf{可逆性}：如果$H$是双射，则称系统可逆，此时存在一个系统$H^{-1}$使得对于任意激励$e[n]$，有
-        \[H^{-1}r[n]=e[n]\]
-        \item \textbf{即时性}与\textbf{记忆性}：如果该系统在任意时刻$t$的状态完全且唯一地取决于该时刻的系统状态与激励，而不显式地依赖于任何过去时刻$t'<t$的系统状态或历史激励，则称该系统为即时的；否则称该系统为有记忆的。
-    \end{itemize}
-\end{definition}
-
-显然，线性系统的级联仍然是线性的，时不变系统的级联仍然是时不变的，因果系统的级联仍然是因果的。对于离散系统，“对核积分”就相当于加权求和，“对核卷积”就相当于卷积和，可以想象，叠加定理对于离散系统仍成立。
-
-\begin{definition}[离散线性系统的脉冲响应]
-    离散线性系统$H$的\textbf{核函数}定义为$k[m,n]=H_m(\delta[m-n])$，其中$H_m$表示$\delta[m-n]$作为$m$的函数输入系统，输出为$m,n$的双变量函数
-\end{definition}
-
-\begin{theorem}[叠加定理]
-    \[r[m]=\sum_{n=-\infty}^{\infty}k[m,n]e[n]\]
-    其中$k[m,n]$为系统的核函数。
-\end{theorem}
-\begin{proof}
-    离散信号也可以视为它与单位脉冲信号的卷积：
-    \[e[m]=(e*\delta)[m]=\sum_{n=-\infty}^{\infty}e[n]\delta[m-n]\]
-    根据系统的线性性，有
-    \begin{align*}
-        r[m]&=H(e[m])=H_m\left(\sum_{n=-\infty}^{\infty}e[n]\delta[m-n]\right)\\
-        &=\sum_{n=-\infty}^{\infty}e[n]H_m(\delta[m-n])
-    \end{align*}
-    令$k[m,n]=H_m(\delta[m-n])$即得。
-\end{proof}
-
-另一方面，由加权求和描述的系统显然也是线性的，因此我们可以得到：
-\begin{proposition}[离散线性系统的等价定义]
-    一个离散系统是线性系统当且仅当响应是激励的加权求和。
-\end{proposition}
-
-类似连续系统，只要系统有线性性，就可以将系统原有能量引起的\textbf{零输入响应}$r_{zi}[n]$与单纯由激励引起的\textbf{零状态响应}$r_{zs}[n]$分开考虑。进一步，如果系统还具有时不变性，则可定义：
-\begin{definition}[单位脉冲响应与单位阶跃响应]
-    当$e[n]=\delta[n]$时，系统的响应称为\textbf{单位脉冲响应}，记为$h[n]$；当$e[n]=u[n]$时，系统的响应称为\textbf{单位阶跃响应}，记为$s[n]$。
-\end{definition}
-
-这样，核函数可以用单位脉冲响应来表示，线性时不变系统的响应可以用卷积和来表示：
-\[k[m,n]=H_m[\delta[m-n]]=H(\tau_n \delta[m])=\tau_n H(\delta[m])=h[m-n]\]
-\[r[n]=\sum_{m=-\infty}^{\infty}h[n-m]e[m]=(h*e)[n]\]
-
-可见对于离散系统，“线性时不变系统”与“卷积和系统”仍然是等价的概念。
-
-\subsection{离散系统的系统函数}\label{sub:discrete_system_function}
-
-在上一小节中，我们得到$r[n]=(h*e)[n]$，对等式两边做z变换，得到
-\[R(z)=H(z)E(z)\]
-其中$H(z)=\mathcal{Z} h[n]$记为离散系统的系统函数，它也是响应与激励的z变换之比：
-\begin{definition}[离散系统的系统函数]
-    设离散系统的激励为$e[n]$，响应为$r[n]$，它们的z变换分别为$E(z),R(z)$，则系统函数定义为
-    \[H(z)=\frac{R(z)}{E(z)}\]
-\end{definition}
-
-离散系统与连续系统的系统函数是类似的：一般来说，我们考虑的离散系统的系统函数为有理函数（例如下一节将介绍的常系数线性差分方程所描述的系统），因此可以绘制离散系统的系统函数的零极点图，并通过它来分析系统的滤波特性、稳定性、因果性等时域特性；此外，系统流图与梅森增益公式对于离散系统仍然适用，系统的串联（级联）、并联与反馈的定义与连续系统完全一致，\ref{sub:mason_gain_formula}中介绍的信号流图的标准型也仍然适用于离散系统，因此这部分内容不再单独讨论。
-
-与连续系统不同的是，连续系统的分析通常使用单边拉普拉斯变换，其收敛域是复平面的右边$\text{Re}s>\sigma_c$；而离散系统的分析通常使用双边z变换，其收敛域是环状区域$r<|z|<R$。这使得离散系统的稳定性的z域判则不同于连续系统。此外，双边z变换并不要求单位脉冲响应$h[n]$是因果的，因此因果性也具有z域判则。本小节就来探讨离散系统的系统函数与因果性、稳定性之间的关系。对于离散系统的滤波特性，将在下一章介绍离散系统的频率响应特性后进行讨论。
-
-\begin{proposition}[因果性的时域判则]
-    一个离散系统是因果系统当且仅当其单位脉冲响应为因果信号，即$h[n]=0,n<0$。
-\end{proposition}
-\begin{proof}
-    类比连续系统，容易理解因果性与上述条件的等价性，首先来验证卷积和也具有类似于卷积的“支集相加”性质：设离散信号$x[n],y[n]$分别在区间$[n_1,n_2]$与$[m_1,m_2]$内非零，而在其他位置均为0，则
-    \begin{align*}
-        (x*y)[n]=\sum_{k=-\infty}^{\infty}x[k]y[n-k]
-    \end{align*}
-    \begin{align*}
-        (x*y)[n]\neq 0\iff k\in[n_1,n_2],n-k\in[m_1,m_2]\iff n\in[n_1+m_1,n_2+m_2]
-    \end{align*}
-    
-    对于离散系统，如果它是因果的，那么对于任意激励信号$e[n]$，响应$r[n]$都满足$r[n]=0,n<0$，因此单位脉冲响应也满足$h[n]=0,n<0$；反之，如果单位脉冲响应满足$h[n]=0,n<0$，则对于任意激励信号$e[n]$，响应$r[n]=(h*e)[n]$在$n<0$时为0，因此系统是因果的。
-\end{proof}
-
-\begin{proposition}[因果性的z域判则]
-    一个离散系统是因果系统当且仅当其系统函数的收敛域包含$\infty$。
-\end{proposition}
-
-这一判则是显然的，因为因果信号的z变换是只有负幂次项，收敛域包含无穷远点自然也就与单位脉冲响应的因果性等价。
-
-\begin{proposition}[稳定性的时域判则]
-    一个离散系统是稳定系统当且仅当$h\in l^1(\mathbb{Z})$。
-\end{proposition}
-\begin{proof}
-    一方面，对于有界激励$e\in l^{\infty}(\mathbb{Z})$，如果单位脉冲响应满足$h[n]\in l^1(\mathbb{Z})$，则
-    \begin{align*}
-        |r[n]|&=|(h*e)[n]|=\left|\sum_{m=-\infty}^{\infty}h[n-m]e[m]\right|\\
-        &\leq \sum_{m=-\infty}^{\infty}|h[n-m]||e[m]|\\
-        &\leq \|e\|_{\infty}\sum_{m=-\infty}^{\infty}|h[n-m]|\\
-        &=\|e\|_{\infty}\|h\|_1<\infty
-    \end{align*}
-    即$r\in l^{\infty}(\mathbb{Z})$，系统是稳定的。
-    
-    另一方面，设$h$不是绝对可和的，取有界激励信号$e[n]=\text{sgn}(h[-n])$，则
-    \begin{align*}
-        |r[0]|&=|(h*e)[0]|\\
-        &=\left|\sum_{m=-\infty}^{\infty}h[m]e[-m]\right|\\
-        &=\sum_{m=-\infty}^{\infty}|h[m]|\\
-        &=\|h\|_1=\infty
-    \end{align*}
-    $e\in l^{\infty}(\mathbb{Z})$，但$r\notin l^{\infty}(\mathbb{Z})$，系统不稳定。
-\end{proof}
-
-对稳定性的时域判据做z变换，立即得到：
-
-\begin{proposition}[稳定性的z域判则]
-    一个离散系统是稳定系统当且仅当其系统函数的收敛域包含单位圆。
-\end{proposition}
-
-综上，对于离散线性时不变系统，因果且稳定就等价于其系统函数的收敛域包含以下区域：
-\[\left\{\left.z\in\hat{\mathbb{C}}\right||z|>1\right\}\]
-
-可以说，对于离散系统的系统函数而言，复平面上的单位圆与连续情况下复平面上的虚轴是地位相当的，离散情况下单位圆的外侧与连续情况下虚轴的右侧是相当的。它们都是系统的稳定性的分界线，因果信号在变换域上的收敛域都位于分界线的一侧。此外，在下一章中我们将看到，离散系统的频率响应就是系统函数在单位圆上的限制，这与连续系统的频率响应是系统函数在虚轴上的限制也是相当的。
-
-%这种对应关系可以进一步扩展，即规定走向可以同时描述“外侧”与“右侧”，“低频到高频”，在频响里再介绍。
-
-\section{差分方程与离散系统的状态变量分析}\label{sec:Difference_Equation}
-
-\subsection{单边z变换}\label{sub:single_z}
-
-%\subsection{离散信号的初值定理与终值定理}\label{sub:initial_final_value}
-
-\subsection{常系数线性差分方程}\label{sub:difference_equation}
-
-\subsection{常系数线性差分方程组}\label{sub:difference_equation_system}
-
-\subsection{离散系统的状态变量分析}\label{sub:discrete_state_variable}
-
-\chapter{离散时间变换与离散系统分析}
-
 \section{离散时间傅里叶变换}\label{sec:DTFT}
 
 在\ref{sub:signal}中，我们介绍过以下两种特别的离散信号：
@@ -10117,15 +9959,19 @@ $$\mathrm{e}^{\mathrm{i}(\Omega+2k\pi)n}=\mathrm{e}^{\mathrm{i}\Omega n},\forall
 \end{align*}}
 后两行用到了$\mathcal{X} $是以$2\pi$为周期的。
 
-另一方面，$f(t)\cdot\shah=\sum_{n=-\infty}^{\infty}x[n]\delta_{n}$，由分布的傅里叶变换的连续性，有：
+另一方面，
+$$f(t)\cdot\shah=\sum_{n=-\infty}^{\infty}x[n]\delta_{n}$$
+由分布的傅里叶变换的连续性，有：
 \begin{align*}
     \mathcal{F} [f(t)\cdot\shah](\omega)&=\mathcal{F} \left(\sum_{n=-\infty}^{\infty}x[n]\delta_{n}\right)(\omega)\\
     &=\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\omega n}
 \end{align*}
 
 综上得到：\begin{align*}
-    \mathcal{X} (\Omega)&=\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}\\
-    x[n]&=\frac{1}{2\pi}\int_{-\pi}^{\pi}\mathcal{X} (\Omega)E_{\Omega}[n]\,d\Omega
+    \mathcal{X} (\Omega)=\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}
+\end{align*}
+\begin{align*}
+    x[n]=\frac{1}{2\pi}\int_{-\pi}^{\pi}\mathcal{X} (\Omega)E_{\Omega}[n]\,d\Omega
 \end{align*}
 
 由于$\mathcal{X} (\Omega)$可以视作变量$z=\mathrm{e}^{\mathrm{i}\Omega n}$的函数，我们令
@@ -10232,9 +10078,10 @@ $$\mathcal{X} (\Omega)=X(\mathrm{e}^{\mathrm{i}\Omega}),\mathcal{Y} (\Omega)=Y(\
 \begin{proof}
     由离散时间傅里叶反演公式，有
     \begin{align*}
-        \sum_{n=-\infty}^{\infty}x[n]\overline{y[n]}&=\sum_{n=-\infty}^{\infty}x[n]\cdot\frac{1}{2\pi}\int_{-\pi}^{\pi}\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\mathrm{e}^{-\mathrm{i}\Omega n}\,d\Omega\\
-        &=\frac{1}{2\pi}\int_{-\pi}^{\pi}\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\left(\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}\right)\,d\Omega\\
-        &=\frac{1}{2\pi}\int_{-\pi}^{\pi}X(\mathrm{e}^{\mathrm{i}\Omega})\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\,d\Omega
+        &\sum_{n=-\infty}^{\infty}x[n]\overline{y[n]}\\
+        =&\sum_{n=-\infty}^{\infty}x[n]\cdot\frac{1}{2\pi}\int_{-\pi}^{\pi}\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\mathrm{e}^{-\mathrm{i}\Omega n}\,d\Omega\\
+        =&\frac{1}{2\pi}\int_{-\pi}^{\pi}\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\left(\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}\right)\,d\Omega\\
+        =&\frac{1}{2\pi}\int_{-\pi}^{\pi}X(\mathrm{e}^{\mathrm{i}\Omega})\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\,d\Omega
     \end{align*}
     积分与求和的交换合法，是因为绝对可和能够保证以上函数项级数的一致收敛性。
 \end{proof}
@@ -10257,23 +10104,6 @@ $$\mathcal{X} (\Omega)=X(\mathrm{e}^{\mathrm{i}\Omega}),\mathcal{Y} (\Omega)=Y(\
         &=\frac{1}{T}\|f(t)\|_2^2=\frac{E}{T}
     \end{align*}
 \end{proof}
-
-\section{离散系统的频率响应特性}\label{sec:Discrete_System_Freq_Response}
-
-\subsection{频率响应特性与数字滤波器}\label{sub:discrete_system_freq_response}
-
-在上一章中，我们得到了离散系统的系统函数$H(z)$是单位脉冲响应$h[n]$的z变换。在系统稳定的情况下，$h[n]\in l^1$，此时可以对单位脉冲响应做离散时间傅里叶变换，得到的是系统的\textbf{频率响应特性}，记为$H(\mathrm{e}^{\mathrm{i}\Omega})$，它是系统函数在单位圆上的限制，即$H(\mathrm{e}^{\mathrm{i}\Omega})=H(z)|_{z=\mathrm{e}^{\mathrm{i}\Omega}}$.
-
-类似于连续系统，我们仍然将$|H(\mathrm{e}^{\mathrm{i}\Omega})|$称为系统的\textbf{幅频特性}，将$\arg H(\mathrm{e}^{\mathrm{i}\Omega})$称为系统的\textbf{相频特性}。
-
-根据离散时间傅里叶变换的时域卷积定理，输入信号$x[n]$与系统函数$H(\mathrm{e}^{\mathrm{i}\Omega})$的乘积即为输出信号$y[n]$的离散时间傅里叶变换，即
-\[Y(\mathrm{e}^{\mathrm{i}\Omega})=H(\mathrm{e}^{\mathrm{i}\Omega})X(\mathrm{e}^{\mathrm{i}\Omega})\]
-
-因此，可以通过频率响应特性看出系统的滤波特性。对于非周期离散信号，高频信号就指数字角频率接近$\pm\pi$的信号，一个离散系统如果对信号的低频成分有较大的增益，对高频成分有较小的增益，则称其为\textbf{低通滤波器}，其它类型的滤波器同理。
-
-\subsection{零极点与频率响应特性的关系}\label{sub:zero_pole_freq_response}
-
-%\subsection{数字滤波器概述}\label{sub:digital_filter}
 
 \section{离散傅里叶变换}\label{sec:DFT}
 
@@ -10371,7 +10201,6 @@ X[N-1]
     记$p=rN+s$，则$\forall k\in\mathbb{Z}$，有\begin{align*}
     X_{\mathcal{P} ,\mathcal{Q} }[k]&=\sum_{n\in\mathcal{P} }x[n]W_N^{-kn}\\
     &=\sum_{m=p}^{p+N-1}x[m]W_N^{-km}\\
-    &=\sum_{m=0}^{N-1}x[m+p]W_N^{-k(m+p)}\\
     &=\sum_{m=0}^{N-1}x[m+s]W_N^{-k(m+s)}\\
     &=\sum_{m=s}^{N-1}x[m]W_N^{-km}+\sum_{m=N}^{N+s-1}x[m]W_N^{-km}\\
     &=\sum_{m=s}^{N-1}x[m]W_N^{-km}+\sum_{m=0}^{s-1}x[m]W_N^{-km}\\
@@ -10380,30 +10209,43 @@ X[N-1]
     限制$k\in\mathcal{Q} $即得$X_{\mathcal{P} ,\mathcal{Q} }[k]=X[k]$。
 \end{proof}
 
-下面给出离散傅里叶变换与其他变换的关系。一方面，离散傅里叶变换可以看作是z变换在单位圆上的$N$个等间隔点处的取值，即
-\[X[k]=X(z)|_{z=W_N^{-k}}\]
-
-当然，这种理解方式同样可以解释成离散时间傅里叶变换在$N$的等间隔点的取值。离散傅里叶反演公式表明，对于有限长离散信号，只要给定了离散时间傅里叶变换在$N$个等间隔点处的取值（这相当于对离散时间傅里叶变换进行理想采样），就可以完全还原出原信号。
-
-另一方面，离散傅里叶变换可以看作是傅里叶级数展开的离散版本。具体来说，对于以$T$为周期的周期信号$f(t)\in L^2([0,T])$，记其傅里叶系数为$c_k$，如果$f(t)$连续，则有
-\[f(t)=\sum_{k=-\infty}^{\infty}c_k \mathrm{e}^{\mathrm{i}\frac{2\pi}{T}kt}\]
-
-特别地，在一个周期内取$N$个等间隔点作为采样点，所得离散信号为
-\[x[n]=f\left(\frac{nT}{N}\right),n=0,1,\dots,N-1\]
-
-对$f(t)$在采样点处的傅里叶级数进行分组求和，得到
-\begin{align*}
-    f\left(\frac{nT}{N}\right)&=\sum_{k=-\infty}^{\infty}c_k \mathrm{e}^{\mathrm{i}\frac{2\pi}{T}kn\frac{T}{N}}\\
-    &=\sum_{k=-\infty}^{\infty}c_k W_N^{kn}\\
-    &=\sum_{m=-\infty}^{\infty}\sum_{k=0}^{N-1}c_{k+mN} W_N^{(k+mN)n}\\
-    &=\sum_{k=0}^{N-1}\left(\sum_{m=-\infty}^{\infty}c_{k+mN}\right)W_N^{kn}
-\end{align*}
-
-将上式与离散傅里叶反演公式进行比较，得到
-\[X[k]=\sum_{m=-\infty}^{\infty}c_{k+mN}\]
-这正是“\textbf{时域采样，频域周期化}”的观点在傅里叶级数上的体现。求和顺序的交换的合法性，以及等式右侧的级数收敛，事实上需要更强的条件，例如$f\in PS([0,T])$，即$f$是分段连续的周期函数。在\ref{sub:uniform_converge}中，我们证明了
-$$f\in PS([0,T])\implies \sum_{k=-\infty}^{\infty}|c_k|<\infty\implies S_N^f(t)\rightrightarrows f(t)$$
-其中$S_N^f(t)=\sum_{k=-N}^{N}c_k \mathrm{e}^{\mathrm{i}\frac{2\pi}{T}kt}$是$f$的傅里叶级数的部分和。
+\begin{example}
+    设$\mathbf{x}=[1,2,3,4]^T$，求其离散傅里叶变换。\\
+    解：由定义，
+    \begin{align*}
+        \begin{bmatrix}
+            X[0]  \\
+            X[1]  \\
+            X[2]  \\
+            X[3]
+        \end{bmatrix}=&\begin{bmatrix}1 & 1 & 1 & 1 \\
+        1 & W_4^{-1} & W_4^{-2} & W_4^{-3} \\
+        1 & W_4^{-2} & W_4^{-4} & W_4^{-6} \\
+        1 & W_4^{-3} & W_4^{-6} & W_4^{-9}
+        \end{bmatrix}\begin{bmatrix}
+            1  \\
+            2  \\
+            3  \\
+            4
+        \end{bmatrix}\\
+        &=\begin{bmatrix}
+        1 & 1 & 1 & 1 \\
+        1 & -\mathrm{i} & -1 & \mathrm{i} \\
+        1 & -1 & 1 & -1 \\
+        1 & \mathrm{i} & -1 & -\mathrm{i}
+        \end{bmatrix}\begin{bmatrix}
+            1  \\
+            2  \\
+            3  \\
+            4
+        \end{bmatrix}=\begin{bmatrix}
+            10  \\
+            -2+2\mathrm{i}  \\
+            -2  \\
+            -2-2\mathrm{i}
+        \end{bmatrix}
+    \end{align*}
+\end{example}
 
 \subsection{离散傅里叶变换的运算性质}\label{sub:property_of_DFT}
 
@@ -10541,18 +10383,394 @@ x[0]
     \[\sum_{n=0}^{N-1}|x[n]|^2=\frac{1}{N}\sum_{k=0}^{N-1}|X[k]|^2\]
 \end{theorem}
 
+\subsection{离散傅里叶变换与其他变换的关系}\label{sub:relation_of_dft}
+
+(1)\textbf{离散傅里叶变换可以看作离散时间傅里叶变换在时域上周期化、在频域上采样的结果}
+
+设$x[n]$仅在$0\leq n\leq N-1$的范围内非零，它的离散时间傅里叶变换为
+\[X(\mathrm{e}^{\mathrm{i}\Omega})=\sum_{n=0}^{N-1}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}\]
+
+将$x[n]$以$N$为周期进行周期化，得到周期为$N$的离散信号$\tilde{x}[n]$，则$\tilde{x}[n]$的离散时间傅里叶变换为
+\begin{align*}
+    \tilde{X}(\mathrm{e}^{\mathrm{i}\Omega})&=\sum_{n=-\infty}^{\infty}\tilde{x}[n]\mathrm{e}^{-\mathrm{i}\Omega n}\\
+    &=\sum_{m=-\infty}^{\infty}\sum_{n=0}^{N-1}x[n]\mathrm{e}^{-\mathrm{i}\Omega (n+mN)}\\
+    &=\left(\sum_{m=-\infty}^{\infty}\mathrm{e}^{-\mathrm{i}\Omega mN}\right)\left(\sum_{n=0}^{N-1}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}\right)\\
+    &=\shah_{N/2\pi}(\Omega)X(\mathrm{e}^{\mathrm{i}\Omega})
+\end{align*}
+最后一个等号用到了狄拉克梳状分布的傅里叶级数展开式，将$X(\mathrm{e}^{\mathrm{i}\Omega})$与$\shah_{N/2\pi}$相乘，相当于在$\Omega$轴上以$N/2\pi$为间隔进行采样，在点$\Omega_k=2\pi k/N$处得到的样值为
+$$\sum_{n=0}^{N-1}x[n]\mathrm{e}^{-\mathrm{i}\Omega_k n}=\sum_{n=0}^{N-1}x[n]W_N^{-kn}$$
+这正是周期离散信号$\tilde{x}[n]$的离散傅里叶变换的值$X[k]$。
+
+结合离散傅里叶反演公式可知：对于长为$N$的离散信号，只要给定了离散时间傅里叶变换在$N$个等间隔点处的取值（这相当于对离散时间傅里叶变换进行理想采样），就可以完全还原出原信号。
+
+这正是“\textbf{时域周期化，频域采样}”的观点在离散时间傅里叶变换上的体现。
+
+如果由这个长为$N$的离散信号$x[n]$，定义一个长为$2N$的离散信号：
+$$y[n]=\begin{cases}
+    x[n], & 0 \le n \le N-1 \\
+    0, & N \le n \le 2N-1
+\end{cases}$$
+则$x[n]$与$y[n]$的离散时间傅里叶变换是相同的。作为周期信号来说，它们的离散傅里叶变换满足关系：
+$$Y[2k]=X[k],\forall k\in \{0,1,\dots,N-1\}$$
+
+也就是说，在频域上，$y[n]$的离散傅里叶变换$Y[k]$是$x[n]$的离散傅里叶变换$X[k]$的插值版本，$Y[k]$相当于以两倍于$X[k]$的采样频率，对离散时间傅里叶变换进行采样的结果：
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{discrete_sample}
+    \caption{离散傅里叶变换与离散时间傅里叶变换的关系}
+\end{figure}
+
+上图中，$x[n]$的长度为8，$y[n]$的长度为16。随着采样点编号从小到大，所对应的数字角频率依次覆盖$0\to\pi\to2\pi$。因此，$|X(\mathrm{e}^{\mathrm{i}\Omega})|$在区间$[0,\pi]$上的曲线，对应于$|X[k]|$与$|Y[k]|$左半部分的灰色包络；而$|X(\mathrm{e}^{\mathrm{i}\Omega})|$在区间$[\pi,2\pi]$上的曲线，则对应于两者右半部分的灰色包络。
+
+更一般地，通过延长$x[n]$并在新坐标点处取0，可以对$x[n]$的离散时间傅里叶变换进行任意多采样点的等间隔采样，这就是\textbf{零填充} (Zero Padding)的思想。
+
+(2)\textbf{离散傅里叶变换可以看作是傅里叶级数展开的离散版本}
+
+对于以$T$为周期的周期信号$f(t)\in L^2([0,T])$，记其傅里叶系数为$c_k$，如果$f(t)$连续，则有
+\[f(t)=\sum_{k=-\infty}^{\infty}c_k \mathrm{e}^{\mathrm{i}\frac{2\pi}{T}kt}\]
+
+特别地，在一个周期内取$N$个等间隔点作为采样点，所得离散信号为
+\[x[n]=f\left(\frac{nT}{N}\right),n=0,1,\dots,N-1\]
+
+对$f(t)$在采样点处的傅里叶级数进行分组求和，得到
+\begin{align*}
+    f\left(\frac{nT}{N}\right)&=\sum_{k=-\infty}^{\infty}c_k \mathrm{e}^{\mathrm{i}\frac{2\pi}{T}kn\frac{T}{N}}\\
+    &=\sum_{k=-\infty}^{\infty}c_k W_N^{kn}\\
+    &=\sum_{m=-\infty}^{\infty}\sum_{k=0}^{N-1}c_{k+mN} W_N^{(k+mN)n}\\
+    &=\sum_{k=0}^{N-1}\left(\sum_{m=-\infty}^{\infty}c_{k+mN}\right)W_N^{kn}
+\end{align*}
+
+将上式与离散傅里叶反演公式进行比较，得到
+\[X[k]=\sum_{m=-\infty}^{\infty}c_{k+mN}\]
+
+这正是“\textbf{时域采样，频域周期化}”的观点在傅里叶级数上的体现。
+
+%(3)\textbf{离散傅里叶变换是连续傅里叶变换的逼近}
+
 \subsection{快速傅里叶变换}\label{sub:FFT}
 
-\subsection{周期离散系统分析}\label{sub:period_discrete_system}
+\chapter{离散系统分析}
 
-在标准正交基底下，卷积系统的矩阵是一个循环矩阵(circulant matrix)或托普利兹矩阵(Toepliz matrix)：\[\begin{pmatrix}
-    h[0] & h[N-1] & \cdots & h[1]\\
-    h[1] & h[0] & \cdots &  h[2]\\
-    \vdots & \vdots & \ddots & \vdots\\
-    h[N-1] & h[N-2] & \cdots & h[0]
-\end{pmatrix}\]
+\section{离散系统与z域分析}\label{sec:Discrete_System_z_Analysis}
 
-%特征函数与周期矩阵的对角化
+%本节中，我们将介绍离散系统的基本特性，并介绍由z变换引出的离散系统的系统函数，以及由系统函数引出的离散系统的频率响应和相位响应等概念。
+
+\subsection{离散系统概述}\label{sub:discrete_system_overview}
+
+离散系统是指激励与响应均为离散信号的系统。本小节中，我们先列举一些离散系统的基本特性，然后讨论离散系统的级联。
+
+\begin{definition}
+    设离散系统的激励为$e[n]$，响应为$r[n]=H(e[n])$，则该系统具有以下基本特性：
+    \begin{itemize}
+        \item \textbf{线性性}：满足叠加定理，即对于任意激励$e_1[n],e_2[n]$及任意常数$a,b\in\mathbb{C}$，有
+        \[H(ae_1[n]+be_2[n])=aH(e_1[n])+bH(e_2[n])\]
+        \item \textbf{时不变性}：系统的作用不依赖于时间，即对于任意激励$e[n]$及任意整数$k\in\mathbb{Z}$，有
+        \[H(\tau_k e[n])=\tau_k H(e[n])\]
+        其中$\tau_k$表示时间平移算子，即
+        $$\tau_k e[n]=e[n-k]$$
+        \item \textbf{因果性}：系统的响应不早于激励，即
+        \[\forall e[n],e[n]=0,n<0\implies r[n]=0,n<0\]
+        \item \textbf{稳定性}：激励信号有界时，响应也是有界的，即
+        \[\forall e[n]\in l^{\infty}(\mathbb{Z}),r[n]\in l^{\infty}(\mathbb{Z})\]
+        \item \textbf{可逆性}：如果$H$是双射，则称系统可逆，此时存在一个系统$H^{-1}$使得对于任意激励$e[n]$，有
+        \[H^{-1}r[n]=e[n]\]
+        \item \textbf{即时性}与\textbf{记忆性}：如果该系统在任意时刻$t$的状态完全且唯一地取决于该时刻的系统状态与激励，而不显式地依赖于任何过去时刻$t'<t$的系统状态或历史激励，则称该系统为即时的；否则称该系统为有记忆的。
+    \end{itemize}
+    其中，同时满足线性性和时不变性的系统称为线性时不变系统；即时性又称无记忆性、Markov性；记忆性又称历史依赖性、非Markov性。
+\end{definition}
+
+显然，线性系统的级联仍然是线性的，时不变系统的级联仍然是时不变的，因果系统的级联仍然是因果的。对于离散系统，“对核积分”就相当于加权求和，“对核卷积”就相当于卷积和，可以想象，叠加定理对于离散系统仍成立。
+
+\begin{definition}[离散线性系统的脉冲响应]
+    离散线性系统$H$的\textbf{核函数}定义为$k[m,n]=H_m(\delta[m-n])$，其中$H_m$表示$\delta[m-n]$作为$m$的函数输入系统，输出为$m,n$的双变量函数
+\end{definition}
+
+\begin{theorem}[叠加定理]
+    \[r[m]=\sum_{n=-\infty}^{\infty}k[m,n]e[n]\]
+    其中$k[m,n]$为系统的核函数。
+\end{theorem}
+\begin{proof}
+    离散信号也可以视为它与单位脉冲信号的卷积：
+    \[e[m]=(e*\delta)[m]=\sum_{n=-\infty}^{\infty}e[n]\delta[m-n]\]
+    根据系统的线性性，有
+    \begin{align*}
+        r[m]&=H(e[m])\\
+        &=H_m\left(\sum_{n=-\infty}^{\infty}e[n]\delta[m-n]\right)\\
+        &=\sum_{n=-\infty}^{\infty}e[n]H_m(\delta[m-n])
+    \end{align*}
+    令$k[m,n]=H_m(\delta[m-n])$即得。
+\end{proof}
+
+另一方面，由加权求和描述的系统显然也是线性的，因此我们可以得到：
+\begin{proposition}[离散线性系统的等价定义]
+    一个离散系统是线性系统当且仅当响应是激励的加权求和。
+\end{proposition}
+
+类似连续系统，只要系统有线性性，就可以将系统原有能量引起的\textbf{零输入响应}$r_{zi}[n]$与单纯由激励引起的\textbf{零状态响应}$r_{zs}[n]$分开考虑。进一步，如果系统还具有时不变性，则可定义：
+\begin{definition}[单位脉冲响应与单位阶跃响应]
+    当$e[n]=\delta[n]$时，系统的响应称为\textbf{单位脉冲响应}，记为$h[n]$；当$e[n]=u[n]$时，系统的响应称为\textbf{单位阶跃响应}，记为$s[n]$。
+\end{definition}
+
+这样，核函数可以用单位脉冲响应来表示，线性时不变系统的响应可以用卷积和来表示：
+\[k[m,n]=H_m[\delta[m-n]]=H(\tau_n \delta[m])=\tau_n H(\delta[m])=h[m-n]\]
+\[r[n]=\sum_{m=-\infty}^{\infty}h[n-m]e[m]=(h*e)[n]\]
+
+可见对于离散系统，“线性时不变系统”与“卷积和系统”仍然是等价的概念。
+
+\subsection{离散系统的系统函数}\label{sub:discrete_system_function}
+
+在上一小节中，我们得到$r[n]=(h*e)[n]$，对等式两边做z变换，得到
+\[R(z)=H(z)E(z)\]
+其中$H(z)=\mathcal{Z} h[n]$记为离散系统的系统函数，它也是响应与激励的z变换之比：
+\begin{definition}[离散系统的系统函数]
+    设离散系统的激励为$e[n]$，响应为$r[n]$，它们的z变换分别为$E(z),R(z)$，则系统函数定义为
+    \[H(z)=\frac{R(z)}{E(z)}\]
+\end{definition}
+
+离散系统与连续系统的系统函数是类似的：一般来说，我们考虑的离散系统的系统函数为有理函数（例如下一节将介绍的常系数线性差分方程所描述的系统），因此可以绘制离散系统的系统函数的零极点图，并通过它来分析系统的滤波特性、稳定性、因果性等时域特性；此外，系统流图与梅森增益公式对于离散系统仍然适用，系统的串联（级联）、并联与反馈的定义与连续系统完全一致，\ref{sub:mason_gain_formula}中介绍的信号流图的标准型也仍然适用于离散系统，因此这部分内容不再单独讨论。
+
+与连续系统不同的是，连续系统的分析通常使用单边拉普拉斯变换，其收敛域是复平面的右边$\text{Re}\ s>\sigma_c$；而离散系统的分析通常使用双边z变换，其收敛域是环状区域$r<|z|<R$。这使得离散系统的稳定性的z域判则不同于连续系统。此外，双边z变换并不要求单位脉冲响应$h[n]$是因果的，因此因果性也具有z域判则。本小节就来探讨离散系统的系统函数与因果性、稳定性之间的关系。对于离散系统的滤波特性，将在下一章介绍离散系统的频率响应特性后进行讨论。
+
+\begin{proposition}[因果性的时域判则]
+    一个离散系统是因果系统当且仅当其单位脉冲响应为因果信号，即$h[n]=0,n<0$。
+\end{proposition}
+\begin{proof}
+    类比连续系统，容易理解因果性与上述条件的等价性，首先来验证卷积和也具有类似于卷积的“支集相加”性质：设离散信号$x[n],y[n]$分别在区间$[n_1,n_2]$与$[m_1,m_2]$内非零，而在其他位置均为0，则
+    \begin{align*}
+        (x*y)[n]=\sum_{k=-\infty}^{\infty}x[k]y[n-k]
+    \end{align*}
+    \begin{align*}
+        (x*y)[n]\neq 0\iff k\in[n_1,n_2],n-k\in[m_1,m_2]\iff n\in[n_1+m_1,n_2+m_2]
+    \end{align*}
+    
+    对于离散系统，如果它是因果的，那么对于任意激励信号$e[n]$，响应$r[n]$都满足$r[n]=0,n<0$，因此单位脉冲响应也满足$h[n]=0,n<0$；反之，如果单位脉冲响应满足$h[n]=0,n<0$，则对于任意激励信号$e[n]$，响应$r[n]=(h*e)[n]$在$n<0$时为0，因此系统是因果的。
+\end{proof}
+
+\begin{proposition}[因果性的z域判则]
+    一个离散系统是因果系统当且仅当其系统函数的收敛域包含$\infty$。
+\end{proposition}
+
+这一判则是显然的，因为因果信号的z变换是只有负幂次项，收敛域包含无穷远点自然也就与单位脉冲响应的因果性等价。
+
+\begin{proposition}[稳定性的时域判则]
+    一个离散系统是稳定系统当且仅当$h\in l^1(\mathbb{Z})$。
+\end{proposition}
+\begin{proof}
+    一方面，对于有界激励$e\in l^{\infty}(\mathbb{Z})$，如果单位脉冲响应满足$h[n]\in l^1(\mathbb{Z})$，则
+    \begin{align*}
+        |r[n]|&=|(h*e)[n]|=\left|\sum_{m=-\infty}^{\infty}h[n-m]e[m]\right|\\
+        &\leq \sum_{m=-\infty}^{\infty}|h[n-m]||e[m]|\\
+        &\leq \|e\|_{\infty}\sum_{m=-\infty}^{\infty}|h[n-m]|\\
+        &=\|e\|_{\infty}\|h\|_1<\infty
+    \end{align*}
+    即$r\in l^{\infty}(\mathbb{Z})$，系统是稳定的。
+    
+    另一方面，设$h$不是绝对可和的，取有界激励信号$e[n]=\text{sgn}(h[-n])$，则
+    \begin{align*}
+        |r[0]|&=|(h*e)[0]|\\
+        &=\left|\sum_{m=-\infty}^{\infty}h[m]e[-m]\right|\\
+        &=\sum_{m=-\infty}^{\infty}|h[m]|\\
+        &=\|h\|_1=\infty
+    \end{align*}
+    $e\in l^{\infty}(\mathbb{Z})$，但$r\notin l^{\infty}(\mathbb{Z})$，系统不稳定。
+\end{proof}
+
+对稳定性的时域判据做z变换，立即得到：
+
+\begin{proposition}[稳定性的z域判则]
+    一个离散系统是稳定系统当且仅当其系统函数的收敛域包含单位圆。
+\end{proposition}
+
+综上，对于离散线性时不变系统，因果且稳定就等价于其系统函数的收敛域包含以下区域：
+\[\left\{\left.z\in\hat{\mathbb{C}}\right||z|\geq 1\right\}\]
+
+\subsection{频率响应特性与零极点图}\label{sub:discrete_system_freq_response}
+
+离散系统的系统函数$H(z)$是单位脉冲响应$h[n]$的z变换。在系统稳定的情况下，$h[n]\in l^1$，此时可以对单位脉冲响应做离散时间傅里叶变换，得到系统的\textbf{频率响应特性}，记为$H(\mathrm{e}^{\mathrm{i}\Omega})$，它是系统函数在单位圆上的限制，即
+$$H(\mathrm{e}^{\mathrm{i}\Omega})=H(z)|_{z=\mathrm{e}^{\mathrm{i}\Omega}}$$
+
+类似于连续系统，我们仍然将$|H(\mathrm{e}^{\mathrm{i}\Omega})|$称为系统的\textbf{幅频特性}，将$\arg H(\mathrm{e}^{\mathrm{i}\Omega})$称为系统的\textbf{相频特性}。
+
+根据离散时间傅里叶变换的时域卷积定理，输入信号$x[n]$与系统函数$H(\mathrm{e}^{\mathrm{i}\Omega})$的乘积即为输出信号$y[n]$的离散时间傅里叶变换，即
+\[Y(\mathrm{e}^{\mathrm{i}\Omega})=H(\mathrm{e}^{\mathrm{i}\Omega})X(\mathrm{e}^{\mathrm{i}\Omega})\]
+
+因此，可以通过频率响应特性看出系统的滤波特性。对于非周期离散信号，高频信号指数字角频率接近$\pm\pi$的信号，一个离散系统如果对信号的低频成分有较大的增益，对高频成分有较小的增益，则称其为\textbf{低通滤波器}，其它类型的滤波器同理。
+
+与连续系统的情况一致，我们考虑的系统函数通常是有理函数，在下一小节中将看到，此类系统可以用常系数线性差分方程描述。对于离散系统，系统函数的零极点图绘制规则与连续系统一致。仿照\ref{sub:zero_pole_characteristics}，可以根据系统函数的零极点图定性分析系统的频率响应特性。
+
+\begin{example}
+    设系统的零极点图如下图(a)所示：
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{discrete_zero}
+        \caption{离散系统的零极点图(1)}
+    \end{figure}
+\end{example}
+
+可以说，对于离散系统的系统函数而言，复平面上的单位圆与连续情况下复平面上的虚轴是地位相当的，离散情况下单位圆的外侧与连续情况下虚轴的右侧是相当的。它们都是系统的稳定性的分界线，因果信号在变换域上的收敛域都位于分界线的一侧。此外，在下一章中我们将看到，离散系统的频率响应就是系统函数在单位圆上的限制，这与连续系统的频率响应是系统函数在虚轴上的限制也是相当的。
+
+%这种对应关系可以进一步扩展，即规定走向可以同时描述“外侧”与“右侧”，“低频到高频”，在频响里再介绍。
+
+\section{常系数线性差分方程}
+
+\subsection{一般解法}\label{sub:difference_equation}
+
+对于离散系统，一般可以用\textbf{差分方程}来描述激励与响应的关系。
+
+\begin{definition}[差分]
+    对于离散信号$x[n]$，定义其\textbf{前向差分}为
+    $$\Delta x[n]=x[n+1]-x[n]$$
+    \textbf{后向差分}为
+    $$\nabla x[n]=x[n]-x[n-1]$$
+\end{definition}
+
+可以由此定义离散信号的高阶差分，例如，
+$$\Delta^2 x[n]=\Delta(\Delta x[n])=x[n+2]-2x[n+1]+x[n]$$
+
+差分方程总能展开为递推式的形式，因此可以仿照微分方程，给出差分方程的定义。其中，我们最关注的是常系数线性差分方程，由这种方程描述的系统是通常是因果的线性时不变系统。
+\begin{definition}[常系数线性差分方程]
+    关于$y[n]$的差分方程
+    $$\sum_{k=0}^{N}a_k y[n-k] = f[n]$$
+    称为\textbf{常系数线性差分方程}，其中$a_k$为常数，$f[n]$为已知函数。将$N$称为方程的\textbf{阶数}，将$f[n]$称为方程的\textbf{非齐次项}，如果$f[n]=0$，则称方程为\textbf{齐次差分方程}。
+\end{definition}
+
+以上方程是由后向差分方程转化而来的差分方程，即后向差分方程，类似地可以定义前向差分方程，但由于前向差分方程涉及到未来时刻的值，作为系统来分析时，系统可能不具备因果性，因此我们主要关注后向差分方程。
+
+不难看出，这种方程的解构成线性空间，因此可以将解划分为\textbf{齐次解}与\textbf{特解}两部分。我们仍用记号$y_h[n]$和$y_p[n]$分别表示齐次解与特解。类似于微分方程，齐次解可以由特征方程确定：
+\begin{definition}[常系数线性差分方程的特征方程]
+    对于常系数线性差分方程
+    $$\sum_{k=0}^{N}a_k y[n-k] = f[n]$$
+    设解的形式为$y[n]=\lambda^n$，代入可得\textbf{特征方程}为
+    $$\sum_{k=0}^{N}a_k \lambda^k = 0$$
+\end{definition}
+
+由代数基本定理，特征方程有$N$个复根（重根按重数计算），每个复根对应一个形如$\lambda^n$的齐次解。如果$\lambda$是特征方程的$k$重根，则$\lambda^n,n\lambda^n,\dots,n^{k-1}\lambda^n$都是齐次解，为了说明这一论断的正确性，我们来验证$n^{k-1}\lambda^n$是齐次解：\begin{align*}
+    \sum_{k=0}^{N}a_k (n-k)^{k-1}\lambda^{n-k}&=\sum_{k=0}^{N}a_k \sum_{j=0}^{k-1}\binom{k-1}{j}n^j(-k)^{k-1-j}\lambda^{n-k}\\
+    &=\sum_{j=0}^{k-1}\binom{k-1}{j}n^j\lambda^n\sum_{k=0}^{N}a_k (-k)^{k-1-j}\lambda^{-k}\\
+    &=\sum_{j=0}^{k-1}\binom{k-1}{j}n^j\lambda^n\frac{1}{j!}\frac{d^{j}}{d\lambda^{j}}\left(\sum_{k=0}^{N}a_k \lambda^{-k}\right)\\
+    &=0
+\end{align*}
+
+齐次解的线性组合即为差分方程的齐次解：\begin{align*}
+    y_h[n]=\sum_{i=1}^{s}P_i(n) \lambda_i^n=\sum_{i=1}^{s}\sum_{j=0}^{k_i-1}A_{ij} n^j \lambda_i^n
+\end{align*}
+其中$s$为特征根的个数，$P_i(n)$为关于$n$的$k_i$阶多项式，$k_i$为第$i$个特征根$\lambda_i$的重数，$A_{ij}$为常数。
+
+特解需要根据激励的形式来确定，以下列举几个常见的激励形式及其对应的特解：
+\begin{itemize}
+    \item 如果$f[n]$为常数，则在$0$不为特征根时，特解为常数；在$0$为$k$重特征根时，特解为关于$n$的$k$次多项式；
+    \item 如果$f[n]=Ca^n$，其中$a\in\mathbb{R}\setminus \{0\}$不是特征方程的根，则特解为$y_p[n]=Aa^n$，$A$为常数；
+    \item 如果$f[n]$为关于$n$的多项式，则特解为关于$n$的同阶多项式；
+    \item 如果$f[n]=C\sin(\Omega n)$或$f[n]=C\cos(\Omega n)$，其中$\mathrm{e}^{\mathrm{i}\Omega}$不是特征方程的根，则特解为$y_p[n]=A\sin(\Omega n)+B\cos(\Omega n)$，$A,B$为常数；
+    \item 如果$f[n]=P(n)a^n$，其中$a\in\mathbb{R}$是特征方程的$k$重根，且$P(n)$为关于$n$的多项式，则特解为$y_p[n]=n^k Q(n)a^n$，其中$Q(n)$为关于$n$的多项式，且$\deg Q=\deg P$；
+    \item 如果$f[n]=P(n)\sin(\Omega n)$或$f[n]=P(n)\cos(\Omega n)$，其中$\mathrm{e}^{\mathrm{i}\Omega}$是特征方程的$k$重根，且$P(n)$为关于$n$的多项式，则特解为$y_p[n]=n^k(Q(n)\sin(\Omega n)+R(n)\cos(\Omega n))$，其中$Q(n),R(n)$为关于$n$的多项式，且$\max\{\deg Q,\deg R\}=\deg P$。
+\end{itemize}
+
+下面给出一个常系数线性差分方程的求解例子：
+\begin{example}
+    求解差分方程
+    $$y[n]-3y[n-1]+2y[n-2]=2^n$$
+
+    解：其特征方程为$\lambda^2-3\lambda+2=0$，有两个不同的根$\lambda_1=1,\lambda_2=2$，因此齐次解为
+    $$y_h[n]=A+B\cdot 2^n$$
+    设特解的为$y_p[n]=C n 2^n$，代入原方程可得$C=4$，因此特解为$y_p[n]=4 n 2^n$，通解为
+    \[y[n]=y_h[n]+y_p[n]=A+B\cdot 2^n+4 n 2^n\]
+\end{example}
+
+一个$N$阶的差分方程的解，需要通过$N$个初始值来确定。对于$k$阶后向差分$\nabla^k y[0]$，可以将它展开为$y[1-k],y[1-k+1],\dots,y[0]$的线性组合，因此给定$n=0$时刻的各阶后向差分作为初始值，就相当于给出
+$$y[1-N],y[2-N],\cdots,y[0]$$
+
+\subsection{单位脉冲响应解法}\label{sub:h_solution}
+
+如果将方程的非齐次项视作系统的激励$e[n]$，将方程的解视作系统的响应$r[n]$，则齐次解对应系统的的零输入响应$y_{zi}[n]$，特解对应系统的零状态响应$y_{zs}[n]$。容易验证，零输入响应对激励具有线性性和时不变性，这种系统是一个线性时不变系统，并且我们很快会看到它还是因果的。
+
+对于离散系统，通常认为激励是在$n=0$时刻施加的，此时这个激励就可能影响到上述初始值。连续系统中，我们用起始状态来描述系统的初始储能，从而避开了初值条件依赖于激励的问题。类似地，对于离散系统，定义：
+\begin{definition}[离散系统的初始值与零输入初始值]
+    设离散系统的激励为$e[n]$，响应为$r[n]$，则系统的\textbf{初始值}为
+    $$r[1-N],r[2-N],\cdots,r[0]$$
+    系统的\textbf{零输入初始值}为
+    $$r_{zi}[1-N],r_{zi}[2-N],\cdots,r_{zi}[0]$$
+\end{definition}
+
+初始值可以分解为零输入初始值与零状态初始值（以$n=0$时刻为例）：
+\begin{align*}
+    r[0]=r_{zi}[0]+r_{zs}[0]
+\end{align*}
+
+将差分方程作为线性时不变系统来分析时，这样的初始值划分是方便的，因为零输入初始值与系统的激励信号无关，是系统的初始储能，代表了系统的历史记忆，即是系统真正的初始状态。
+
+通过离散线性时不变系统的理论，可以将差分方程化为卷积和系统，并通过零输入初始值确定系统的响应，这样就能绕过特解的配凑，而直接得到方程的解。现在，问题又一次回到了对单位脉冲响应$h[n]$的求解，即对以下方程的求解：
+$$\sum_{k=0}^{N}a_k h[n-k] = \delta[n]$$
+
+类比微分方程的情况，设特征方程的根为$\lambda_1,\lambda_2,\cdots,\lambda_s$，重数分别为$k_1,k_2,\cdots,k_s$，则可以猜测单位脉冲响应具有如下形式：
+$$h[n]=\left(\sum_{i=1}^s P_i(n) \lambda_i^n \right)u[n]$$
+其中$P_i(n)$为关于$n$的多项式，$\deg P_i=k_i-1$。
+
+代入$n=0,1,\cdots,N-1$，可以得到$N$个方程，解出多项式$P_i(n)$的系数，即可得到单位脉冲响应$h[n]$，从而得到差分方程的解。
+
+\begin{example}
+    求差分方程
+    $$y[n]-2y[n-1]+y[n-2]=x[n]$$
+    的单位阶跃响应。
+
+    解：特征方程为$\lambda^2-2\lambda+1=0$，有一个重根$\lambda=1$，因此单位脉冲响应的形式为
+    $$h[n]=(A n+B)u[n]$$
+    代入$n=0,1$，得\begin{align*}
+    h[0]=B=1,h[1]=A+B=0
+    \end{align*}
+    因此$A=-1,B=1$，单位脉冲响应为
+    $$h[n]=(1-n)u[n]$$
+\end{example}
+
+进一步，还可以用类似的方法讨论以下更一般的差分方程所描述的系统：
+\begin{align*}
+    \sum_{k=0}^{N}a_k r[n-k] = \sum_{l=0}^{M}b_l e[n-l]
+\end{align*}
+需要说明的是，当$N\leq M$时，需要在求解单位脉冲响应时考虑$\delta[n]$的后向差分，或更直接地，考虑设
+$$h[n]=\left(\sum_{i=1}^s P_i(n) \lambda_i^n \right)u[n]+\sum_{i=0}^{M-N}B_i\delta[n-i]$$
+其中$B_i$为常数，代入$n=0,1,\cdots,M$，解出多项式$P_i(n)$的系数与常数$B_i$，即可得到单位脉冲响应$h[n]$，从而得到差分方程的解。
+
+在得到单位脉冲响应后，差分方程的解就可以通过卷积和来得到：
+\begin{align*}
+    r_{zs}[n]=(h*e)[n]=\sum_{m=-\infty}^{\infty}h[n-m]e[m]
+\end{align*}
+我们认为激励$e[n]$是在$n=0$时刻施加于系统的，因此$e[n]$和$h[n]$都是因果信号，上式简化为：
+\begin{align*}
+    r_{zs}[n]=\sum_{m=0}^{n}h[n-m]e[m]
+\end{align*}
+
+假设给定了零输入初始值：
+\begin{align*}
+    r_{zi}[1-N],r_{zi}[2-N],\cdots,r_{zi}[0]
+\end{align*}
+则利用它们可以得到关于零输入响应$r_{zi}[n]$的$N$个方程，从而解出$r_{zi}[n]$，最终得到差分方程的解。
+
+综上，通过线性时不变系统的视角，我们得到了于微分方程类似的结果：
+\begin{theorem}
+    设$h[n]$为差分方程
+    $$\sum_{k=0}^{N}a_k y[n-k] = \sum_{l=0}^{M}b_l x[n-l]$$
+    的单位脉冲响应，并且有零状态初始值$r_{zs}[1-N],r_{zs}[2-N],\cdots,r_{zs}[0]$，则该差分方程的解为
+    \begin{align*}
+        y[n]=r_{zi}[n]+r_{zs}[n]=r_{zi}[n]+\sum_{m=0}^{n}h[n-m]x[m]
+    \end{align*}
+    其中零输入响应$r_{zi}[n]$由零输入初始值唯一确定。
+\end{theorem}
+
+\subsection{单边z变换解法}\label{sub:single_z}
+
+根据z变换的移位性质，利用z变换可以将常系数线性差分方程转化为代数方程。为了一并处理差分方程的初始值，我们使用单边z变换：
+\begin{definition}[单边z变换]
+    离散信号$x[n]$的单边z变换定义为
+    \[X(z)=\mathcal{Z}\{x[n]u[n]\}=\sum_{n=0}^{\infty}x[n]z^{-n}\]
+\end{definition}
+
+%\subsection{离散信号的初值定理与终值定理}\label{sub:initial_final_value}
+
+\section{差分方程组与状态变量分析}\label{sec:Difference_Equation}
+
+\subsection{常系数线性差分方程组}\label{sub:difference_equation_system}
+
+\subsection{离散系统的状态变量分析}\label{sub:discrete_state_variable}
 
 \appendix
 
