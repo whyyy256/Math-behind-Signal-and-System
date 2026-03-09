@@ -6,12 +6,12 @@ zeros = [1+0j]           # zero at 1
 poles = [-2+0j, -3+0j]   # poles at -2 and -3
 endpoint = 0+5j          # vector endpoint at 5i
 
-# Create plot
-fig, ax = plt.subplots(figsize=(6,6))
+# Create two-panel plot
+fig, (ax, ax_fr) = plt.subplots(1, 2, figsize=(12, 6))
 
 # Plot axes
-ax.axhline(0, color='black', linewidth=1)
-ax.axvline(0, color='black', linewidth=1)
+ax.axhline(0, color='black', linewidth=1.6)
+ax.axvline(0, color='black', linewidth=1.6)
 
 # Plot zeros and poles
 ax.plot([z.real for z in zeros], [z.imag for z in zeros], 'bo', markersize=10, markeredgewidth=2, fillstyle='none', label='Zero')
@@ -48,5 +48,35 @@ ax.set_xlim(min(all_re)-pad_re, max(all_re)+pad_re)
 ax.set_ylim(min(all_im)-pad_im, max(all_im)+pad_im)
 
 ax.legend(loc='upper right', fontsize=14)
+ax.text(0.5, -0.14, '(a)', transform=ax.transAxes, ha='center', va='top', fontsize=18)
+
+# Right panel: frequency response magnitude of H(s) = (s-1)/((s+2)(s+3))
+omega = np.linspace(0, 20, 4000)
+s = 1j * omega
+H = (s - 1) / ((s + 2) * (s + 3))
+H_mag = np.abs(H)
+
+ax_fr.plot(omega, H_mag, color='tab:blue', linewidth=2.2)
+
+ymax = 1.08 * np.max(H_mag)
+ax_fr.set_xlim(0, 20)
+ax_fr.set_ylim(-0.08 * ymax, ymax)
+
+# Cartesian-style axes without unit ticks
+for spine in ax_fr.spines.values():
+    spine.set_visible(False)
+ax_fr.set_xticks([])
+ax_fr.set_yticks([])
+
+xmin, xmax = ax_fr.get_xlim()
+ymin, ymax_lim = ax_fr.get_ylim()
+axis_arrow = dict(arrowstyle='->', color='black', linewidth=1.6, shrinkA=0, shrinkB=0)
+ax_fr.annotate('', xy=(xmax, 0), xytext=(xmin, 0), arrowprops=axis_arrow, clip_on=False)
+ax_fr.annotate('', xy=(0, ymax_lim), xytext=(0, ymin), arrowprops=axis_arrow, clip_on=False)
+
+ax_fr.set_xlabel(r'$\omega$', fontsize=18)
+ax_fr.set_ylabel(r'$|H(\mathrm{j}\omega)|$', fontsize=18)
+ax_fr.text(0.5, -0.14, '(b)', transform=ax_fr.transAxes, ha='center', va='top', fontsize=18)
+
 plt.tight_layout()
 plt.show()
