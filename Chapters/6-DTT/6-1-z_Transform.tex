@@ -1,0 +1,174 @@
+\section{z变换}\label{sec:z_Transform}
+
+\subsection{z变换的引出}\label{sub:inteoduction_of_z}
+中学数学中处理递推数列的一种经典方法是使用生成函数，将数列转化为形式幂级数，从而利用级数的性质来分析数列。z变换可以看作生成函数的推广，它将数列推广为离散时间信号,将形式幂级数推广为洛朗级数（我们将在\ref{sub:meromorphic_function}中详细讨论这个洛朗级数的收敛域），从而可以利用复变函数的理论来分析离散时间信号与离散系统。
+\begin{definition}[z变换]
+    将离散时间信号$x[n]$的z变换记为$X(z)$或$\mathcal{Z} x(z)$，它的定义为
+    \[X(z)=\mathcal{Z} x[n]=\sum_{n=-\infty}^{\infty}x[n]z^{-n},z\in\mathbb{C}\]
+    我们记$x[n]\overset{\mathcal{Z} }{\longleftrightarrow}X(z)$。
+\end{definition}
+作为一个洛朗级数，z变换所得函数$X(z)$的收敛域应为一个圆环$\mathcal{A}_0(r,R)$，在圆环内级数是绝对收敛、内闭一致收敛的。根据圆环上全纯函数的洛朗级数的存在性和唯一性，洛朗级数与离散信号一一对应，因此可以使用上面的记号$x[n]\overset{\mathcal{Z} }{\longleftrightarrow}X(z)$。
+
+下面给出一些常用离散信号的z变换作为例子：
+\begin{example}[单位脉冲序列的z变换]
+    设$x[n]=\delta[n-k],k\in\mathbb{Z}$，则
+    \[X(z)=\sum_{n=-\infty}^{\infty}\delta[n-k]z^{-n}=z^{-k},z\in\mathbb{C}\backslash\{0\}\]
+\end{example}
+\begin{example}[单位阶跃序列的z变换]
+    设$x[n]=u[n]$，则
+    \[X(z)=\sum_{n=0}^{\infty}z^{-n}=\frac{1}{1-z^{-1}}=\frac{z}{z-1},|z|>1\]
+\end{example}
+\begin{example}[指数序列的z变换]
+    设$x[n]=a^n u[n],a\in\mathbb{C}$，则
+    \[X(z)=\sum_{n=0}^{\infty}a^n z^{-n}=\frac{1}{1-a z^{-1}}=\frac{z}{z-a},|z|>|a|\]
+\end{example}
+\begin{example}[单边余弦序列的z变换]
+    \begin{align*}
+        \mathcal{Z} \left[\cos(\Omega n)u[n]\right]&=\frac{1}{2}\left(\mathcal{Z} \left[\mathrm{e}^{\mathrm{i}\Omega n}u[n]\right]+\mathcal{Z} \left[\mathrm{e}^{-\mathrm{i}\Omega n}u[n]\right]\right)\\
+        &=\frac{1}{2}\left(\frac{z}{z-\mathrm{e}^{\mathrm{i}\Omega}}+\frac{z}{z-\mathrm{e}^{-\mathrm{i}\Omega}}\right)\\
+        &=\frac{z(z-\cos\Omega)}{z^2-2z\cos\Omega+1},|z|>1
+    \end{align*}
+\end{example}
+\begin{example}[单边正弦序列的z变换]
+    \begin{align*}
+        \mathcal{Z} \left[\sin(\Omega n)u[n]\right]&=\frac{1}{2\mathrm{i}}\left(\mathcal{Z} \left[\mathrm{e}^{\mathrm{i}\Omega n}u[n]\right]-\mathcal{Z} \left[\mathrm{e}^{-\mathrm{i}\Omega n}u[n]\right]\right)\\
+        &=\frac{1}{2\mathrm{i}}\left(\frac{z}{z-\mathrm{e}^{\mathrm{i}\Omega}}-\frac{z}{z-\mathrm{e}^{-\mathrm{i}\Omega}}\right)\\
+        &=\frac{z\sin\Omega}{z^2-2z\cos\Omega+1},|z|>1
+    \end{align*}
+\end{example}
+
+根据\ref{sub:laurant_series}中介绍的洛朗级数理论，z变换的收敛域为一个环状区域：
+\begin{definition}[z变换的收敛域]
+    设离散时间信号$x[n]$的z变换为$X(z)=\sum_{n=-\infty}^{\infty}x[n]z^{-n}$，则其\textbf{收敛域}(region of convergence, ROC)定义为
+    \[\text{ROC}=\left\{z\in\mathbb{C} \left|r<|z|<R\right.\right\}\]
+    其中
+    \[r=\varlimsup_{n\to\infty}|x[-n]|^{\frac{1}{n}},R=\left(\varlimsup_{n\to\infty}|x[n]|^{\frac{1}{n}}\right)^{-1}\]
+\end{definition}
+以上定义对于$r=0$或$R=\infty$或$r\geq R$的退化情况同样适用。特别地，我们指出：
+\begin{itemize}
+    \item 若 \( x[n] = 0,\ n < 0 \)，则 \( r = 0 \)，双边 z 变换退化为单边 z 变换（见\ref{sub:single_z}）；
+    \item 若 \( x[n] = 0,\ n > 0 \)，则 \( R = \infty \)；
+    \item 若 \( x[n] \) 是有限长序列，则 \( r = 0,\ R = \infty \)，z 变换在除 \( z = 0 \) 和 \( z = \infty \) 外的整个复平面解析；
+    \item 若 \( |x[n]| \) 在 \( n \to \pm \infty \) 时分别以 \( |a|^n \) 的速率增长，则其双边 z 变换的收敛域可能为空。除了前面三种情况外，典型的z变换具有非空收敛域的例子如 \( x[n] = \alpha^{|n|} \)（\( |\alpha| < 1 \)），其收敛域为
+     \[\left\{z\in\mathbb{C}\left| |\alpha| < |z| < \dfrac{1}{|\alpha|}\right. \right\}\]
+\end{itemize}
+
+和洛朗级数一样，更常用的确定收敛域的方法是分析$X(z)$的奇点位置。在z变换中，我们需要结合信号特征确定收敛域的范围。
+\begin{definition}
+    \textbf{左边信号（反因果信号）}：$x[n]=0,n\geq 0$，或$x[n]=x[n]u[-n-1]$；\\
+    \textbf{右边信号（因果信号）}：$x[n]=0,n<0$，或$x[n]=x[n]u[n]$；\\
+    \textbf{双边信号}：既不是左边信号，也不是右边信号。
+\end{definition}
+
+下面的例子展示了同一个z变换在不同类型信号下的不同收敛域。
+\begin{example}[收敛域的确定]
+    设$$X(z)=\frac{1}{1-z}+\frac{1}{2z-1}$$
+    在离散信号$x[n]$分别是左边、右边和双边信号时，求$x[n]$及其收敛域。\\
+    解：$X(z)$的奇点为$z=1,1/2$。\\
+    \ding{172}设$x[n]$为左边信号，$X(z)$只有正幂次项，则收敛域为$|z|<1/2$。
+    \begin{align*}
+        X(z)=&\frac{1}{1-z}+\frac{1}{2z-1}\\
+        =&\frac{1}{1-z}-\frac{1}{1-2z}\\
+        =&\sum_{n=0}^{\infty}z^{n}-\sum_{n=0}^{\infty}\left(2z\right)^{n}\\
+        =&\sum_{n=0}^{\infty}\left(1-2^{n}\right)z^{n}
+    \end{align*}
+    因此$x[n]=(1-2^{n})u[-n-1]$。\\
+    \ding{173}设$x[n]$为右边信号，$X(z)$只有负幂次项，则收敛域为$|z|>1$。
+    \begin{align*}
+        X(z)=&-\frac{1/z}{1-1/z}+\frac{1/2z}{1-1/2z}\\
+        =&-\sum_{n=1}^{\infty}z^{-n}+\sum_{n=1}^{\infty}\left(2z\right)^{-n}\\
+        =&\sum_{n=1}^{\infty}\left(2^{-n}-1\right)z^{-n}
+    \end{align*}
+    因此$x[n]=(2^{-n}-1)u[n]$。\\
+    \ding{174}设$x[n]$为双边信号，则收敛域为$1/2<|z|<1$。 
+    \begin{align*}
+        X(z)=&\frac{1}{1-z}+\frac{1/2z}{1-1/2z}\\
+        =&\sum_{n=0}^{\infty}z^{n}-\sum_{n=1}^{\infty}\left(2z\right)^{-n}\\
+        =&\sum_{n=0}^{\infty}z^{n}+\sum_{n=-\infty}^{-1}\left(2^{-n}-1\right)z^{n}
+    \end{align*}
+    因此$x[n]=u[n]+(2^{-n}-1)u[-n-1]$。
+\end{example}
+可以看到，同一个复变函数在不同的域上展开，对应不同的表达式，并且在不同类型的收敛域上对应不同类型的信号，其共性是可以用奇点位置判断收敛域。
+
+上例实际上展示了一种求逆z变换的方法，即将$X(z)$做幂级数展开，然后根据幂级数的系数确定$x[n]$。更一般地，$X(z)$是一个真分式函数时，可以通过部分分式分解将$X(z)$表示为若干简单分式之和，然后对每个简单分式进行类似上例的幂级数展开，从而得到$x[n]$。这种方法在实际应用中非常常见，我们将在\ref{sub:z_inverse}中详细介绍。
+
+\subsection{z变换的运算性质}\label{sub:z_operation}
+\begin{proposition}[z变换的运算性质]
+    设$x[n],y[n]$的z变换分别为$X(z),Y(z)$，则有：
+    \begin{itemize}
+        \item 线性：在$X(z)$与$Y(z)$共同的收敛域内，$a x[n]+b y[n]\xleftrightarrow{\mathcal{Z}} a X(z)+b Y(z)$
+        \item 移位：$x[n-n_0]\xleftrightarrow{\mathcal{Z}} z^{-n_0}X(z)$
+        \item 共轭：$\overline{x[n]}\xleftrightarrow{\mathcal{Z}} \overline{X(\overline{z})}$
+        \item 指数加权：$a^{n} x[n]\xleftrightarrow{\mathcal{Z}} X\left(\dfrac{z}{a}\right)(z\neq 0)$，收敛域变为$|a|r<|z|<|a|R$
+        \item 反转：$x[-n]\xleftrightarrow{\mathcal{Z}} X\left(\dfrac{1}{z}\right)$
+        \item 升采样：$x[n/L]\xleftrightarrow{\mathcal{Z}} X\left(z^{L}\right)$，收敛域变为$r^{1/L}<|z|<R^{1/L}$
+        \item 降采样：$x[nM]\xleftrightarrow{\mathcal{Z}} \dfrac{1}{M}\sum_{k=0}^{M-1}X\left(z^{\frac{1}{M}}\mathrm{e}^{-\mathrm{i}\frac{2\pi}{M}k}\right)$，收敛域为$r^{M}<|z|<R^{M}$
+        \item z域微分：$n x[n]\xleftrightarrow{\mathcal{Z}} -z\dfrac{dX(z)}{dz}$
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    我们仅给出后两条性质的证明。\\
+    1.降采样：
+    \begin{align*}
+        \mathcal{Z}\left[x[nM]\right]=\sum_{n=-\infty}^{\infty}x[nM]z^{-n}=\sum_{m=nM}x[m]z^{-m/M}\quad(m=nM)
+    \end{align*}
+    为了处理$m$只能取$n$的整数倍的情况，我们引入\textbf{选择函数}：
+    \[\shah_M[n]=\frac{1}{M}\sum_{k=0}^{M-1}\mathrm{e}^{\mathrm{i}\frac{2\pi}{M}kn}=\begin{cases}
+        1 & \text{if }m=nM\\
+        0 & \text{otherwise}
+    \end{cases}\]
+    可以利用等比数列求和公式验证上述结论。带入上式并交换求和次序，得到
+    \begin{align*}
+        \mathcal{Z}\left[x[nM]\right]&=\sum_{m=-\infty}^{\infty}x[m]z^{-m/M}\shah_M[m]\\
+        &=\frac{1}{M}\sum_{k=0}^{M-1}\sum_{m=-\infty}^{\infty}x[m]\left(z^{\frac{1}{M}}\mathrm{e}^{-\mathrm{i}\frac{2\pi}{M}k}\right)^{-m}\\
+        &=\frac{1}{M}\sum_{k=0}^{M-1}X\left(z^{\frac{1}{M}}\mathrm{e}^{-\mathrm{i}\frac{2\pi}{M}k}\right)
+    \end{align*}
+    对每个$X\left(z^{\frac{1}{M}}\mathrm{e}^{-\mathrm{i}\frac{2\pi}{M}k}\right)$，收敛域为
+    \[r<\left|z^{\frac{1}{M}}\mathrm{e}^{-\mathrm{i}\frac{2\pi}{M}k}\right|< R\iff r^{M}<|z|<R^{M}\]
+    2.z域微分：在洛朗级数的收敛域内，级数时内闭一致收敛的，因此可以逐项求导，即
+    \begin{align*}
+        -z\frac{dX(z)}{dz}=-z\frac{d}{dz}\left(\sum_{n=-\infty}^{\infty}x[n]z^{-n}\right)=-z\sum_{n=-\infty}^{\infty}x[n](-n)z^{-n-1}=\sum_{n=-\infty}^{\infty}n x[n]z^{-n}
+    \end{align*}
+\end{proof}
+
+此外，对于离散信号，定义\cite{signal_systems}：
+\begin{definition}[卷积和]
+    设$x[n],y[n]$为离散信号，则它们的\textbf{卷积和}定义为
+    \[(x*y)[n]=\sum_{k=-\infty}^{\infty}x[k]y[n-k]\]
+\end{definition}
+类似连续信号的卷积定理，有：
+\begin{proposition}[卷积和定理]
+    在$X(z)$与$Y(z)$共同的收敛域内，有
+    \[x[n]*y[n]\xleftrightarrow{\mathcal{Z}} X(z)Y(z)\]
+\end{proposition}
+%z域卷积定理
+\begin{proof}
+    在$X(z)$与$Y(z)$共同的收敛域内，有
+    \begin{align*}
+        \mathcal{Z} \left[x[n]*y[n]\right]&=\sum_{n=-\infty}^{\infty}\left(\sum_{k=-\infty}^{\infty}x[k]y[n-k]\right)z^{-n}\\
+        &=\sum_{k=-\infty}^{\infty}x[k]z^{-k}\sum_{m=-\infty}^{\infty}y[m]z^{-m}\quad(m=n-k)\\
+        &=X(z)Y(z)
+    \end{align*}
+\end{proof}
+
+一般而言，离散信号在做线性组合或卷积和时，其z变换的收敛域为各信号z变换收敛域的交集，但如果涉及到零极点的抵消，则收敛域可能会扩大。
+\begin{example}[收敛域的扩张]
+    设$x_1[n]=a^{n}u[n],x_2[n]=\delta[n]-a^{n}u[n]$，则
+    \begin{align*}
+        X_1(z)&=\sum_{n=0}^{\infty}a^{n}z^{-n}=\frac{z}{z-a},|z|>|a|\\
+        X_2(z)&=1-\sum_{n=0}^{\infty}a^{n}z^{-n}=1-\frac{z}{z-a}=\frac{a}{a-z},|z|>|a|
+    \end{align*}
+    但是$x[n]=x_1[n]+x_2[n]=\delta[n]$，其z变换为$X(z)=1$，收敛域为$\mathbb{C}$。\\
+    设$y_1[n]=\delta[n]-a\delta[n-1],y_2[n]=a^{n}u[n-1]$，则
+    \begin{align*}
+        Y_1(z)&=1-a z^{-1},z\in\mathbb{C}\backslash\{0\}\\
+        Y_2(z)&=\sum_{n=1}^{\infty}a^{n}z^{-n}=\frac{1}{1-a z^{-1}},|z|>|a|
+    \end{align*}
+    但是\begin{align*}
+        y[n]=\left(y_1*y_2\right)[n]&=\sum_{k=-\infty}^{\infty}y_1[k]y_2[n-k]\\
+        &=y_2[n]-a y_2[n-1]\\
+        &=a^{n}u[n-1]-a^{n}u[n-2]\\
+        &=\delta[n]
+    \end{align*}
+    其z变换为$Y(z)=1$，收敛域为$\mathbb{C}$。
+\end{example}

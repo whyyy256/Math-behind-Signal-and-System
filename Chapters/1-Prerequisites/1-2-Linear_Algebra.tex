@@ -1,0 +1,302 @@
+\section{线性代数}\label{sec:Linear_Algebra}
+
+\subsection{线性空间}\label{sub:linear_space}
+
+本书默认读者熟悉矩阵的基本运算，这里不再赘述。本小节来补充\textbf{线性空间}(linear space)及一些相关的概念\cite{linear_algebra}。
+
+\begin{definition}[线性空间]
+    给定集合$V$及数域$F$，如果定义了两个运算：
+    \begin{itemize}
+        \item 向量加法：$+:V\times V\rightarrow V$
+        \item 数乘：$\cdot :F\times V\rightarrow V$
+    \end{itemize}
+    满足以下公理：
+    \begin{enumerate}
+        \item \textbf{加法封闭性}：$\forall \mathbf{u},\mathbf{v}\in V,\mathbf{u}+\mathbf{v}\in V$
+        \item \textbf{加法交换律}：$\forall \mathbf{u},\mathbf{v}\in V,\mathbf{u}+\mathbf{v}=\mathbf{v}+\mathbf{u}$
+        \item \textbf{加法结合律}：$\forall \mathbf{u},\mathbf{v},\mathbf{w}\in V,(\mathbf{u}+\mathbf{v})+\mathbf{w}=\mathbf{u}+(\mathbf{v}+\mathbf{w})$
+        \item \textbf{存在加法单位元}：$\exists \mathbf{0}\in V,\forall \mathbf{v}\in V,\mathbf{v}+\mathbf{0}=\mathbf{v}$
+        \item \textbf{存在加法逆元}：$\forall \mathbf{v}\in V,\exists -\mathbf{v}\in V,\mathbf{v}+(-\mathbf{v})=\mathbf{0}$
+        \item \textbf{数乘封闭性}：$\forall \alpha\in F,\forall \mathbf{v}\in V,\alpha\cdot\mathbf{v}\in V$
+        \item \textbf{数乘结合律}：$\forall \alpha,\beta\in F,\forall \mathbf{v}\in V,(\alpha\beta)\cdot\mathbf{v}=\alpha\cdot(\beta\cdot\mathbf{v})$
+        \item \textbf{数乘分配律1}：$\forall \alpha\in F,\forall \mathbf{u},\mathbf{v}\in V,\alpha\cdot(\mathbf{u}+\mathbf{v})=\alpha\cdot\mathbf{u}+\alpha\cdot\mathbf{v}$
+        \item \textbf{数乘分配律2}：$\forall \alpha,\beta\in F,\forall \mathbf{v}\in V,(\alpha+\beta)\cdot\mathbf{v}=\alpha\cdot\mathbf{v}+\beta\cdot\mathbf{v}$
+        \item \textbf{数乘单位元}：$\forall \mathbf{v}\in V,1\cdot\mathbf{v}=\mathbf{v}$
+    \end{enumerate}
+    则称$V$为F-\textbf{线性空间}。特别地，当$F=\mathbb{C}$时，称$V$为\textbf{复线性空间}；当$F=\mathbb{R}$时，称$V$为\textbf{实线性空间}。
+\end{definition}
+
+线性空间是对向量的进一步抽象，使得向量的概念不再局限于几何意义上的有向线段，而是可以是任意满足上述公理的对象，例如函数、矩阵等都可以构成线性空间。线性空间中的元素称为\textbf{向量}。本书的后续内容中，将会涉及到许许多多的函数空间，例如连续函数空间、可积函数空间等，它们绝大多数都是线性空间。
+
+\begin{definition}[子空间]
+    线性空间中的子集如果本身也构成线性空间，则称为\textbf{子空间}(subspace)。
+\end{definition}
+
+\begin{example}
+    设$V$为所有实值连续函数构成的线性空间，定义子集$W=\{f(x)\in V|f(0)=0\}$，则$W$为$V$的子空间。\\
+    证明：$\forall f(x),g(x)\in W,\forall \alpha,\beta\in \mathbb{R}$，则有$(\alpha f+\beta g)(0)=\alpha f(0)+\beta g(0)=0$，所以$\alpha f+\beta g\in W$，因此$W$为$V$的子空间。
+\end{example}
+
+\begin{definition}[线性无关]
+    向量组$\{\mathbf{v}_i\}$如果满足：
+    $$\sum_i \alpha_i \mathbf{v}_i=\mathbf{0}\Rightarrow \alpha_i=0,\forall i$$
+    则称$\{\mathbf{v}_i\}$\textbf{线性无关}(linear independent)，否则称为\textbf{线性相关}(linear dependent)。
+\end{definition}
+
+\begin{definition}[基]
+    给定线性空间$V$，如果$V$中的向量组$\{\mathbf{v}_i\}$线性无关，且$V$中任意向量都可以由$\{\mathbf{v}_i\}$线性表示，则称$\{\mathbf{v}_i\}$为$V$的一组\textbf{基}(basis)。
+\end{definition}
+
+%\begin{definition}[线性表出]
+%    向量$\mathbf{v}$如果可以表示为向量组$\{\mathbf{v}_i\}$的线性组合：
+%    \[\mathbf{v}=\sum_i \alpha_i \mathbf{v}_i\]
+%    则称$\mathbf{v}$可以由$\{\mathbf{v}_i\}$\textbf{线性表出}(linear representation)。
+%\end{definition}
+
+\begin{definition}[维数]
+    线性空间$V$的任意一组基的向量个数称为$V$的\textbf{维数}(dimension)，记为$\dim V$。如果$V$的维数为有限值，则称$V$为\textbf{有限维}线性空间，否则称为\textbf{无限维}线性空间。
+\end{definition}
+
+显然，子空间的维数低于母空间的维数。我们将在\ref{sub:infinite_linear}中讨论无限维线性空间的内容。
+
+\begin{example}
+    设$V$为所有实值连续函数构成的线性空间，则$V$为无限维线性空间。\\
+    证明：多项式函数构成一个线性空间。多项式空间是$V$的子空间，它已经是无限维的，因为它的基可以取为$\{1,x,x^2,x^3,\ldots\}$。
+\end{example}
+
+\begin{definition}[线性映射]
+    设有线性空间$V$和$W$，如果映射$T:V\to W$满足：
+    \[T(\alpha \mathbf{u}+\beta \mathbf{v})=\alpha T(\mathbf{u})+\beta T(\mathbf{v}),\forall \mathbf{u},\mathbf{v}\in V,\forall \alpha,\beta\in F\]
+    则称$T$为从$V$到$W$的\textbf{线性映射}(linear mapping)。特别地，如果$W=V$，则称$T$为$V$上的\textbf{线性变换}(linear transformation)。
+\end{definition}
+
+\begin{example}
+    对于向量$\mathbf{v}\in\mathbb{R}^n$，定义映射$T:\mathbb{R}^n\to\mathbb{R}^m$为矩阵$A\in\mathbb{R}^{m\times n}$与$\mathbf{v}$的乘积，即$T(\mathbf{v})=A\mathbf{v}$，则$T$为从$\mathbb{R}^n$到$\mathbb{R}^m$的线性映射。
+\end{example}
+
+\begin{example}
+    设$V$为所有实值无限可微的函数构成的线性空间，记为$C^\infty(\mathbb{R})$，定义映射$T:V\to V$为微分算子，即$T(f)=f'$，则$T$为从$V$到$V$的线性映射。\\
+    证明：$\forall f(x),g(x)\in V,\forall \alpha,\beta\in \mathbb{R}$，根据微分的线性性质，有
+    \begin{align*}
+        T(\alpha f+\beta g)&=(\alpha f+\beta g)'\\
+        &=\alpha f'+\beta g'\\
+        &=\alpha T(f)+\beta T(g)
+    \end{align*}
+    因此$T$为从$V$到$V$的线性映射。
+\end{example}
+
+对于有限维线性空间，分别取定定义域和值域一组基，线性映射可以用矩阵表示，这与我们处理矩阵的经验是一致的。但是，对于无限维线性空间，线性映射只能作为抽象的映射来处理。
+
+在线性映射中，有一类特殊的线性映射，它将线性空间映射到数域，我们将这样的映射称为\textbf{线性函数}。
+
+\begin{definition}[对偶空间]
+    给定线性空间$V$，所有从$V$到数域$F$的线性函数构成的集合称为$V$的\textbf{对偶空间}(dual space)，记为$\mathcal{L} (V,F)$或$V^*$。线性映射的加法和数乘的定义是不言自明的，因此$\mathcal{L} (V,F)$本身也是一个线性空间。
+
+    如果$V$是某种函数空间，则线性函数又称为\textbf{线性泛函}(linear functional)。一些文献中，不区分$V$是否为函数空间，而统一地将线性函数称为线性泛函。
+\end{definition}
+\begin{example}
+    设$V$为所有实值连续函数构成的线性空间，定义映射$T:V\to \mathbb{R}$为积分算子，即$T(f)=\int_{a}^{b}f(x)\,dx$，则$T$为从$V$到$\mathbb{R}$的线性映射，因此$T\in \mathcal{L} (V,F)$。
+\end{example}
+
+对于有限维线性空间，它的对偶空间与它本身同构（或者说，定义$V$上的线性函数，就等价于对它的一组基定义函数值），因而具有相同的维度；对于无限维线性空间，它的对偶空间也是无限维的。
+
+顺便一提，对于了解抽象代数的读者，可以发现线性空间的公理实际上不依赖数域$F$中元素的逆元存在性，因此容易将域$F$推广为交换环$R$，从而得到$R$-\textbf{模}(module)的概念；如果模上还定义了乘法运算，则可以推广为$R$-\textbf{代数}(algebra)。后续内容中有时会见到它们的例子，供感兴趣的读者了解。
+
+\begin{example}
+    或许环对各位读者不是那么熟悉，但定义在域上的代数是喜闻乐见的，它仅仅是在线性空间的基础上多定义了一个乘法运算，并且乘法运算满足结合律和分配律。例如，连续函数空间$C[a,b]$为复线性空间，并且任意两个连续函数的乘积仍为连续函数，因此$C[a,b]$也是一个$\mathbb{C}$-代数。
+\end{example}
+
+\subsection{度量、范数和内积}\label{sub:measurement}
+
+本小节来介绍度量空间、线性赋范空间和内积空间\cite{linear_algebra}。
+\begin{definition}[度量]
+    在集合$V$中，如果定义了运算
+$d(\cdot,\cdot):V\times V\rightarrow \mathbb{R}  $，满足\textbf{度量公理}：
+\begin{enumerate}
+    \item \textbf{非负性}：$d(x, y) \geq 0$
+    \item \textbf{同一性}：$d(x, y) = 0$ 当且仅当 $x = y$
+    \item \textbf{对称性}：$d(x, y) = d(y, x)$
+    \item \textbf{三角不等式}：$d(x, z) \leq d(x, y) + d(y, z)$
+\end{enumerate}
+则称在$V$上定义了一种度量，称$V$为\textbf{度量空间}(metric space)。
+\end{definition}
+
+\begin{example}[离散度量]
+    设$V$为任意集合，定义运算
+    \[
+    d(x,y) = \begin{cases}
+    0, & \text{if } x = y \\
+    1, & \text{if } x \neq y
+    \end{cases}
+    \]
+    则$d$满足度量公理，称为离散度量。
+\end{example}
+
+在度量空间中可以定义极限：
+\[\lim_{n\to\infty}x_n=x\iff \forall \epsilon>0\exists N\in\mathbb{N} (\forall n>N,d(x_n,x)<\epsilon)\]
+\[\lim_{x\to x_0}f(x)=A\iff \forall \epsilon>0\exists \delta>0(\forall x\in V,d(x,x_0)<\delta\Rightarrow d(f(x),f(x_0))<\epsilon)\]
+这就是数学分析中的极限定义，只是将绝对值改成了度量。
+
+在数学分析中，一个实数列的收敛性等价于该序列是柯西列，这实际上是依赖于实数的完备性的。柯西列描述了一个“应当收敛”的序列所具有的性质，而不依赖于最终的极限是否在我们所讨论的空间中。
+\begin{definition}[柯西列]
+    在度量空间$(V,d)$中，序列$\{x_n\}$称为柯西列，如果对于任意$\epsilon>0$，存在$N\in\mathbb{N}$使得对所有$m,n>N$都有$d(x_m,x_n)<\epsilon$。
+\end{definition}
+
+\begin{definition}[完备度量空间]
+    如果度量空间中所有柯西列都有极限，那么这个空间称为\textbf{完备度量空间}。
+\end{definition}
+
+\begin{definition}[范数]
+    如果定义了运算
+$\|\cdot \| :V\rightarrow \mathbb{R} $，满足\textbf{范数公理}
+\begin{enumerate}
+    \item \textbf{非负性}：$\|\mathbf{x}\| \geq 0$
+    \item \textbf{同一性}：$\|\mathbf{x}\| = 0$ 当且仅当 $\mathbf{x} = \mathbf{0}$
+    \item \textbf{齐次性}：$\|\alpha \mathbf{x}\| = |\alpha| \, \|\mathbf{x}\|$
+    \item \textbf{三角不等式/次可加性}：$\|\mathbf{x} + \mathbf{y}\| \leq \|\mathbf{x}\| + \|\mathbf{y}\|$
+\end{enumerate}
+则称在$V$上定义了一种范数，称$V$为\textbf{线性赋范空间}(normed linear space)。
+\end{definition}
+特别地，在$\mathbb{C}$ -线性空间$V$上定义范数后，可以自然地诱导出一种度量：
+$$d(\mathbf x,\mathbf y)=||\mathbf x-\mathbf y||$$
+在线性赋范空间上，可以利用范数导出的度量定义极限：
+\[\lim_{n\to\infty}x_n=x:=\forall \epsilon>0\exists N\in\mathbb{N}(\forall n>N,||x_n-x||<\epsilon)\]
+\[\lim_{x \to x_0} f(x)=A:=\forall \epsilon>0\exists \delta>0(||x-x_0||<\delta\Rightarrow ||f(x)-f(x_0)||<\epsilon) \]
+
+线性赋范空间中的柯西列定义类似。
+
+\begin{definition}[完备的线性赋范空间]
+    如果线性赋范空间中所有柯西列都有极限，那么这个空间称为\textbf{完备的线性赋范空间}，或称为\textbf{巴拿赫空间}\cite{real_analysis}。
+\end{definition}
+
+\begin{example}
+    连续函数空间$C[a,b]$是不完备的线性赋范空间：\\
+    在1-范数
+$\|f\|_1 =\int_{a}^{b}|f(t)|\,\text dt$下，其中的柯西列\begin{align*}
+    f_n(t)=\begin{cases}
+        0,&\text{if }-1\leq t <0\\
+        nt,&\text{if }0\leq t <\frac{1}{n}\\
+        1,&\text{if }\frac{1}{n}\leq t \leq 1
+    \end{cases}
+\end{align*}
+的极限为单位阶跃函数$u(t)$（在0处取值为0），不属于$C[-1,1]$.
+\end{example}
+
+对于线性赋范空间，它的对偶空间也构成线性赋范空间：
+\begin{definition}[对偶空间的范数]
+    泛函$\Phi$是\textbf{有界}(bounded)的，如果$\exists M\geq 0,\forall u\in X,|\Phi(u)|\leq M\|u\|$。对偶空间仅由有界线性泛函组成。
+
+    对于线性赋范空间$X$以及对偶空间中的泛函$\Phi\in X^*$，上述$M$存在，定义其范数为
+    \[\|\Phi\|_*=\inf M\]
+    可以验证，这种定义等价于
+    \[\|\Phi\|_*=\sup\left\{|\Phi(u)|\left|\|u\|\leq 1\right.\right\}\]
+\end{definition}
+
+事实上，线性赋范空间的对偶空间总是构成巴拿赫空间，不论原空间是否完备。
+
+\begin{definition}[泛函的连续性]
+    设$X$是线性赋范空间，泛函$F:X\to\mathbb{C} $是\textbf{连续}的，如果\begin{align*}
+        \forall \{u_n\}_{n=1}^{\infty}\subset X,u_n\to u\implies F(u_n)\to F(u)
+    \end{align*}
+\end{definition}
+
+\begin{definition}[Lipschitz连续]
+    设$X$是线性赋范空间，函数$f:X\to \mathbb{C} $是\textbf{Lipschitz连续的}，如果
+    $$\exists L>0,\forall x,y\in X,|f(x)-f(y)|\leq L\|x-y\|$$
+\end{definition}
+
+容易验证，Lipschitz连续蕴含连续，但连续函数未必是Lipschitz连续的：
+\begin{example}
+    函数$f(x)=\sqrt{x}$在$[0,1]$上连续，但不是Lipschitz连续的。$\forall L>0$，令$y=0$，则
+    \begin{align*}
+        |f(x)-f(y)|=|\sqrt{x}-\sqrt{y}|\leq L|x-y|\\
+        \iff \sqrt{x}\leq Lx \iff \frac{1}{\sqrt{x}}\leq L
+    \end{align*}
+    但总能取$x$充分小，使得以上不等式反向。
+\end{example}
+
+容易将Lipschitz连续的定义推广至向量值函数，甚至取值于某个线性赋范空间的映射。
+
+\begin{proposition}
+    线性泛函的连续性与有界性等价
+\end{proposition}
+\begin{proof}
+    一方面，$|\Phi(u)-\Phi(v)\|=|\Phi(u-v)|\leq\|\Phi\|_*\|u-v\|\implies$$\Phi$是Lipschitz连续的，从而是连续的。
+
+    另一方面，假设$\Phi$无界，则存在$X$中的序列$\{u_n\}$，满足
+    $$\|u_n\|=1,\lim_{n\to \infty}\Phi(u_n)=\infty$$
+    $u_n/\Phi(u_n)\to 0$而$\Phi(u_n/\Phi(u_n))=1$，这与连续性矛盾。
+\end{proof}
+
+因此，线性赋范空间的对偶空间中，所有泛函都是连续的。
+
+\begin{definition}[内积]
+    如果定义了运算
+$\langle \cdot,\cdot\rangle:V\times V\rightarrow \mathbb{C} $，满足\textbf{内积公理}
+\begin{enumerate}
+    \item \textbf{正定性}：$\langle \mathbf{v}, \mathbf{v} \rangle \geq 0$ 且 $\langle \mathbf{v}, \mathbf{v} \rangle = 0$ 当且仅当 $\mathbf{v} = \mathbf{0}$
+    \item \textbf{共轭对称性}：$\langle \mathbf{v}, \mathbf{w} \rangle = \overline{\langle \mathbf{w}, \mathbf{v} \rangle}$
+    \item \textbf{第一变元的线性性}：
+          \begin{itemize}
+              \item \textbf{齐性}：$\langle \alpha \mathbf{v}, \mathbf{w} \rangle = \alpha \langle \mathbf{v}, \mathbf{w} \rangle$
+              \item \textbf{可加性}：$\langle \mathbf{v} + \mathbf{w}, \mathbf{u} \rangle = \langle \mathbf{v}, \mathbf{u} \rangle + \langle \mathbf{w}, \mathbf{u} \rangle$
+          \end{itemize}
+\end{enumerate}
+则称在V上定义了一种内积 (inner product)，称V为\textbf{内积空间}(inner product space)。
+\end{definition}
+
+不难发现，只要取$\|\mathbf{v}\|^2=\langle \mathbf{v}, \mathbf{v} \rangle$，就由内积导出了一种范数，并且这种范数具有比一般的范数更强的性质；只要取$d(\mathbf{x},\mathbf{y})=\|\mathbf{x-y}\|$，就由范数导出了一种度量，并且这种度量具有比一般的度量更强的性质。因此，可以说内积空间是特殊的线性赋范空间，线性赋范空间是特殊的度量空间。
+
+\begin{definition}[希尔伯特空间]
+    具有内积，且范数由内积导出的巴纳赫空间，或者说完备的内积空间，称为\textbf{希尔伯特空间}。
+\end{definition}
+
+在内积空间上有著名的\textbf{柯西-施瓦兹不等式} (Cauchy-Shwartz inequality)：
+\begin{theorem}[柯西-施瓦兹不等式]
+    \[|\langle \mathbf{a,b}\rangle| \leq \| \mathbf{a}\| \| \mathbf{b}\| \]
+\end{theorem}
+\begin{proof}
+不妨设$\mathbf{b}$不是零向量，任取$t\in \mathbb{R}$，有
+\[0\leq \|\mathbf{a}+t\mathbf{b}\|^2=\|\mathbf{a}\|^2+2t\langle\mathbf{a,b}\rangle +t^2\|\mathbf{b}\|^2\]
+令$t=-\dfrac{\langle\mathbf{a,b}\rangle}{\|\mathbf{b}\|^2}$，即得
+\[0\leq \|\mathbf{a}\|^2-2\frac{\langle\mathbf{a,b}\rangle^2}{\|\mathbf{b}\|^2} +\frac{\langle\mathbf{a,b}\rangle^2}{\|\mathbf{b}\|^4}\|\mathbf{b}\|^2=\|\mathbf{a}\|^2-\frac{\langle\mathbf{a,b}\rangle^2}{\|\mathbf{b}\|^2}\]
+这与要证明的不等式是等价的。
+\end{proof} 
+有了柯西-施瓦兹不等式，三角不等式就是显然的了，这里仅给出其表述，读者可以自行证明。
+\begin{proposition}[三角不等式]
+    \[\forall \mathbf{a,b}\in V,\|\mathbf{a+b}\|\leq\|\mathbf{a}\|+\|\mathbf{b}\|\]
+\end{proposition}
+
+
+\subsection{特征向量与特征值}\label{sub:eigenvector}
+
+\subsection{无穷维线性空间}\label{sub:infinite_linear}
+
+\begin{definition}[无限维线性空间和基]
+    如果一个线性空间V的维数是无限的，就称之为\textbf{无限维线性空间}。\\
+对于V，我们称向量列
+$\lbrace\mathbf{v_i}\rbrace_{i=1}^{\infty}$是V的一组基，如果
+\begin{itemize}
+    \item 线性无关性：任取基中的有限个向量，它们是线性无关的
+    \item 有限生成性：任取向量$\mathbf{w} \in V$，存在有限个向量
+          $V'=\lbrace\mathbf{v_1,v_2,\dots,v_r}\rbrace\subset V $，$\mathbf{w}$可以用$V'$线性表出
+\end{itemize}
+\end{definition}
+这里要求“有限”是为了避免敛散性的问题：例如收敛的级数构成线性空间，如果我们声称取定了一组基（当然是无限的），并考察其中无限个基张成的空间，那么对于构成级数的每一项，均需要考察其敛散性。然而，级数的敛散性自然可以对前有限项不做要求，它们求和很可能不会收敛；从另一个角度来讲，一些更加抽象的线性空间中，也说不清楚基的无限和是否收敛。
+
+\begin{example}
+    数列空间$l^2$是所有平方可和数列构成的线性空间，即
+    \[l^2=\left\{x=(x_1,x_2,\ldots)\left|\sum_{i=1}^{\infty}|x_i|^2<\infty\right.\right\}\]
+    $l^2$空间几乎是行向量（或列向量）的推广，但向量列$\{e_i\}_{i=1}^{\infty}$，其中$e_i$表示第$i$个分量为1，其余分量为0的数列，不是$l^2$空间的基，因为它不满足有限生成性。对于任意一个无限项的数列$x\in l^2$，无法找到有限个$e_i$使得$x$可以由它们线性表示。
+\end{example}
+\begin{example}
+    多项式空间$P$是所有实值多项式函数构成的线性空间，即
+    \[P=\left\{f(x)=\sum_{i=0}^{n}a_i x^i|n\in \mathbb{N},a_i\in \mathbb{R}\right\}\]
+    多项式空间的基可以取为$\{1,x,x^2,x^3,\ldots\}$，它满足线性无关性和有限生成性，因此$P$是无限维线性空间。
+\end{example}
+
+\begin{claim}
+    只要承认选择公理（或左恩引理），无限维线性空间总存在基。
+\end{claim}
+
+在\ref{sec:Real_Analysis}中，我们将看到更多无穷维线性空间的例子，它们当中很多都是完备的线性赋范空间。寻找函数空间的基是困难的，但在某些情况下，我们可以找到一些特殊的正交函数系作为基函数系，从而将函数展开为这些基函数的线性组合，这就是傅里叶级数展开的基本思想，见\ref{sub:orthognal}。
