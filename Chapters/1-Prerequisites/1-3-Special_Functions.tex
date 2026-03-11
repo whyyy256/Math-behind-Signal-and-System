@@ -1,0 +1,338 @@
+\section{特殊函数}\label{sec:special_function}
+
+特殊函数是一类具有特殊性质的函数，由积分、级数等特殊的方式定义，且大多为非初等函数。本节介绍一些常用的特殊函数，用于简化后续的讨论和计算。这些特殊函数对于包括信号与系统在内的许多课程的学习都会有所帮助，因此读者至少应该接受其中的一些主要结果。
+
+\subsection{伽马函数与贝塔函数}\label{sub:Gamma}
+
+\begin{definition}
+    \textbf{伽马函数}定义在复平面$\mathbb{C}$的右半平面上：
+    \[\Gamma (z)=\int_{0}^{\infty}x^{z-1}\mathrm{e}^{-x}\,dx,\text{Re}(z)>0\]
+\end{definition}
+注意到$\text{Re}(z)>0$时，$|x^{z-1}\mathrm{e}^{-x}|<t^{\text{Re}(z)-1}$，而$t^{\text{Re}(z)-1}$在$[0,\infty)$上可积，因此伽马函数的积分定义在右半平面$\text{Re}(z)>0$上收敛。事实上它是$\text{Re}(z)>0$上的全纯函数，全纯的概念，见\ref{sec:Complex}。
+
+初次接触这个函数时，最好将$z$作为实数来理解。伽马函数是阶乘函数的推广，因为对于正整数$n$，有$\Gamma (n)=(n-1)!$，这是因为伽马函数满足以下递推关系：
+\begin{theorem}
+    \[\Gamma (z+1)=z\Gamma (z)\]
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+    \Gamma (z+1)&=\int_{0}^{\infty}t^{z}\mathrm{e}^{-t}\,dt\\
+                &=-\int_{0}^{\infty}t^{z}\,d(\mathrm{e}^{-t})\\
+                &=\evalat{-t^{z}\mathrm{e}^{-t}}{0}{\infty}+\int_{0}^{\infty}\mathrm{e}^{-t}\,d(t^{z})\\
+                &=0+\int_{0}^{\infty}\mathrm{e}^{-t}zt^{z-1}\,dt\\
+                &=z\Gamma (z)
+    \end{align*}
+    因此，在n为正整数时，我们可以直接计算出$\Gamma(n)$的数值，因为：
+    \begin{align*}
+        \Gamma(1)=&\int_{0}^{\infty}\mathrm{e}^{-t}\,dt=1\\
+    \end{align*}
+\end{proof}
+
+尽管难以直接算出伽马函数在非整数点的值，但我们可以通过一些特殊值和性质来理解它。例如，$\Gamma(1/2)=\sqrt{\pi}$，并且由此可以算出$n+1/2$处的伽马函数值。$\Gamma(1/2)=\sqrt{\pi}$是通过以下公式推导出的：
+\begin{claim}[余元公式]
+    \[\Gamma (z)\Gamma (1-z)=\frac{\pi}{\sin(\pi z)},\quad z\notin \mathbb{Z}\]
+\end{claim}
+
+令$z=1/2$，就得到了刚才提到的结果。这个公式的证明必须借助复变函数中的留数定理，读者可以在复分析教材中找到相关内容，如\cite{Function_Theory}。不过，多数本科生的《复变函数》课程的教材并不涉及特殊函数，本书也将直接使用这一公式。
+%folland给出了换元方法，转化为我积累过的特定形式，可以考虑补充
+
+下面介绍一个与伽马函数有着紧密联系的特殊函数：\textbf{贝塔函数}。
+
+\begin{definition}[贝塔函数]
+    \[B(p,q)=\int_{0}^{1}x^{p-1}(1-x)^{q-1}\,dx,\text{Re}(p)>0,\text{Re}(q)>0\]
+\end{definition}
+贝塔函数又称\textbf{B函数}，或\textbf{欧拉第一积分}。只要做变量替换$y=1-x$，就可以看出它是对称的，即$B(p,q)=B(q,p)$。贝塔函数与伽马函数之间有如下关系：
+\begin{theorem}
+    \[B(p,q)=\frac{\Gamma (p)\Gamma (q)}{\Gamma (p+q)}\]
+\end{theorem}
+\begin{proof}
+    \begin{align*}
+    \Gamma (p)\Gamma (q)&=\int_{0}^{\infty}x^{p-1}\mathrm{e}^{-x}\,dx\int_{0}^{\infty}y^{q-1}\mathrm{e}^{-y}\,dy\\
+    &=\int_{0}^{\infty}\int_{0}^{\infty}x^{p-1}y^{q-1}\mathrm{e}^{-(x+y)}\,dx\,dy\\
+    &=\int_{0}^{\infty}\int_{u}^{\infty}x^{p-1}(u-x)^{q-1}\mathrm{e}^{-u}\,dx\,du&(u=x+y)\\
+    &=\int_{0}^{\infty}\int_{0}^{x}x^{p-1}(u-x)^{q-1}\mathrm{e}^{-u}\,du\,dx\\
+    &=\int_{0}^{\infty}\mathrm{e}^{-x}x^{p+q-1}\,dx\int_{0}^{1}t^{q-1}(1-t)^{p-1}\,dt&\left(t=\frac{u}{x}\right)\\
+    &=\Gamma (p+q)B(q,p)=\Gamma (p+q)B(p,q)
+    \end{align*}
+\end{proof}
+
+在另一种变量替换下，可以得到贝塔函数的等价定义：
+\begin{definition}[贝塔函数的等价定义]
+    \[B(p,q)=\int_{0}^{\pi/2}\cos^{p-1}\theta\sin^{q-1}\theta\,d\theta\]
+\end{definition}
+
+\begin{proof}
+    \begin{align*}
+    \Gamma (p)\Gamma (q)&=\int_{0}^{\infty}x^{p-1}\mathrm{e}^{-x}\,dx\int_{0}^{\infty}y^{q-1}\mathrm{e}^{-y}\,dy\\
+    &=\int_{0}^{\infty}\int_{0}^{\infty}x^{p-1}y^{q-1}\mathrm{e}^{-(x+y)}\,dx\,dy\\
+    &=\int_{0}^{\pi/2}\int_{0}^{\infty}(r\cos\theta)^{p-1}(r\sin\theta)^{q-1}\mathrm{e}^{-r}r\,dr\,d\theta&\left((x,y)=(r\cos\theta,r\sin\theta)\right)\\
+    &=\int_{0}^{\pi/2}\cos^{p-1}\theta\sin^{q-1}\theta\,d\theta\int_{0}^{\infty}r^{p+q-1}\mathrm{e}^{-r}\,dr\\
+    &=\Gamma (p+q)\int_{0}^{\pi/2}\cos^{p-1}\theta\sin^{q-1}\theta\,d\theta
+    \end{align*}
+\end{proof}
+
+利用以上几个公式，可以快速计算定积分。
+
+\begin{example}[伽马函数的变形]
+    计算定积分$\int_{0}^{\infty}x^{n}\mathrm{e}^{-ax}\,dx,a>0,n\in\mathbb{N}$。\\
+解：可以利用分部积分求解，但更简便的方法是利用伽马函数的定义进行变量替换：
+    \begin{align*}
+        \int_{0}^{\infty}x^{n}\mathrm{e}^{-ax}\,dx&=\frac{1}{a^{n+1}}\int_{0}^{\infty}(ax)^{n}\mathrm{e}^{-ax}\,d(ax)\\
+        &=\frac{\Gamma (n+1)}{a^{n+1}}\\
+        &=\frac{n!}{a^{n+1}}
+    \end{align*}
+\end{example}
+
+%下面是一个比较特殊的例子。
+%\begin{example}[余元公式的使用]
+%    计算定积分$\int_{0}^{\infty}\dfrac{x^{a-1}}{1+x}\,dx,0<a<1$。\\
+%解：令$x=\dfrac{t}{1-t}$，则$dx=\dfrac{1}{(1-t)^2}dt$，积分变为
+%    \begin{align*}
+%        \int_{0}^{\infty}\frac{x^{a-1}}{1+x}\,dx&=\int_{0}^{1}t^{a-1}(1-t)^{-a}\,dt\\
+%                                               &=B(a,1-a)\\
+%                                               &=\frac{\Gamma (a)\Gamma (1-a)}{\Gamma (1)}\\
+%                                               &=\frac{\pi}{\sin(\pi a)}
+%    \end{align*}
+%\end{example}
+
+比起将未知问题化归为已知问题，我们更愿意将大学问题化归为小学问题：
+\begin{example}[贝塔函数的使用]
+    计算定积分$\int_{0}^{1}x^2(1-x)^7\,dx$。\\
+    解：利用二项式展开或者分部积分都可以计算出结果，但实际计算非常复杂且容易出错。更简便的方法是利用贝塔函数：\begin{align*}
+        \int_{0}^{1}x^2(1-x)^7\,dx&=B(3,8)\\
+                                 &=\frac{\Gamma (3)\Gamma (8)}{\Gamma (11)}\\
+                                 &=\frac{2! \cdot 7!}{10!}\\
+                                 &=\frac{1}{60}
+    \end{align*}
+\end{example}
+
+利用贝塔函数的等价定义，还可以计算一些特定的三角函数的定积分：
+\begin{proposition}
+    设$m,n>-1$，则有
+    \[\int_{0}^{\pi/2}\sin^m\theta\cos^n\theta\,d\theta=\frac{1}{2}B\left(\frac{m+1}{2},\frac{n+1}{2}\right)\]
+    进一步，若$m,n$是奇数，设$m=2k-1,n=2l-1,k,l\in\mathbb{N}$，则
+    \[\int_{0}^{\pi/2}\sin^{2k+1}\theta\cos^{2l+1}\theta\,d\theta=B(k,l)=\frac{(k-1)!(l-1)!}{(k+l-1)!}\]
+    若$m,n$是偶数，设$m=2k,n=2l,k,l\in\mathbb{N}$，则
+    \[\int_{0}^{\pi/2}\sin^{2k}\theta\cos^{2l}\theta\,d\theta=B\left(k+\frac{1}{2},l+\frac{1}{2}\right)=\pi\frac{(2k)!(2l)!}{4^{k+l}k!l!(k+l)!}=\pi\frac{(2k-1)!!(2l-1)!!}{((2k+2l)!!)}\]
+    其中$k!!=k(k-2)(k-4)\cdots$表示双阶乘，是公差为2的\textbf{正整数}的连乘积。
+
+    特别地，当$m=0$或$n=0$时，有
+    \begin{align*}
+        \int_{0}^{\pi/2}\sin^{2k}\theta\,d\theta=\int_{0}^{\pi/2}\cos^{2k}\theta\,d\theta&=B\left(\frac{1}{2},k+\frac{1}{2}\right)=\begin{cases}
+            \frac{(k-1)!!}{k!!}, & k\text{为奇数} \\
+            \frac{\pi}{2}\cdot\frac{(k-1)!!}{k!!}, & k\text{为偶数}
+        \end{cases}
+    \end{align*}
+    这个结果称为\textbf{沃利斯公式}(Wallis formula)。
+\end{proposition}
+\begin{proof}
+    我们仅对后两个公式进行一些说明。对于$m=2k,n=2l$的情况，有
+    \begin{align*}
+        B\left(k+\frac{1}{2},l+\frac{1}{2}\right)&=\frac{\Gamma \left(k+\frac{1}{2}\right)\Gamma \left(l+\frac{1}{2}\right)}{\Gamma \left(k+l+1\right)}\\
+        &=\frac{\left(k-\frac{1}{2}\right)\left(k-\frac{3}{2}\right)\cdots\frac{1}{2}\cdot\sqrt{\pi}\cdot\left(l-\frac{1}{2}\right)\left(l-\frac{3}{2}\right)\cdots\frac{1}{2}\cdot\sqrt{\pi}}{(k+l)!}\\
+        &=\frac{\pi(2k)!(2l)!}{4^{k+l}k!l!(k+l)!}\\
+        &=\pi\frac{(2k-1)!!(2l-1)!!}{((2k+2l)!!)}
+    \end{align*}
+    其中我们用到了$\Gamma(1/2)=\sqrt{\pi}$以及伽马函数的递推关系$\Gamma(z+1)=z\Gamma(z)$。
+    
+    对于$m=0$或$n=0$的情况，有
+    \begin{align*}
+        B\left(\frac{1}{2},k+\frac{1}{2}\right)&=\frac{\Gamma \left(\frac{1}{2}\right)\Gamma \left(k+\frac{1}{2}\right)}{\Gamma \left(k+1\right)}\\
+                                             &=\frac{\sqrt{\pi}\cdot\left(k-\frac{1}{2}\right)\left(k-\frac{3}{2}\right)\cdots\frac{1}{2}\cdot\sqrt{\pi}}{k!}\\
+                                             &=\begin{cases}
+            \frac{(k-1)!!}{k!!}, & k\text{为奇数} \\
+            \frac{\pi}{2}\cdot\frac{(k-1)!!}{k!!}, & k\text{为偶数}
+        \end{cases}
+    \end{align*}
+\end{proof}
+
+初次接触双阶乘的读者，最好对照以上证明检查自己的运算结果作为练习。使用特殊函数的方法算出这样的结果后，相信任何一个理智的人都会采用特殊函数的方法进行计算。
+
+\subsection{正弦积分函数}\label{sub:int_sin}
+
+本小节介绍\textbf{正弦积分函数}及\textbf{狄利克雷积分}。正弦积分函数是作为采样函数的反导数\footnote{反导数(antiderivative)可以粗略地理解为变限积分，因为变限积分的导数是被积函数，但在复变函数中它具有更深刻的意义。}定义的：
+
+\begin{definition}[正弦积分函数]
+    \[\text{Si}(x)=\int_{0}^{x}\frac{\sin t}{t}\,dt\]    
+\end{definition}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{intsin}
+    \caption{正弦积分函数$\text{Si}(x)$的图像}
+\end{figure}
+$\dfrac{\sin t}{t}$是\ref{sub:signal}中介绍的采样信号，在$t=0$处连续延拓为1。正弦积分函数在$x=0$处的值为0，并且是奇函数，因为它的导数是偶函数。
+
+正弦积分函数是有界的。为估计$\lim_{x\to\infty}\text{Si}(x)$，我们考虑区间$[n\pi,(n+1)\pi]$上的积分：
+\begin{align*}
+    \int_{n\pi}^{(n+1)\pi}\frac{\sin t}{t}\,dt&=\int_{0}^{\pi}\frac{\sin(t+n\pi)}{t+n\pi}\,dt\\
+    &=(-1)^n\int_{0}^{\pi}\frac{\sin t}{t+n\pi}\,dt
+\end{align*}
+由于$n\pi\leq t+n\pi\leq (n+1)\pi$，有
+\begin{align*}
+    \frac{1}{(n+1)\pi}\int_{0}^{\pi}\sin t\,dt&\leq \int_{0}^{\pi}\frac{\sin t}{t+n\pi}\,dt\leq \frac{1}{n\pi}\int_{0}^{\pi}\sin t\,dt\\
+    \frac{2}{(n+1)\pi}&\leq \int_{0}^{\pi}\frac{\sin t}{t+n\pi}\,dt\leq \frac{2}{n\pi}
+\end{align*}
+因此，
+\begin{align*}
+    \int_{0}^{\infty}\frac{\sin t}{t}\,dt&=\sum_{n=0}^{\infty}\int_{n\pi}^{(n+1)\pi}\frac{\sin t}{t}\,dt\\
+                                 &=\sum_{n=0}^{\infty}(-1)^n\int_{0}^{\pi}\frac{\sin t}{t+n\pi}\,dt
+\end{align*}
+是交错级数，其各项绝对值单调递减且趋于0，根据Leibniz判别法可知该级数收敛，即积分收敛。由于正弦积分函数是奇函数，$\text{Si}(-\infty)$也是收敛的，综上我们说明了正弦积分函数的有界性。
+
+进一步，正弦积分函数在$\infty$处收敛于$\pi/2$，这个结果称为\textbf{狄利克雷积分}，它可以通过留数定理或傅里叶变换来证明，我们将在\ref{sub:fourier_of_signal}中给出基于傅里叶变换的证明。
+\begin{theorem}[狄利克雷积分]
+    \[\int_{0}^{\infty}\frac{\sin t}{t}\,dt=\text{Si}(\infty)=\frac{\pi}{2}\]
+\end{theorem}
+
+\begin{corollary}
+    由于正弦积分函数是偶函数，有
+    \[\int_{-\infty}^{\infty}\frac{\sin t}{t}\,dt=\pi\]
+    做变量代换$t=ax(a>0)$，可得
+    \[\int_{-\infty}^{\infty}\frac{\sin (ax)}{x}\,dx=\pi\]
+    在$a<0$时，积分值为$-\pi$，因此上述积分的结果可统一表示为$\pi\text{sgn}(a)$。
+\end{corollary}
+
+然而，狄利克雷积分不是绝对收敛的。考虑$[0,\infty)$的等长的子区间族
+$$I_n=\left[(n+\frac{1}{6})\pi,(n+\frac{5}{6})\pi\right],n=0,1,2,\cdots$$
+在每个区间上，有
+$$t\leq n+1,|\sin t|\geq \frac{1}{2},\int_{I_n}\left|\frac{\sin t}{t}\right|\,dt \geq \int_{I_n}\frac{1}{2t}\,dt\geq\frac{\pi}{3}\sum_{n=1}^{\infty}\frac{1}{n+1}$$
+$\sum_{n=1}^{\infty}\frac{1}{n}$是发散的调和级数。综上，我们说明了狄利克雷积分条件收敛，但不绝对收敛：
+$$\int_{0}^{\infty}\left|\frac{\sin t}{t}\right|\,dt=\infty$$
+
+%\subsection{指数积分函数，误差函数}\label{sub:int_exp}
+
+%\begin{definition}[指数积分函数]
+%    n阶指数积分函数定义为
+%    \[\text{E}_n(x)=\int_{1}^{\infty}\dfrac{\mathrm{e}^{-xt}}{t^n}\,dt,\text{Re}(x)>0\]
+%    特别地，\textbf{指数积分函数}常指$\text{E}_1(x)$，记为$\text{Ei}(x)$，它有等价的定义式
+%    \[\text{Ei}(x)=\int_{x}^{\infty}\frac{\mathrm{e}^{-t}}{t}\,dt\]
+%\end{definition}
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.5\textwidth]{Ei}
+%    \caption{指数积分函数$\text{Ei}(x)$的图像}
+%\end{figure}
+%可以看到，指数积分函数在$x=0$处有一个奇点，并且在$x\to \infty$时发散到正无穷大，在$x\to -\infty$时趋于0。
+
+%我们来验证两种定义的等价性。
+%\begin{align*}
+%    \text{E}_1(x)&=\int_{1}^{\infty}\frac{\mathrm{e}^{-xt}}{t}\,dt\\
+%                 &=\int_{x}^{\infty}\frac{\mathrm{e}^{-u}}{u}\,du&(u=xt)\\
+%                 &=\text{Ei}(x)
+%\end{align*}
+%误差函数、补误差函数
+
+\subsection{*贝塞尔函数}\label{sub:bessel}
+
+贝塞尔函数是研究物理和工程问题时时常遇到的一种特殊函数，尤其是在涉及圆柱对称问题时。贝塞尔函数是贝塞尔方程的解，贝塞尔方程定义为：
+\begin{definition}[贝塞尔方程]
+    形如
+    \[x^2\frac{d^2y}{dx^2}+x\frac{dy}{dx}+(x^2-\nu^2)y=0\]
+    的微分方程称为\textbf{贝塞尔方程}(Bessel equation)，其中常数$\nu\in\mathbb{C}$称为方程的\textbf{阶数}。
+\end{definition}
+\begin{definition}[贝塞尔函数]
+    $\nu$阶贝塞尔微分方程的解称为$\nu$阶\textbf{贝塞尔函数}(Bessel function)。当$\nu\in\mathbb{N}$时，称为\textbf{第一类贝塞尔函数}，记为$J_n(x)$，他是我们本小节的主要研究对象。
+\end{definition}
+
+贝塞尔方程无法用初等积分法求解，但可以使用幂级数法求解，即假设解可以表示为幂级数的形式，带入方程中，比较各阶系数，从而确定幂级数的系数。取定常数项
+$$a_0=\frac{1}{2^\nu\Gamma(\nu+1)}$$
+则可唯一确定贝塞尔函数的幂级数展开式如下：
+\begin{claim}
+    贝塞尔函数的幂级数展开式为
+    \[J_{\nu}(x)=\sum_{k=0}^{\infty}\frac{(-1)^k}{k!\Gamma(\nu+k+1)}\left(\frac{x}{2}\right)^{\nu+2k}\]
+    特别地，第一类$n$阶贝塞尔函数为
+    \[J_{n}(x)=\sum_{k=0}^{\infty}\frac{(-1)^k}{k!(n+k)!}\left(\frac{x}{2}\right)^{n+2k}\]
+\end{claim}
+其推导过程可以参考\cite{folland}。下面指出贝塞尔函数的一些性质：
+
+\begin{proposition}[递推公式]
+    任给$x,\nu$，有
+    \begin{align*}
+        &\frac{d}{dx}[x^{-\nu}J_{\nu}(x)]=-x^{-\nu}J_{\nu+1}(x)\\
+        &\frac{d}{dx}[x^{\nu}J_{\nu}(x)]=x^{\nu}J_{\nu-1}(x)\\
+        &xJ'_{\nu}(x)-\nu J_{\nu}(x)=-xJ_{\nu+1}(x)\\
+        &xJ'_{\nu}(x)+\nu J_{\nu}(x)=xJ_{\nu-1}(x)\\
+        &xJ_{\nu-1}(x)+xJ_{\nu+1}(x)=2\nu J_{\nu}(x)\\
+        &J'_{\nu-1}(x)-J'_{\nu+1}(x)=2J_{\nu}(x)
+    \end{align*}
+\end{proposition}
+
+这些性质是通过对贝塞尔函数的幂级数展开式逐项求导得到的。利用递推公式，可以计算出一些特殊值，例如：
+\begin{align*}
+    J_n(0)&=0,n\in\mathbb{N}\\
+    J'_0(0)&=0\\
+    J'_1(0)&=\frac{1}{2}\\
+    J'_n(0)&=0,n\geq 2
+\end{align*}
+
+下面着重讨论第一类贝塞尔函数的性质。首先，贝塞尔函数满足公式：
+\begin{proposition}
+    任给$x$及$n\in\mathbb{N}$，有
+    \[J_{-n}(x)=(-1)^n J_n(x)\]
+\end{proposition}
+\begin{proof}
+    在$n<0$时，$n!$没有定义，但实际上，伽马函数可以延拓至$\mathbb{C}\setminus \mathbb{Z}^-$，而在负整数处趋于无穷，在这个意义下，我们说
+    \[\frac{1}{\Gamma(z)}=0,z\in \mathbb{Z}^-\]
+    因此，当$n$为正整数时，根据贝塞尔函数的级数形式的定义式，可以写出$J_{-n}(x)$的幂级数展开式：
+    \[J_{-n}(x)=\sum_{k=0}^{\infty}\frac{(-1)^k}{k!\Gamma(-n+k+1)}\left(\frac{x}{2}\right)^{-n+2k}=\sum_{k=n}^{\infty}\frac{(-1)^k}{k!(k-n)!}\left(\frac{x}{2}\right)^{-n+2k}\]
+    令$j=k-n$，则
+    \begin{align*}
+        J_{-n}(x)&=\sum_{j=0}^{\infty}\frac{(-1)^{j+n}}{(j+n)!j!}\left(\frac{x}{2}\right)^{-n+2(j+n)}\\
+                 &=(-1)^n\sum_{j=0}^{\infty}\frac{(-1)^j}{(j+n)!j!}\left(\frac{x}{2}\right)^{n+2j}\\
+                 &=(-1)^n J_n(x)
+    \end{align*}
+\end{proof}
+
+\begin{proposition}
+    第一类贝塞尔函数在$n$为偶数时是偶函数，在$n$为奇数时是奇函数。
+\end{proposition}
+\begin{proof}
+    带入级数形式的定义式，有
+    \begin{align*}
+        J_n(-x)&=\sum_{k=0}^{\infty}\frac{(-1)^k}{k!(n+k)!}\left(\frac{-x}{2}\right)^{n+2k}\\
+               &=(-1)^n\sum_{k=0}^{\infty}\frac{(-1)^k}{k!(n+k)!}\left(\frac{x}{2}\right)^{n+2k}\\
+               &=(-1)^n J_n(x)
+    \end{align*}
+\end{proof}
+
+下图给出了几个常见的第一类贝塞尔函数的图像。总体而言，贝塞尔函数以$\pi$为周期振荡，并且振幅随着$x$的增大而缓慢减小。
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{bessel}
+        \caption{第一类贝塞尔函数$J_n(x),n=0,1,2,3$的图像}
+\end{figure}
+
+\begin{proposition}[贝塞尔积分公式]
+    任给$x$及$n\in\mathbb{N}$，有
+    \[J_n(x)=\frac{1}{2\pi}\int_{-\pi}^{\pi}\exp(ix\sin\theta - in\theta)\,d\theta=\frac{1}{\pi}\int_{0}^{\pi}\cos(x\sin\theta - n\theta)\,d\theta\]
+    进一步，有
+    \[J_n(x)=\frac{2}{\pi}\int_{0}^{\pi/2}\cos(x\sin\theta)\cos(n\theta)\,d\theta,\text{如果}n\text{为偶数}\]
+    \[J_n(x)=\frac{2}{\pi}\int_{0}^{\pi/2}\sin(x\sin\theta)\sin(n\theta)\,d\theta,\text{如果}n\text{为奇数}\]
+\end{proposition}
+这个结果的证明需要用到生成函数及傅里叶级数的知识，见\cite{folland}。本书仅验证几个公式的等价性。
+\begin{proof}
+    做变量代换$\theta\to -\theta$，有
+    \begin{align*}
+        \frac{1}{2\pi}\int_{-\pi}^{0}\exp(ix\sin\theta - in\theta)\,d\theta&=\frac{1}{2\pi}\int_{0}^{\pi}\exp(-ix\sin\theta + in\theta)\,d\theta
+    \end{align*}
+    因此，
+    \begin{align*}
+        \frac{1}{2\pi}\int_{-\pi}^{\pi}\exp(ix\sin\theta - in\theta)\,d\theta&=\frac{1}{2\pi}\int_{0}^{\pi}[\exp(ix\sin\theta - in\theta)+\exp(-ix\sin\theta + in\theta)]\,d\theta\\
+                                                                                     &=\frac{1}{\pi}\int_{0}^{\pi}\cos(x\sin\theta - n\theta)\,d\theta
+    \end{align*}
+    再做变量代换$\theta\to \pi-\theta$，利用诱导公式，有
+    \begin{align*}
+        J_n(x)=&\frac{1}{\pi}\int_{0}^{\pi}\cos(x\sin\theta - n\theta)\,d\theta\\
+        =&\frac{1}{\pi}\int_{0}^{\pi}\cos(x\sin(\pi-\theta) - n(\pi-\theta))\,d\theta\\
+        =&\frac{(-1)^n}{\pi}\int_{0}^{\pi}\cos(x\sin\theta + n\theta)\,d\theta
+    \end{align*}
+    因此，当$n$为偶数时，将上式与原式相加，利用和差化积公式，得到
+    \begin{align*}
+        J_n(x)&=\frac{1}{2\pi}\int_{0}^{\pi}[\cos(x\sin\theta - n\theta)+\cos(x\sin\theta + n\theta)]\,d\theta=\frac{1}{\pi}\int_{0}^{\pi}\cos(x\sin\theta)\cos(n\theta)\,d\theta
+    \end{align*}
+    类似地，当$n$为奇数时，将上式与原式相减，得到
+    \begin{align*}
+        J_n(x)&=\frac{1}{2\pi}\int_{0}^{\pi}[\cos(x\sin\theta - n\theta)-\cos(x\sin\theta + n\theta)]\,d\theta=\frac{1}{\pi}\int_{0}^{\pi}\sin(x\sin\theta)\sin(n\theta)\,d\theta
+    \end{align*}
+    再由被积函数关于$\theta=\pi/2$对称性即得出最后两个公式。
+\end{proof}

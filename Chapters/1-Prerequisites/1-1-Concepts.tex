@@ -1,0 +1,188 @@
+\section{信号与系统简介}\label{sec:Introduction}
+
+\subsection{基本概念}\label{sub:basic_concepts}
+信号 (signal)是信息 (information)的表现形式与传送载体，信息是蕴含在信号中的具体内容。
+
+在电学领域中，通过电压或电流对真是信号进行连续的记录，模拟其变化过程得到的信号称为模拟信号 (analog signal)或连续信号 (continuous signal)，但由于计算机中信号只能以有限位数的形式储存，往往需要将模拟信号转化为数字信号(digital siganal)。这个过程往往需要利用模数转换器 (analog-to-digital converter,ADC)，使用时再利用数模转换器 (digital-to-analog converter,DAC)将数字信号转化为模拟信号。
+
+在信息科学与技术领域，系统指对信号产生影响的装置或算法，例如滤波系统、调制系统、发射系统，将这些系统组合起来就组成了无线电广播系统；例如通信系统由信源、发射机、信道、接收机和信宿五个部分组成。
+
+电子信息系统的基本构件是传感器、处理器和激励器。传感器 (sensor)将物理量转化为电信号，处理器 (processor)对信号进行处理，激励器 (actuator)将处理后的电信号转化为物理量。其中，电路层面的处理器处理的是电信号，完成电信号处理的功能电路包括：\begin{itemize}
+    \item 放大器(amplifier)：对信号进行放大处理，与之对应的是衰减器(attenuator)。
+    \item 滤波器(filter)：传感器输出的电信号多是包含信息的低频电信号，又称为基带信号(baseband signal)；在信号传输过程中，信号往往被置于某个高频频段内，这个频带称为通带(passband)；在传输前后，都需要滤波器来排除所需频带之外信号的干扰。见\ref{sub:filter}、\ref{sub:distortion}。
+    \item 调制器(modulator)与解调器(demodulator)：将基带信号转化为通带信号的过程称为调制\\
+    (modulation)，将通带信号还原为基带信号的过程称为解调(demodulation)。见\ref{sub:modulation}。
+    \item 振荡器(oscillator)：产生周期性信号的装置，常见的有正弦波振荡器、方波振荡器等，也用于产生高频载波信号进行调制。
+    \item 模数转换器(ADC)与数模转换器(DAC)：将模拟信号转化为数字信号的装置称为模数转换器，将数字信号转化为模拟信号的装置称为数模转换器。所谓数字信号，是指在时间和幅值上均为离散的信号；而模拟信号则是在时间和幅值上均为连续的信号，用于模拟真实世界中的信号。
+    \item 存储器(memory)：用于存储数字信号的装置，例如随机存取存储器(RAM)、只读存储器(RO\\
+    M)等。
+    \item 处理器(processor)：对数字信号进行处理的装置，例如数字信号处理器(DSP)、微控制器(MC\\
+    U)等。
+\end{itemize}
+此外，还有整流器、稳压器、变压器等。其中，滤波器、调制解调器属于信号与系统课程的内容。
+
+\subsection{连续信号与离散信号}\label{sub:signal}
+信号的本质是函数，\textbf{连续信号}就是定义域“连续”的函数，例如一个时间的函数$f(t)$，一般要求定义域具有连续统的势。相应的，\textbf{离散信号}的定义域往往是至多可数集，于是我们常认为其定义域是整数集，并记离散信号为$x[n]$，用研究数列的方法研究离散信号。
+
+从电学的经验来看，电压、电流信号的功率总为其幅值的平方乘以某个常数，于是对于一般的信号我们也采取此定义。真实的物理世界中的信号的能量总是有限的，但是，为了更好地研究它们，很多时候使用真实信号的一部分做适当延拓作为研究对象，因此课程中将遇到一些不满足“方均可积”性质$\int_{-\infty}^{\infty}| f(x)| ^2\,dx<\infty$的信号，于是定义：
+\begin{definition}[功率信号与能量信号]
+能量无限而功率有限的信号称为\textbf{功率信号}：\[\int_{-\infty}^{\infty}| f(x)| ^2\,dx\to\infty,\frac{1}{T}\int_{-\infty}^{\infty}| f(x)|^2  \,dx<\infty\]
+而能量有限的信号称为\textbf{能量信号}：\[\int_{-\infty}^{\infty}| f(x)| ^2\,dx<\infty\]
+\end{definition}
+
+为了区分某段时间内和全时域上的能量和功率，又定义：\begin{definition}
+\quad\newline
+    \textbf{归一化能量}：$$E_T=\int_{-T/2}^{T/2}| f(x)| ^2\,dx$$
+    \textbf{归一化功率}：$$P_T=\dfrac{1}{T}\int_{-T/2}^{T/2}| f(x)| ^2\,dx$$
+\textbf{全时域能量}：$$E=\int_{-\infty}^{\infty}| f(x)| ^2\,dx$$
+\textbf{全时域功率}：$$P=\lim_{T \to \infty}  \dfrac{1}{T}\int_{-T/2}^{T/2}| f(x)| ^2\,dx$$
+\end{definition}
+
+类似地，对于离散信号，定义：
+\begin{definition}
+    \quad\newline
+    \textbf{归一化能量}：$$E_N=\sum_{n = -N}^{N}  |x[n]| ^2$$
+    \textbf{归一化功率}：$$P_N=\dfrac{1}{2N+1}\sum_{n = -N}^{N}  |x[n]| ^2$$
+\textbf{全时域能量}：$$E=\sum_{n = -\infty}^{\infty}  |x[n]| ^2$$
+\textbf{全时域功率}：$$P=\lim_{N \to \infty}  \dfrac{1}{2N+1}\sum_{n = -N}^{N}  |x[n]| ^2$$
+\end{definition}
+
+\subsection{典型的连续与离散信号}\label{sub:ordinary_signal}
+\begin{definition}[采样信号]
+    \[\text{Sa}(t)=\frac{\sin(t)}{t}\]
+\end{definition}
+它在0处连续延拓为1，在$\pi$的整数倍处为0，是偶函数，在正半轴上的积分值为$\pi /2$（这个结果称为狄利克雷积分）。国外教材中采样信号一般为一个类似的信号
+\[\text{sinc}(t)=\frac{\sin(\pi t)}{\pi t}=\text{Sa}(\pi t)\]
+它们的参数不同但性质类似、本质相同。需要注意的是，在绘图时python和MATLAB中只有\text{sinc}信号，而且实际上指的是\text{Sa}信号。
+\begin{definition}[钟形信号/高斯信号]
+    \[f(t)=Ee^{-{\left(\frac{t}{\tau }\right)}^2}\]
+    $\tau$为衰减速率或时间常数，$\tau$越大，函数值衰减越慢。
+\end{definition}
+\begin{definition}[单位脉冲函数/狄拉克函数]
+    $$\delta (x)=\begin{cases}
+        0      & x\neq 0 \\
+        \infty & x=0
+    \end{cases}$$满足：\ding{172} 采样性质：$f(x)\delta (x)=f(0)\delta (x)$\\
+\ding{173} 积分性质：$\int_{-\infty}^{\infty}\delta (x)\,dx=1$，从而$\int_{-\infty}^{\infty}f(x)\delta (x)\,dx=f(0)$。\\
+\ding{174} $\delta(x)$ 函数是偶函数：$\delta (-x)=\delta (x)$
+\end{definition}
+这个函数可视为一些性质较好的函数如高斯函数、采样函数集中到x=0附近时的极限情况，从而具备很多优美的性质，见\ref{sub:approach}。实际上，它应该作为一个分布（而不是函数）来理解，并且是无限阶可导的，我们将在\ref{sub:general_distributions}中详细讨论这一点。目前，我们仅能从形式和直观上定义这样一个函数。
+
+根据以上定义中列举的性质，可以得到$\delta$函数的伸缩变换性质：$\delta(ax)=\dfrac{1}{|a|}\delta(x)$，这是因为我们需要保证：
+\[\int_{-\infty}^{\infty}\delta(ax)\,d(ax)=a\int_{-\infty}^{\infty}\delta(y)\,dy=a\]
+我们规定，$\delta_a(x)=\delta (x-a)$，即在$x=a$处采样的狄拉克函数。
+
+\begin{definition}[单位阶跃函数]
+    \[u(x)=
+    \begin{cases}
+        0 & x<0 \\
+        1 & x>0
+    \end{cases}\]
+\end{definition}
+
+通过对$x$的正负进行分类讨论，可以得到含单位阶跃函数的积分公式，后面会多次使用它：
+\[\int_{-\infty}^{x}u(y)f(y)\,dy=u(x)\int_{0}^{x}f(y)\,dy\]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figure_1}
+    \caption{采样函数、高斯函数、狄拉克函数、单位阶跃函数}
+\end{figure}
+
+这个函数在0处的值可以任意定义，一般取0、1或1/2，不会有影响，所以一般也不会讨论。由单位阶跃函数衍生出许多其他函数：
+\begin{definition}
+    \textbf{符号函数}\[sgn(x)=\begin{cases}
+        -1 & x<0 \\
+        1  & x>0
+    \end{cases}=u(t)-u(-t)\]
+\end{definition}
+\begin{definition}
+    \textbf{矩形脉冲、门函数（矩形函数、$\Pi $函数）}\[R_T(t)=u(t)-u(t-T),G_T(t)=u(t+T/2)-u(t-T/2)\]
+这里T为脉冲宽度，不加角标时，默认为1。
+\end{definition}
+
+由于这些记号较容易混淆，本书中不再使用它们，而是使用\textbf{特征函数}(indicator function)：
+\begin{definition}
+    设集合$A\subset\mathbb{R}$，其特征函数为
+    \[\chi_A(x)=\begin{cases}
+        1 & x\in A \\
+        0 & x\notin A
+    \end{cases}\]
+\end{definition}
+我们将在实变函数的理论中用到它。例如，狄利克雷函数$D(x)$可表示为$\chi_{\mathbb{Q}}(x)$。概率论中会定义连续性随机变量的特征函数(characteristic function)，指随机变量的矩母函数的傅里叶变换，本书中不会用到它，但请读者注意它们的区别。
+
+单位阶跃函数的积分为单位斜变信号 (the unit ramp)，导数为狄拉克函数，从直观上这不难理解，在学习\ref{sub:general_distributions}之后，很容易自行验证它。
+
+\begin{definition}[单边指数函数和双边指数函数]
+    \begin{align*}
+    f(t)=\mathrm{e}^{-at}u(t)=\begin{cases}
+        \mathrm{e}^{-at}, & \text{if }t>0 \\
+        0,       & \text{if }t<0
+    \end{cases}
+\end{align*}
+称为单边按指数函数，
+\begin{align*}g(t)=f(t)+f(-t)=\begin{cases}
+        \mathrm{e}^{-at}, & \text{if }t\geq 0 \\
+        \mathrm{e}^{at},  & \text{if }t<0
+    \end{cases}
+\end{align*}
+称为双边指数函数
+\end{definition}
+
+下面介绍离散信号。
+\begin{definition}[单位脉冲序列/克罗内克$\delta$函数]
+    \[\delta[n]=\begin{cases}
+        1, & \text{if }n=0     \\
+        0, & \text{if }n\neq 0
+    \end{cases}\]
+\end{definition}
+将它进行时移，可得\[\delta_k[n]=\delta[n-k]=\begin{cases}
+        1, & \text{if }n=0     \\
+        0, & \text{if }n\neq 0
+    \end{cases}\]
+它与狄拉克$\delta$函数一样，都具有采样性质：$x[n]\delta_k[n]=x[k]\delta_k[n],\forall n$.
+\begin{definition}[单位阶跃序列]
+    \[u[n]=\begin{cases}
+        1, & \text{if }n\geq 0 \\
+        0, & \text{if }n< 0
+    \end{cases}\]
+\end{definition}
+类似连续信号，由它可以衍生出矩形窗序列：
+\[R_N[n]=u[n]-u[n-N]=\begin{cases}
+        1, & \text{if }0\leq n\leq N-1 \\
+        0, & \text{otherwise}
+    \end{cases}\]
+
+\begin{definition}[指数序列]
+    $x[n]=a^n u[n]$称为指数序列，其中$a\in\mathbb{R}$。
+\end{definition}
+\begin{definition}[复指数序列]
+    $E_{\Omega}[n]=\mathrm{e}^{\mathrm{i}\Omega_0 n}$称为复指数序列，其中$\Omega_0$称为数字角频率。
+\end{definition}
+
+$E_{\Omega}[n]$这个记号仅在本书中使用，但这样做是值得的——它表征了离散信号频率成分的基本形式，我们将在离散信号的章节中多次用到它。
+
+\begin{definition}[正弦序列]
+    $x[n]=\sin(\Omega_0n)$,其中$\Omega_0$称为数字角频率。
+\end{definition}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{disct_sin}
+    \caption{正弦序列}
+\end{figure}
+
+下面介绍离散信号的伸缩变换：
+$$x[n]\to x[\alpha n],\alpha\in\mathbb{R}$$
+如果$\alpha\in\mathbb{N}_+$，则伸缩后的信号仍为离散信号，只是遗漏了原信号的一些信息；如果$\alpha=\frac{1}{N},N\in\mathbb{N}_+$，则伸缩后的信号在$N$的倍数以外的点没有定义，我们必须人为规定它们的值，这就是\text{插值}。
+
+最简单的处理方式是将这些点全部赋值为0。我们定义：
+\begin{definition}[离散信号的伸缩]
+    离散信号的伸缩分为两种：$$y[n]=x[Mn],M\in\mathbb{N}_+$$
+    称为\textbf{降采样/下采样}，对应\textbf{抽取}；$$y[n]=\begin{cases}
+    x\left[\dfrac{n}{N}\right],&n=Nk,N\in\mathbb{Z}\\
+    0,&\text{otherwise}
+    \end{cases}$$
+    称为\textbf{升采样/上采样}，对应\textbf{插值}。
+\end{definition}
+
+如果离散信号本身是由连续信号采样得到的，例如$x[n]=f(T_s n)$，那么插值就对应于还原连续信号的过程，因此离散信号的伸缩相当于处理连续信号时增加或减少样值点。降采样、升采样的名称就来源于此。对于降采样、升采样，我们将在\ref{sub:interpolation}中详细讨论。
