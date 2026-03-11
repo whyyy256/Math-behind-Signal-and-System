@@ -1,0 +1,240 @@
+\section{离散时间傅里叶变换}\label{sec:DTFT}
+
+在\ref{sub:signal}中，我们介绍过以下两种特别的离散信号：
+
+\begin{definition}[离散正弦信号]
+    $x[n]=\sin(\Omega n)$，其中$\Omega$为数字角频率。
+\end{definition}
+\begin{definition}[离散复指数信号]
+    $E_{\Omega}[n]=\mathrm{e}^{\mathrm{i}\Omega n}$，其中$\Omega$为数字角频率。
+\end{definition}
+
+与\textbf{数字角频率}相对，我们将连续信号的角频率称为\textbf{模拟角频率}。很明显，数字角频率表征了信号的某种频率信息。本章要讨论这样两个问题：\begin{itemize}
+    \item 数字角频率$\Omega$与模拟角频率$\omega$之间有何关联？
+    \item 离散信号能否像连续信号那样进行分解与合成？
+\end{itemize}
+
+我们将在下一小节解决第一个问题，而后一个问题是\textbf{离散时间傅里叶变换}(Discrete-Time Fourier Transform, DTFT)与\textbf{离散傅里叶变换}(Discrete Fourier Transform)要解决的，我们将在第一、第三节分别介绍它们。
+
+\subsection{数字角频率}\label{sub:digital_freq}
+
+在学习\ref{sec:Sampling_Interpolation}后，我们可以另一种视角看待离散信号，即离散信号是连续信号的理想采样的结果。已知连续时间信号$f(t)$及采样间隔$T$，则采样得到的离散信号为$x[n]=f(nT)$。特别地，考虑最典型的具有数字角频率$\Omega$的信号
+$$E_{\Omega}[n]=\mathrm{e}^{\mathrm{i}\Omega n}$$
+它对应的连续时间信号为
+\[f(t)=\mathrm{e}^{\mathrm{i}\Omega t/T}\]
+
+如果认为离散信号$x[n]=\mathrm{e}^{\mathrm{i}\Omega n}$具有$\Omega$的数字角频率，则对应的连续信号正是最典型的以$\omega=\Omega/T$为模拟角频率的连续复指数信号。因此，数字角频率与模拟角频率之间的关系为：
+\[\Omega=\omega T\]
+
+可以看到，用连续信号的角频率来理解离散信号的角频率，则模拟角频率与数字角频率的关系取决于采样间隔$T$。采样间隔越大，振荡模式相同的离散信号对应的连续信号振荡越缓慢，同样的数字角频率对应的模拟角频率就越小。
+
+然而，前面的讨论忽略了
+$$\mathrm{e}^{\mathrm{i}(\Omega+2k\pi)n}=\mathrm{e}^{\mathrm{i}\Omega n},\forall k\in\mathbb{Z},n\in\mathbb{Z}$$
+
+不依赖于连续信号，无法确定离散信号背后对应着什么模拟角频率。我们在\ref{sub:alias}中曾遇到过类似的现象，在欠采样的情况下，不同的连续信号会对应同一个离散信号，这就是\textbf{混叠现象}。
+
+由于数字角频率具有$2\pi$的周期，尽管在定义离散信号时我们允许任意大小的数字角频率存在，但还是应该在分析离散信号时限定其范围。本书将以$(-\pi,\pi]$为离散信号的数字角频率范围\cite{signal_systems}，在一些文献中，也经常以$[0,2\pi)$为数字角频率范围。这两种约定方式没有本质区别。这样，以上两种角频率的关系可以理解为：
+
+\begin{proposition}
+以$T$为采样间隔，模拟角频率为$\omega$的连续信号，采样所得离散信号的数字角频率为
+\[\Omega=\omega T+2k\pi,k\in\mathbb{Z},\Omega\in(-\pi,\pi]\]
+\end{proposition}
+
+混叠是由于对信号的高频成分处理不当而产生的，混叠所得信号一定为（相对）低频的信号，因为此时错误地使用了“恒等式”来进行信号的复原：
+\[\mathcal{F} f=\chi_{[-\nu_m,\nu_m]}\cdot (\mathcal{F} f*\shah_{1/T})\]
+其中高于我们所认为的最高频率$\nu_m$的频率成分都被截掉。因此，使用$(-\pi,\pi]$作为数字角频率的范围是合理的，它直接对应着使用离散信号所能还原出的连续信号的模拟角频率范围$(-\pi/T,\pi/T]$。
+
+\begin{example}
+    离散信号$x[n]=\cos(n\pi)$的数字角频率为$\Omega=\pi$，假定采样间隔$T=1$，对应的连续信号为$f(t)=\cos(\pi t)$，其模拟角频率为$\omega=\pi$。
+
+    利用香农采样定理的方式还原信号，所得连续信号为
+    \[f_{re}(t)=\sum_{n=-\infty}^{\infty}\cos(n\pi)\text{sinc}\left(\frac{t-nT}{T}\right)=\sum_{n=-\infty}^{\infty}(-1)^n\text{sinc}\left(t-n\right)\]
+    利用$\sin\pi(t-n)=(-1)^n\sin\pi t$，可得
+    \[f_{re}(t)=\frac{\sin\pi t}{\pi}\sum_{n=-\infty}^{\infty}\frac{(-1)^n}{t-n}=\cos(\pi t)\]
+    我们用到了：$\sum_{n=-\infty}^{\infty}\dfrac{(-1)^n}{t-n}$在主值意义下收敛于$\pi\cot(\pi t)$，可以利用留数定理证明之。
+
+    还原出的信号是以$\Omega\cdot T=\pi$为模拟角频率的信号。然而，$\cos((2k+1)\pi t),k\in\mathbb{N}^*$以采样频率$T=1$采样后也会得到同样的离散信号，但由于它们的模拟角频率太高，如果不改变采样点，就无法通过采样信号还原出来。
+\end{example}
+
+\subsection{离散时间傅里叶变换}\label{sub:dtft}
+
+如何对离散信号进行分解与合成？具体来说，根据傅里叶级数和傅里叶变换的经验，我们希望能将离散信号分解为一系列不同数字角频率的\textbf{离散复指数信号}的组合，以此来表征离散信号各种频率成分的大小。
+
+在处理连续信号时，我们使用傅里叶级数来分析周期信号，类比到周期离散信号，需要取定基波数字角频率，考察各次谐波分量的大小。然而，离散信号的数字角频率有界，需要对这个方法进行一些修正，从而得到周期离散信号的分析方法，这就是\ref{sec:DFT}将讨论的\textbf{离散傅里叶变换}(Discrete Fourier Transform, DFT)；对于非周期离散信号，自然需要类比傅里叶变换，需要考察$(-\pi,\pi]$范围内所有数字角频率成分的大小，并将离散信号表示为这些频率成分与相应复指数信号的加权积分，这就是本节要介绍的\textbf{离散时间傅里叶变换}(Discrete-Time Fourier Transform, DTFT)。
+
+以$E_{\Omega}[n]=\mathrm{e}^{\mathrm{i}\Omega n}$表示数字角频率为$\Omega$的离散复指数信号。这样，以上分析非周期离散信号的想法可以表述为：给定$x[n]$，我们希望找到一个系数函数$\mathcal{X} (\Omega)$，它以$2\pi$为周期，使得\begin{align*}
+    x[n]&=\frac{1}{2\pi}\int_{-\pi}^{\pi}\mathcal{X} (\Omega)E_{\Omega}[n]\,d\Omega
+\end{align*}
+
+（我们很快会看到系数$1/2\pi$的作用）。
+
+为了求出系数函数$\mathcal{X} (\Omega)$，将离散信号化归为我们熟悉的连续信号：
+\begin{align*}
+    f(t)\cdot\shah&=\sum_{n=-\infty}^{\infty}x[n]\delta_{n}=\sum_{n=-\infty}^{\infty}\left(\frac{1}{2\pi}\int_{-\pi}^{\pi}\mathcal{X} (\Omega)E_{\Omega}[n]\,d\Omega\right)\delta_{n}
+\end{align*}
+即\begin{align*}
+    f(t)=&\frac{1}{2\pi}\int_{-\pi}^{\pi}\mathcal{X} (\Omega)\mathrm{e}^{\mathrm{i}\Omega t}\,d\Omega=\mathcal{F} ^{-1}[\mathcal{X}\cdot\chi_{[-\pi,\pi]}](t)
+\end{align*}
+
+对$f(t)\cdot\shah$做傅里叶变换。由卷积定理，有
+\begin{align*}
+    \mathcal{F} [f(t)\cdot\shah](\Omega)&=\frac{1}{2\pi}\mathcal{F} f(\Omega)*\mathcal{F} \shah\\
+    &=\left(\mathcal{X} (\Omega)\chi_{[-\pi,\pi]}\right)*\shah_{2\pi}\\
+    &=\mathcal{X} (\Omega)
+\end{align*}
+第一个等号用到了\ref{sub:fourier_of_dirac_comb}中给出的$\shah$的角频率形式傅里叶变换：
+{\color{red}\begin{align*}
+    \mathcal{F} \shah&=\frac{2\pi}{T}\shah_{2\pi/T}
+\end{align*}}
+最后一个等号用到了$\mathcal{X} $是以$2\pi$为周期的。
+
+另一方面，
+$$f(t)\cdot\shah=\sum_{n=-\infty}^{\infty}x[n]\delta_{n}$$
+由分布的傅里叶变换的连续性，有：
+\begin{align*}
+    \mathcal{F} [f(t)\cdot\shah](\omega)&=\mathcal{F} \left(\sum_{n=-\infty}^{\infty}x[n]\delta_{n}\right)(\omega)=\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\omega n}
+\end{align*}
+
+综上得到：\begin{align*}
+    \mathcal{X} (\Omega)=\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}
+\end{align*}
+\begin{align*}
+    x[n]=\frac{1}{2\pi}\int_{-\pi}^{\pi}\mathcal{X} (\Omega)E_{\Omega}[n]\,d\Omega
+\end{align*}
+
+由于$\mathcal{X} (\Omega)$可以视作变量$z=\mathrm{e}^{\mathrm{i}\Omega n}$的函数，我们令
+$$X(\mathrm{e}^{\mathrm{i}\Omega})=\mathcal{X} (\Omega)$$
+不难发现，离散时间傅里叶变换实际上是z变换在单位圆上的取值，即以上函数$X$的记号实际上就是$x[n]$的z变换的记号：
+\[X(\mathrm{e}^{\mathrm{i}\Omega})=X(z)|_{z=\mathrm{e}^{\mathrm{i}\Omega}}\]
+
+由此可以得到离散时间傅里叶变换的定义：
+
+\begin{definition}[离散时间傅里叶变换]
+    离散信号$x[n]\in l^1$的离散时间傅里叶变换定义为
+    \[X(\mathrm{e}^{\mathrm{i}\Omega})=\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}\]
+    记$x[n]\xleftrightarrow{\text{DTFT}}X(\mathrm{e}^{\mathrm{i}\Omega})$。其中，$\Omega $为\textbf{数字角频率}，$l^1$为\ref{sub:Lp_space}中介绍的绝对可和的序列空间，即
+    \[l^1=\left\{x[n]\left|\sum_{n=-\infty}^{\infty}|x[n]|<\infty\right.\right\}\]
+\end{definition}
+
+离散时间傅里叶变换是良定义的，因为
+\[x[n]\in l^1\implies \sum_{n=-\infty}^{\infty}\left|x[n]\mathrm{e}^{-\mathrm{i}\Omega n}\right|\leq \sum_{n=-\infty}^{\infty}|x[n]|<\infty\]
+
+以上探究$x[n]$的分解与合成的过程，已经指出离散时间傅里叶变换的反演公式，它可以看作是逆z变换在单位圆上的特例。单位圆在收敛域内，是由$x[n]\in l^1$保证的。
+\begin{theorem}[离散时间傅里叶反演公式]
+    设$x[n]\in l^1$的离散时间傅里叶变换为$X(\mathrm{e}^{\mathrm{i}\Omega})$，则$X(\mathrm{e}^{\mathrm{i}\Omega})$的离散时间傅里叶逆变换即为$x[n]$，即：
+    \[x[n]=\frac{1}{2\pi}\int_{-\pi}^{\pi}X(\mathrm{e}^{\mathrm{i}\Omega})\mathrm{e}^{\mathrm{i}\Omega n}\,d\Omega\]
+\end{theorem}
+
+\begin{example}
+    求单位冲激序列$\delta[n]$的离散时间傅里叶变换。\\
+    解：由定义，
+    \begin{align*}
+        X(\mathrm{e}^{\mathrm{i}\Omega})&=\sum_{n=-\infty}^{\infty}\delta[n]\mathrm{e}^{-\mathrm{i}\Omega n}=1
+    \end{align*}
+\end{example}
+
+\begin{example}
+    求离散信号$x[n]=a^n u[n]$的离散时间傅里叶变换，其中$|a|<1$。\\
+    解：由等比数列求和公式，
+    \begin{align*}
+        X(\mathrm{e}^{\mathrm{i}\Omega})&=\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}=\sum_{n=0}^{\infty}a^n \mathrm{e}^{-\mathrm{i}\Omega n}\\
+        &=\sum_{n=0}^{\infty}(a \mathrm{e}^{-\mathrm{i}\Omega})^n=\frac{1}{1-a \mathrm{e}^{-\mathrm{i}\Omega}}
+    \end{align*}
+
+    特别地，当$a=1$时，$x[n]=u[n]\notin l^1$，但不妨写出其离散时间傅里叶变换：
+    \[X(\mathrm{e}^{\mathrm{i}\Omega})=\frac{1}{1-\mathrm{e}^{-\mathrm{i}\Omega}}\]
+    可以看到这个函数在$\Omega=0$处发散。
+
+    当$a=\mathrm{e}^{\mathrm{i}\Omega_0}$时，$x[n]=\mathrm{e}^{\mathrm{i}\Omega_0 n}u[n]$，其离散时间傅里叶变换为
+    \[X(\mathrm{e}^{\mathrm{i}\Omega})=\frac{1}{1-\mathrm{e}^{\mathrm{i}(\Omega_0-\Omega)}}\]
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\textwidth]{exp_dtft}
+        \caption{a取不同值时的离散时间傅里叶变换示意图}        
+    \end{figure}
+\end{example}
+
+观察离散时间傅里叶变换的定义可知：
+$$X(\mathrm{e}^{\mathrm{i}\Omega})|_{\Omega=0}=\sum_{n=-\infty}^{\infty}x[n],X(\mathrm{e}^{\mathrm{i}\Omega})|_{\Omega=\pm\pi}=\sum_{n=-\infty}^{\infty}(-1)^n x[n]$$
+也就是说，离散时间傅里叶变换在$\Omega=0$处的取值为$x[n]$的总和（或者说直流分量），在$\Omega=\pm\pi$处的取值为$x[n]$的交错和，这两个点处的离散时间傅里叶变换值必为实数。上例中，a越大，离散时间傅里叶变换在$\Omega=0$处的值越大，在$\Omega=\pm\pi$处的值越小，这符合我们的直观认识：
+\begin{align*}
+    \sum_{n=0}^{\infty}(-a)^n=\frac{1}{1+a}\text{关于$a$单调递减}
+\end{align*}
+
+\subsection{离散时间傅里叶变换的运算性质}\label{sub:property_of_dtft}
+
+离散时间傅里叶变换的运算性质列举如下：
+\begin{proposition}[离散时间傅里叶变换的运算性质]
+    设$x[n],y[n]\in l^1$，其离散时间傅里叶变换分别为$X(\mathrm{e}^{\mathrm{i}\Omega}),Y(\mathrm{e}^{\mathrm{i}\Omega})$，则有：\begin{itemize}
+        \item  线性：$\forall a,b\in\mathbb{C}$，有$a x[n]+b y[n]\xleftrightarrow{\text{DTFT}} a X(\mathrm{e}^{\mathrm{i}\Omega})+b Y(\mathrm{e}^{\mathrm{i}\Omega})$
+        \item 时移性质：$x[n-n_0]\xleftrightarrow{\text{DTFT}}\mathrm{e}^{-\mathrm{i}\Omega n_0}X(\mathrm{e}^{\mathrm{i}\Omega})$
+        \item 频移性质：$\mathrm{e}^{\mathrm{i}\Omega_0 n}x[n]\xleftrightarrow{\text{DTFT}}X\left(\mathrm{e}^{\mathrm{i}(\Omega-\Omega_0)}\right)$
+        \item 共轭性质：$\overline{x[n]}\xleftrightarrow{\text{DTFT}}\overline{X\left(\mathrm{e}^{-\mathrm{i}\Omega}\right)}$
+        \item 时域卷积和定理：$x[n]*y[n]\xleftrightarrow{\text{DTFT}}X(\mathrm{e}^{\mathrm{i}\Omega})Y(\mathrm{e}^{\mathrm{i}\Omega})$
+        \item 频域卷积定理：$x[n]y[n]\xleftrightarrow{\text{DTFT}}\dfrac{1}{2\pi}\int_{-\pi}^{\pi}X\left(\mathrm{e}^{\mathrm{i}\theta}\right)Y\left(\mathrm{e}^{\mathrm{i}(\Omega-\theta)}\right)\,d\theta$
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    利用\[X(\mathrm{e}^{\mathrm{i}\Omega})=X(z)|_{z=\mathrm{e}^{\mathrm{i}\Omega}}\]
+    以上性质除最后一条以外全部是z变换的性质在单位圆上的特例。这里仅给出频域卷积定理的证明：
+    \begin{align*}
+        &\frac{1}{2\pi}\int_{-\pi}^{\pi}X\left(\mathrm{e}^{\mathrm{i}\theta}\right)Y\left(\mathrm{e}^{\mathrm{i}(\Omega-\theta)}\right)\,d\theta\\
+        =&\frac{1}{2\pi}\int_{-\pi}^{\pi}\left(\sum_{m=-\infty}^{\infty}x[m]\mathrm{e}^{-\mathrm{i}\theta m}\right)\left(\sum_{k=-\infty}^{\infty}y[k]\mathrm{e}^{-\mathrm{i}(\Omega-\theta) k}\right)\,d\theta\\
+        =&\frac{1}{2\pi}\sum_{m=-\infty}^{\infty}\sum_{k=-\infty}^{\infty}x[m]y[k]\mathrm{e}^{-\mathrm{i}\Omega k}\int_{-\pi}^{\pi}\mathrm{e}^{-\mathrm{i}\theta (m-k)}\,d\theta\\
+        =&\sum_{n=-\infty}^{\infty}x[n]y[n]\mathrm{e}^{-\mathrm{i}\Omega n}
+    \end{align*}
+    积分与求和的交换合法，是因为绝对可和能够保证以上函数项级数的一致收敛性。
+
+    使用z域卷积定理推出离散时间傅里叶变换的频域卷积定理也是可行的，只要做变量代换
+    $$\nu=\mathrm{e}^{\mathrm{i}\theta},\nu^{-1}d\nu=\mathrm{i}d\theta$$
+    即可。
+\end{proof}
+
+作为共轭性质的推论，我们有：
+\begin{corollary}
+    如果$x[n]$为实数序列，则$X(\mathrm{e}^{\mathrm{i}\Omega})$具有共轭对称性：$X(\mathrm{e}^{\mathrm{i}\Omega})=\overline{X\left(\mathrm{e}^{-\mathrm{i}\Omega}\right)}$，即$|X(\mathrm{e}^{\mathrm{i}\Omega})|$为偶函数，$\arg X(\mathrm{e}^{\mathrm{i}\Omega})$为奇函数。
+\end{corollary}
+
+频域卷积定理的名称可以这样理解：如果记
+$$\mathcal{X} (\Omega)=X(\mathrm{e}^{\mathrm{i}\Omega}),\mathcal{Y} (\Omega)=Y(\mathrm{e}^{\mathrm{i}\Omega})$$
+则右式是周期函数的卷积（见\ref{sub:conv_of_period_func}）：
+\[x[n]y[n]\xleftrightarrow{\text{DTFT}}\frac{1}{2\pi}\mathcal{X} (\Omega)*\mathcal{Y} (\Omega)=\frac{1}{2\pi}\int_{-\pi}^{\pi}\mathcal{X} (\theta)\mathcal{Y} (\Omega-\theta)\,d\theta\]
+
+此外，我们给出离散时间傅里叶变换的\textbf{帕塞瓦尔定理}(Parseval's Theorem)，它表明表明时域能量与频域能量成正比：
+\begin{theorem}[离散时间傅里叶变换的帕塞瓦尔定理]
+    设$x[n],y[n]\in l^1\cap l^2$，其离散时间傅里叶变换分别为$X(\mathrm{e}^{\mathrm{i}\Omega}),Y(\mathrm{e}^{\mathrm{i}\Omega})$，则有
+    \[\sum_{n=-\infty}^{\infty}x[n]\overline{y[n]}=\frac{1}{2\pi}\int_{-\pi}^{\pi}X(\mathrm{e}^{\mathrm{i}\Omega})\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\,d\Omega\]
+    特别地，当$x[n]=y[n]$时，有
+    \[\sum_{n=-\infty}^{\infty}|x[n]|^2=\frac{1}{2\pi}\int_{-\pi}^{\pi}|X(\mathrm{e}^{\mathrm{i}\Omega})|^2\,d\Omega\]
+\end{theorem}
+\begin{proof}
+    由离散时间傅里叶反演公式，有
+    \begin{align*}
+        &\sum_{n=-\infty}^{\infty}x[n]\overline{y[n]}\\
+        =&\sum_{n=-\infty}^{\infty}x[n]\cdot\frac{1}{2\pi}\int_{-\pi}^{\pi}\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\mathrm{e}^{-\mathrm{i}\Omega n}\,d\Omega\\
+        =&\frac{1}{2\pi}\int_{-\pi}^{\pi}\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\left(\sum_{n=-\infty}^{\infty}x[n]\mathrm{e}^{-\mathrm{i}\Omega n}\right)\,d\Omega\\
+        =&\frac{1}{2\pi}\int_{-\pi}^{\pi}X(\mathrm{e}^{\mathrm{i}\Omega})\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\,d\Omega
+    \end{align*}
+    积分与求和的交换合法，是因为绝对可和能够保证以上函数项级数的一致收敛性：\begin{align*}
+    \forall\Omega\in(-\pi,\pi],\left|\sum_{n=-\infty}^{\infty}x[n]\overline{Y(\mathrm{e}^{\mathrm{i}\Omega})}\mathrm{e}^{-\mathrm{i}\Omega n}\right|\leq\left|Y(\mathrm{e}^{\mathrm{i}\Omega})\right|\sum_{n=-\infty}^{\infty}|x[n]|<\infty
+    \end{align*}
+\end{proof}
+
+利用帕塞瓦尔定理，可以得到原信号与采样信号的能量关系：
+
+\begin{theorem}
+    设$f(t)\in L^1(\mathbb{R})\cap L^2(\mathbb{R})$是带限函数，采样频率高于奈奎斯特频率，以$T$表示采样间隔，$E_d$表示采样信号$x[n]$的能量，$E$表示原信号$f(t)$的能量，则它们满足以下关系：
+    \[E=TE_d,\text{即}\sum_{n=-\infty}^{\infty}|x[n]|^2=\frac{1}{T}\|f(t)\|_2^2\]
+\end{theorem}
+\begin{proof}
+    在采样频率高于奈奎斯特频率时不会发生混叠，即频域上周期化时不产生交叠，因此离散时间傅里叶变换$X(\mathrm{e}^{\mathrm{i}\Omega})$在$(-\pi,\pi]$范围内就是原信号的傅里叶变换$\mathcal{F} f(\omega)$在$(-\pi/T,\pi/T]$范围内的伸缩，即
+    \[X(\mathrm{e}^{\mathrm{i}\Omega})=\mathcal{F} f(\Omega/T),\Omega\in(-\pi,\pi]\]
+    因此有
+    \begin{align*}
+        E_d&=\sum_{n=-\infty}^{\infty}|x[n]|^2\\
+        &=\frac{1}{2\pi}\int_{-\pi}^{\pi}|X(\mathrm{e}^{\mathrm{i}\Omega})|^2\,d\Omega\\
+        &=\frac{1}{2\pi}\int_{-\pi}^{\pi}|\mathcal{F} f(\Omega/T)|^2\,d\Omega\\
+        &=\frac{1}{T}\cdot\frac{1}{2\pi}\int_{-\pi/T}^{\pi/T}|\mathcal{F} f(\omega)|^2\,d\omega&(\omega=T\Omega)\\
+        &=\frac{1}{T}\|f(t)\|_2^2=\frac{E}{T}
+    \end{align*}
+\end{proof}
