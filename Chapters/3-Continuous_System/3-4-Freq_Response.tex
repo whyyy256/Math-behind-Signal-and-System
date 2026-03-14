@@ -147,7 +147,8 @@
     给定$\omega$，将函数$\mathrm{e}^{\mathrm{i}\omega t}$称为系统H的\textbf{特征函数}(eigenfunction)，\textbf{特征值}(eigenvalue)为$H(\omega)$。
 \end{definition}
 
-\subsection{失真与无失真传输}\label{sub:distortion}
+\subsection{失真与时延}\label{sub:distortion}
+
 在信号传输的过程中，有时希望信号经过一个系统，只有幅值发生变化，而波形不改变，例如小信号放大电路。我们定义：
 \begin{definition}[失真]
 波形改变的现象称为\textbf{失真}(distortion)。根据输出信号是否产生新的频率分量，将失真分为\textbf{线性失真}(linear distortion)和\textbf{非线性失真}(nonlinear distortion)；线性失真中，根据引起失真的方式，又分为\textbf{幅度失真}(amplitude distortion)和\textbf{相位失真}(phase distortion)。幅度失真是指系统的幅频特性不是常数，即不同频率成分的放大倍数不同；相位失真是指系统的相频特性不是线性的，即不同频率成分的相位延迟不同。
@@ -183,6 +184,37 @@ $$\tau_p(\omega_0)=-\frac{\varphi(\omega_0)}{\omega_0}$$
 
 可以想象，能够分解成不同频率成分的信号，其各频率成分一般会产生不同的相时延，从而使得输出信号的波形发生变化，这就是相频特性不是线性函数导致的相位失真。
 
+然而，如果将辐角取为$(-\pi,\pi]$内的主值，$\varphi(\omega)$可能是不连续的，而不做此限制则可能导致相时延的多值性。处理这个问题的标准方法是对相频特性进行\textbf{解卷绕}(unwrap)，使得$\varphi(\omega)$成为一个连续函数，这样就可以得到一个唯一的相时延函数$\tau_p(\omega)$。下面介绍解卷绕的流程。
+
+对于$z=x+\mathrm{i}y\neq 0$，辐角主值的计算方式为：
+\begin{align*}
+    \mathrm{Arg}(z)=&\begin{cases}
+        \arctan\left(\frac{y}{x}\right),&x>0\\
+        \arctan\left(\frac{y}{x}\right)+\pi,&x<0,y\geq 0\\
+        \arctan\left(\frac{y}{x}\right)-\pi,&x<0,y<0\\
+        \frac{\pi}{2},&x=0,y>0\\
+        -\frac{\pi}{2},&x=0,y<0
+    \end{cases}
+\end{align*}
+其中，$x=0$时的情况可以视为$\arctan(y/x)$的极限值，$\mathrm{Arg}$是连续的，但当$z$靠近$x$轴负半轴时，$\mathrm{Arg}(z)$的值趋于$\pi$或$-\pi$，产生幅度为$\pm 2\pi$的跳变。
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[c]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{unwrap}
+        \caption{相频特性解卷绕示意图}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[c]{0.48\textwidth}
+        解卷绕的思路是，从$\omega=0$开始，逐步增加$\omega$，每当$\varphi(\omega)$发生跳变时，就将后续的$\varphi(\omega)$的值加上或减去$2\pi$，使得$\varphi(\omega)$保持连续。换言之，我们将$\mathrm{Arg}$的值域扩展到$(-\infty, \infty)$，使得辐角在左图所示的光滑的曲线上连续变化。这样得到的相频特性，我们记为
+        \[\varphi_{\text{unwrapped}}(\omega)\]
+        在$\mathrm{Arg}(H(\omega))$发生跳变时，我们实际上应该将相时延和群时延分别定义为：
+        \[\tau_p(\omega)=-\frac{\varphi_{\text{unwrapped}}(\omega)}{\omega}\]
+        \[\tau_g(\omega)=-\frac{d\varphi_{\text{unwrapped}}(\omega)}{d\omega}\]
+    \end{minipage}
+\end{figure}
+
 \begin{example}[群时延]
 设输入信号为调幅信号（关于调幅信号，见\ref{sub:modulation}）：
 \[e(t)=\cos(\omega_m t)\cos(\omega_c t)\]
@@ -191,7 +223,7 @@ $$\tau_p(\omega_0)=-\frac{\varphi(\omega_0)}{\omega_0}$$
 可以看到该信号是一个被低频信号$\pm\cos(\omega_m t)$包络的高频载波信号$\cos(\omega_c t)$:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{AM.jpeg}
+    \includegraphics[width=0.5\textwidth]{AM.jpeg}
     \caption{调幅信号示意图}
 \end{figure}
 将输入信号用积化和差公式展开：
@@ -228,26 +260,24 @@ $$\tau_p(\omega_0)=-\frac{\varphi(\omega_0)}{\omega_0}$$
     &\qquad\qquad\left.+\cos\left((\omega_c-\omega_m)t+\varphi(\omega_c)-\left.\frac{d\varphi(\omega)}{d\omega}\right|_{\omega=\omega_c}\omega_m\right)\right]\\
     =&|H(\omega_c)|\cos(\omega_c t+\varphi(\omega_c))\cos\left(\omega_m\left[t+\left.\frac{d\varphi(\omega)}{d\omega}\right|_{\omega=\omega_c}\right]\right)
 \end{align*}
-相比输入信号
-\[e(t)=\cos(\omega_m t)\cos(\omega_c t)\]
-输出信号的幅度大约变为$|H(\omega_c)|$倍，载波信号的相位延迟了$\varphi(\omega_c)$，调制信号的相位延迟了$\omega_m\left.\dfrac{d\varphi(\omega)}{d\omega}\right|_{\omega=\omega_c}$，折合到时间上，就是群时延
+相比输入信号$e(t)=\cos(\omega_m t)\cos(\omega_c t)$，输出信号的幅度大约变为$|H(\omega_c)|$倍，载波信号的相位延迟了$\varphi(\omega_c)$，调制信号的相位延迟了$\omega_m\left.\dfrac{d\varphi(\omega)}{d\omega}\right|_{\omega=\omega_c}$，折合到时间上，就是群时延
 $$\tau_g(\omega_c)=-\left.\dfrac{d\varphi(\omega)}{d\omega}\right|_{\omega=\omega_c}$$
 因此，群时延描述了系统对调制信号的包络造成的延时。从信号的图像上来看，高频的载波信号的延时是不会造成很明显的变化的，而低频的调制信号的时延则会明显地反映在图像上，就像一个“信号群”在传播过程中整体产生了一段时延，群时延的名称就由此而来。
 \end{example}
 
-有时，信号的信息是蕴含在其包络特性当中的，而载波信号则是为了方便信号传输，因此我们更关心系统对包络信号造成的时延，而不关心系统对载波信号造成的时延，这时群时延就显得尤为重要了。
-
 \subsection{*色散}\label{sub:dispersion}
-\begin{definition}[色散介质]
-    物理上，研究波在介质中的传播时，将波速与频率无关的介质称为\textbf{无色散介质}(non-dispersive medium)，将波速与频率有关的介质称为\textbf{色散介质}(dispersive medium)。在无色散介质中，波的相时延和群时延相等，即无失真传输；在色散介质中，相时延和群时延的波速差往往会导致波形展宽，发生相位失真。
-\end{definition}
 
-典型的色散现象如一束白光通过三棱镜时，不同频率的光波由于波速不同而发生空间分离，形成彩虹色带。在无线电通信中，电离层对不同频率的电磁波有不同的折射率，导致信号传播速度不同，从而引起信号失真。
+根据波的叠加原理，波在介质中的传播时，可以视为各个频率成分的叠加，每个频率成分在特定介质中的传播速度一般是相同的。我们将波速与频率无关的介质称为\textbf{无色散介质}(non-dispersive medium)，将波速与频率有关的介质称为\textbf{色散介质}(dispersive medium)。
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{sesan}
     \caption{波通过色散介质时波形展宽示意图}
 \end{figure}
+
+在无色散介质中，波的相时延和群时延相等，即无失真传输；在色散介质中，相时延和群时延的波速差往往会导致波形展宽，发生相位失真，如上图所示。
+
+典型的色散现象如一束白光通过三棱镜时，不同频率的光波由于波速不同而发生空间分离，形成彩虹色带。在无线电通信中，电离层对不同频率的电磁波有不同的折射率，导致信号传播速度不同，从而引起信号失真。
 
 为了讨论方便，我们假设波动是一维的，$x$处的质点在时刻$t$的位置为$y(x,t)$，波速为$u$，$y(x,t)$\\
 满足的动力学方程称为\textbf{波动方程}，具有如下统一形式：
