@@ -514,7 +514,11 @@ $$M_1\to M_3\to M_4\to M_1,M_2\to M_5\to M_2$$
 
 可见，对于任意有理系统函数，都可以使用上述信号流图表示。注意系数$a_k,b_k$是可以为0的，因此即便分子分母不是相同度数的多项式，也可以使用该信号流图表示。
 
+<<<<<<< HEAD
 \subsection{最小相位系统}\label{sub:min_phase}
+=======
+\subsection{*最小相位系统与逆系统}\label{sub:min_phase}
+>>>>>>> 5e5df51b84470e62142d616c25d2461b0ee71d81
 
 根据\ref{sub:stability_of_system}，对于因果且稳定的连续线性时不变系统，系统函数$H(s)$的所有极点均位于复平面的左半平面。如果我们还希望系统具有最小的相位延迟特性，从而具有最小的时延特性，则需要系统函数$H(s)$的所有零点也位于复平面的左半平面，这样的系统称为\textbf{最小相位系统}(minimum-phase system)。
 
@@ -550,6 +554,7 @@ $$M_1\to M_3\to M_4\to M_1,M_2\to M_5\to M_2$$
 \end{example}
 
 \begin{proposition}
+<<<<<<< HEAD
     具有相同幅频特性的因果且稳定的连续线性时不变系统中，最小相位系统具有最小的相时延和群时延，因此具有最佳的延时特性。
 \end{proposition}
 \begin{proof}
@@ -573,31 +578,111 @@ $$M_1\to M_3\to M_4\to M_1,M_2\to M_5\to M_2$$
         &=2\sum_{k=1}^{m}\frac{\text{Re}(z_k)}{(\omega-\text{Im}(z_k))^2+\text{Re}(z_k)^2}>0
     \end{align*}
     因此，最小相位系统$\tilde{H}(s)$的相时延和群时延均小于非最小相位系统$H(s)$的相时延和群时延。
+=======
+    具有相同幅频特性的因果且稳定的连续线性时不变系统中，最小相位系统具有最小的相时延和群时延。
+\end{proposition}
+\begin{proof}
+    我们对系统函数为有理函数的情况进行证明。设因果且稳定的连续线性时不变系统的系统函数为
+    \[H(s)=\frac{K(s)\prod_{k=1}^{m}(s-z_k)}{\prod_{l=1}^{n}(s-p_l)}\]
+    其中$K(s)$为实部小于0的零点对应因式的乘积，$z_k$为实部大于0的零点，$p_l$为实部小于0的极点。
+
+    构造以下\textbf{全通系统}：
+    $$A(s)=\frac{\prod_{k=1}^{m}(s-\tilde{z}_k)}{\prod_{k=1}^{m}(s-z_k)}$$
+    其中$\tilde{z}_k=-\overline{z_k}$为$z_k$关于虚轴的对称点。设$z_k=\sigma_k+\mathrm{i}\omega_k(\sigma_k>0)$，则$\tilde{z}_k=-\sigma_k+\mathrm{i}\omega_k$，该系统的幅频特性恒为$1$：
+    \begin{align*}
+        |A(\mathrm{i}\omega)|=\frac{\prod_{k=1}^{m}\sqrt{(\omega-\omega_k)^2+\sigma_k^2}}{\prod_{k=1}^{m}\sqrt{(\omega-\omega_k)^2+\sigma_k^2}}=1
+    \end{align*}
+
+    将两系统级联，所得系统的系统函数为
+    \[\tilde{H}(s)=H(s)A(s)=K(s)\frac{\prod_{k=1}^{m}(s-\tilde{z}_k)}{\prod_{l=1}^{n}(s-p_l)}\]
+    也就是说，通过与一个全通系统级联，我们将系统原有的实部大于0的零点转化为实部小于0的零点，而保持$\tilde{H}(s)$的幅频特性与$H(s)$相同。此时，级联系统是最小相位系统。
+    
+    两个系统级联，相频特性相加：
+    \begin{align*}
+        \tilde{H}(s)=H(s)A(s),\arg \tilde{H}(s)=\arg H(s)+\arg A(\omega)
+    \end{align*}
+    因此相时延和群时延也相加。为了验证级联系统具有最小相位性，我们来计算全通系统造成的相时延和群时延。全通系统的相频特性为：
+    \begin{align*}
+        \varphi_A(\omega)=\arg(A(\mathrm{i}\omega))=\sum_{k=1}^{m}\arg\left(\frac{\mathrm{i}\omega-\tilde{z}_k}{\mathrm{i}\omega-z_k}\right)=\sum_{k=1}^m \left[\arg\left(\sigma_k+\mathrm{i}(\omega-\omega_k)\right)-\arg\left(-\sigma_k+\mathrm{i}(\omega-\omega_k)\right)\right]
+    \end{align*}
+    选取解卷绕（见\ref{sub:distortion}）的辐角值，则
+    \begin{align*}
+        &\arg(\sigma_k+\mathrm{i}(\omega-\omega_k))-\arg(-\sigma_k+\mathrm{i}(\omega-\omega_k))\\
+        =&\arctan\left(\frac{\omega-\omega_k}{\sigma_k}\right)-\left(\pi-\arctan\left(\frac{\omega-\omega_k}{\sigma_k}\right)\right)\\
+        =&2\arctan\left(\frac{\omega-\omega_k}{\sigma_k}\right)-\pi
+    \end{align*}
+    因此\begin{align*}
+        \varphi_{A,\text{unwrapped}}(\omega)&=2\sum_{k=1}^m \arctan\left(\frac{\omega-\omega_k}{\sigma_k}\right)-m\pi
+    \end{align*}
+
+    计算全通系统的相时延和群时延：
+    \begin{align*}
+        \tau_{A,p}(\omega)&=-\frac{\varphi_{A,\text{unwrapped}}(\omega)}{\omega}=\frac{1}{\omega}\sum_{k=1}^m \left[2\arctan\left(\frac{\omega-\omega_k}{\sigma_k}\right)-\pi\right]<0\\
+        \tau_{A,g}(\omega)&=-\frac{d\varphi_{A,\text{unwrapped}}(\omega)}{d\omega}=-2\sum_{k=1}^m \frac{\sigma_k}{\sigma_k^2+(\omega-\omega_k)^2}<0
+    \end{align*}
+    也就是说，全通系统的相时延和群时延均为负值。因此，级联系统的相时延和群时延均小于原系统。
+>>>>>>> 5e5df51b84470e62142d616c25d2461b0ee71d81
 \end{proof}
 
 需要指出，这个证明并不严谨。其一，这个证明没有说明为什么最小相位系统要求系统函数在虚轴上也不存在零点；其二，这个证明仅适用于有理函数。但是，更一般的情况需要用到哈代空间中函数的内外分解，我没能找到既严谨又通俗的证明，只能说这个证明能够提供一些直观的理解。
 
+<<<<<<< HEAD
 在最小相位系统的约束下，其\textbf{逆系统}也是因果且稳定的连续线性时不变系统。这是因为最小相位系统的系统函数$H(s)$的零点均位于复平面的左半平面，因此其倒数$H^{-1}(s)$的极点也均位于复平面的左半平面，从而保证了逆系统的因果性和稳定性。
+=======
+\begin{definition}[逆系统]
+    设因果的线性时不变系统的系统函数为$H(s)$，如果存在一个因果的连续线性时不变系统，其系统函数为$H^{-1}(s)$，则称该系统为原系统的\textbf{逆系统}。
+\end{definition}
+
+将原系统与其逆系统级联，系统函数为$H(s)H^{-1}(s)=1$，即恒等系统。
+
+由于最小相位系统的系统函数$H(s)$的零、极点均位于复平面的左半平面，其倒数$H^{-1}(s)$的零、极点也均位于左半平面，因此最小相位系统的逆系统也是最小相位系统。
+>>>>>>> 5e5df51b84470e62142d616c25d2461b0ee71d81
 
 \begin{example}
     设因果且稳定的连续线性时不变系统的系统函数及单位脉冲响应为
     \[H(s)=\frac{s+1}{s+2},h(t)=\delta(t)-\mathrm{e}^{-2t}u(t)\]
     则其逆系统的系统函数及单位脉冲响应为
+<<<<<<< HEAD
     \[H^{-1}(s)=\frac{s+2}{s+1},h_{inv}(t)=\delta(t)+\mathrm{e}^{-t}u(t)\]
     该逆系统也是因果且稳定的连续线性时不变系统。将两个系统级联，其单位脉冲响应为
 \begin{align*}
     h_{eq}(t)&=h(t)*h_{inv}(t)\\
+=======
+    \[H^{-1}(s)=\frac{s+2}{s+1},h_{\text{inv}}(t)=\delta(t)+\mathrm{e}^{-t}u(t)\]
+    该逆系统也是因果且稳定的连续线性时不变系统。将两个系统级联，其单位脉冲响应为
+\begin{align*}
+    h_{eq}(t)&=h(t)*h_{\text{inv}}(t)\\
+>>>>>>> 5e5df51b84470e62142d616c25d2461b0ee71d81
     &=\delta(t)-\mathrm{e}^{-2t}u(t)+\mathrm{e}^{-t}u(t)-(\mathrm{e}^{-2t}u(t))*(\mathrm{e}^{-t}u(t))\\
     &=\delta(t)-\mathrm{e}^{-2t}u(t)+\mathrm{e}^{-t}u(t)-u(t)\int_0^t \mathrm{e}^{-2\tau}\mathrm{e}^{-(t-\tau)}d\tau\\
     &=\delta(t)
 \end{align*}
 \end{example}
 
+<<<<<<< HEAD
 对于逆系统，容易产生这样的误解：将两个系统级联，则系统函数为$H(s)\cdot H^{-1}(s)=1$，因此输出应与输入相同；考虑群时延和相时延，两个系统的群时延和相时延之和必定为0，因此只要两个系统中必有其中之一具有负的时延；进一步，考虑输入单频的正弦信号，在负的相时延下，输出信号应当提前出现，从而违反因果性。
 
 事实上，两个系统都产生时延，与系统在级联后表现为恒等变换系统，二者并不矛盾，并且两个系统也的确满足因果性，上例中已经说明了这一点。
 
 那么，以上“违反因果性”的结论在那一步出错了呢？实际上，这是因为单频正弦信号“提前出现”的表现，并没有破坏因果性，这是因为，当我们考虑系统的激励为正弦信号时，实际上假定这是一个\textbf{稳态}信号，即该正弦信号从$t=-\infty$时刻就已经存在了，我们观察到的相位“提前”，\textbf{实际上是相位延迟}，而级联所得的恒等变换系统总延迟为0，实际上是两个系统的相位延迟相互抵消了。因此，并不存在违反因果性的情况。
+=======
+考虑原系统与逆系统级联时的群时延和相时延，由于两个系统的级联为恒等系统，他们的群时延和相时延之和必定为0，因此两个系统中必有其中之一具有负的时延。然而，响应并不会先于激励出现，不会违反因果性。
+
+为了明白这一点，我们首先考察上例中的情况。这个例子中，已经算出原系统的单位脉冲响应，它们都是因果信号，因此系统也是因果的。考虑它们的相频特性：
+\begin{align*}
+    \varphi(\omega)&=\arg(H(\mathrm{i}\omega))=\arctan(\omega)-\arctan\left(\frac{\omega}{2}\right)\\
+    \varphi_{\text{inv}}(\omega)&=\arg(H^{-1}(\mathrm{i}\omega))=\arctan\left(\frac{\omega}{2}\right)-\arctan(\omega)
+\end{align*}
+因此，相时延和群时延分别为
+\begin{align*}
+    \tau_p(\omega)&=-\frac{\varphi(\omega)}{\omega}=\frac{-\arctan(\omega)+\arctan\left(\frac{\omega}{2}\right)}{\omega}<0\\
+    \tau_{p,\text{inv}}(\omega)&=-\frac{\varphi_{\text{inv}}(\omega)}{\omega}=\frac{-\arctan\left(\frac{\omega}{2}\right)+\arctan(\omega)}{\omega}>0\\
+    \tau_g(\omega)&=-\frac{d\varphi(\omega)}{d\omega}=-\frac{1}{1+\omega^2}+\frac{2}{4+\omega^2}<0\\
+    \tau_{g,\text{inv}}(\omega)&=-\frac{d\varphi_{\text{inv}}(\omega)}{d\omega}=-\frac{d(-\varphi(\omega))}{d\omega}=\frac{1}{1+\omega^2}-\frac{2}{4+\omega^2}>0
+\end{align*}
+
+那么，为什么负的延时不会使得系统违反因果性呢？实际上，这是因为单频正弦信号“提前出现”并不破坏因果性，因为当我们考虑系统的激励为正弦信号时，实际上假定这是一个\textbf{稳态}信号，即该正弦信号从$t=-\infty$时刻就已经存在了，我们观察到的相位“提前”，\textbf{实际上是相位延迟}，而级联所得的恒等变换系统总延迟为0，实际上是两个系统的相位延迟相互抵消了。因此，并不存在违反因果性的情况。
+>>>>>>> 5e5df51b84470e62142d616c25d2461b0ee71d81
 
 进一步，群时延之和为0，表现出调幅信号的包络峰提前出现的现象。这也没有违反因果性，因为响应起始时刻仍在激励之后，这种包络峰提前出现的现象，实际上是\textbf{相位失真引起的波形重构}。
 
@@ -626,6 +711,7 @@ $$M_1\to M_3\to M_4\to M_1,M_2\to M_5\to M_2$$
     上图中，依稀能辨认出-0.1s的群时延，但由于输入的是稳态信号，并没有违反因果性。
 \end{example}
 
+<<<<<<< HEAD
 那么，对于暂态信号，情况又如何呢？考虑相时延
 $$tau_p(\omega)=\dfrac{-\arctan(\omega)+\arctan(\frac{\omega}{2})}{\omega},\forall \omega>0,\tau_p(\omega)<0$$
 即各频率分量均有负的相时延。
@@ -633,6 +719,11 @@ $$tau_p(\omega)=\dfrac{-\arctan(\omega)+\arctan(\frac{\omega}{2})}{\omega},\fora
 不过，时限函数不可能同时是带限的（见\ref{sub:time_freq_limit}），激励在全频域上均有频率分量，这当然可能使得响应的各分量提前出现，却在$t=0$时刻前抵消，最终呈现出响应与激励起始时刻相同，不违反因果性的结果。
 
 \begin{example}[暂态信号经过逆系统]
+=======
+那么，对于暂态信号，情况又如何呢？考虑相时延恒负的原系统，它会使得响应的各频率分量提前出现，响应的起始时刻可能会早于激励的起始时刻，这似乎违反了因果性。然而，响应的各频率分量的相时延不同，恰会使得响应在$t=0$时刻前抵消，最终呈现出响应与激励起始时刻相同，不违反因果性的结果。
+
+\begin{example}[暂态信号经过原系统]
+>>>>>>> 5e5df51b84470e62142d616c25d2461b0ee71d81
     设
     $$e(t)=\chi_{[0,1]}(t),H(s)=\frac{s+1}{s+2}$$
     则系统的响应为
@@ -653,7 +744,11 @@ $$tau_p(\omega)=\dfrac{-\arctan(\omega)+\arctan(\frac{\omega}{2})}{\omega},\fora
     \begin{figure}[H]
         \centering
         \includegraphics[width=0.8\textwidth]{inv_system}
+<<<<<<< HEAD
         \caption{暂态信号通过逆系统的响应}
+=======
+        \caption{暂态信号通过原系统的响应}
+>>>>>>> 5e5df51b84470e62142d616c25d2461b0ee71d81
     \end{figure}
     响应与激励的起始时刻一致，满足因果性。
 \end{example}

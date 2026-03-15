@@ -1,0 +1,180 @@
+\section{线性差分方程组与状态变量分析}\label{sec:Difference_Equation}
+
+\subsection{线性差分方程组与常系数线性差分方程组}\label{sub:linear_difference_equation}
+
+\begin{definition}[一阶线性差分方程组]
+    设$A[n]$为$N\times N$的实矩阵值函数，$\mathbf{f}[n]$为$N$维实向量值函数，则形如
+    \begin{align*}
+        \mathbf{y}[n+1] = A[n] \mathbf{y}[n] + \mathbf{f}[n]
+    \end{align*}
+    的方程组称为\textbf{一阶线性差分方程组}，其中$\mathbf{f}[n]$为\textbf{非齐次项}。
+
+    特别地，如果$\mathbf{f}[n]=\mathbf{0}$，则称之为\textbf{齐次线性差分方程组}；如果$A[n]$为常数矩阵，则称为\textbf{常系数线性差分方程组}。
+
+    将方程的个数$N$称为方程组的\textbf{阶数}。
+\end{definition}
+
+不难看出，类似于\ref{sub:compare_to_high_order}中微分方程组与微分方程的关系，\textbf{差分方程组也能与同阶的（多个）差分方程相互转化}。
+
+任给正整数$k$，可以通过迭代法求出\begin{align*}
+    \mathbf{y}[k] &= A[k-1]\mathbf{y}[k-1] + \mathbf{f}[k-1]\\
+    &= A[k-1](A[k-2]\mathbf{y}[k-2] + \mathbf{f}[k-2]) + \mathbf{f}[k-1]\\
+    &\vdots\\
+    &= A[k-1]A[k-2]\cdots A[0]\mathbf{y}[0] + \sum_{i=0}^{k-1} A[k-1]A[k-2]\cdots A[i+1]\mathbf{f}[i]
+\end{align*}
+因此，给定初始值$\mathbf{y}[0]$，就可以\textbf{唯一确定}任意时刻的$\mathbf{y}[k]$。特别地，如果$A[n]$为常数矩阵，则\begin{align*}
+    \mathbf{y}[k] = A^k \mathbf{y}[0] + \sum_{i=0}^{k-1} A^{k-1-i} \mathbf{f}[i]
+\end{align*}
+
+利用解的存在性与唯一性，可以仿照\ref{sub:solution_of_linear_equation_system}中的方法进一步说明：
+\begin{theorem}
+    $N$阶线性差分方程组的解空间$S$构成$N$维实线性空间。
+\end{theorem}
+\begin{proof}
+    线性性是显然的。我们构造一个同构映射来说明解空间的维数是$N$。
+
+    定义$\mathbf{H}:\mathbb{R}^N\to S,\mathbf{y}_0\mapsto \mathbf{y}[n]$，其中$\mathbf{y}[n]$是满足初始条件$\mathbf{y}[0]=\mathbf{y}_0$的解。下验证$\mathbf{H}$是一个线性空间同构映射：
+
+    首先，$\mathbf{H}$是线性的。$\forall \mathbf{y}_0,\mathbf{z}_0\in\mathbb{R}^N,\alpha,\beta\in\mathbb{R}$，$\alpha \mathbf{H}(\mathbf{y}_0) + \beta \mathbf{H}(\mathbf{z}_0)$是满足初始条件$\alpha \mathbf{y}_0 + \beta \mathbf{z}_0$的解，根据解的唯一性，
+    $$\mathbf{H}(\alpha \mathbf{y}_0 + \beta \mathbf{z}_0) = \alpha \mathbf{H}(\mathbf{y}_0) + \beta \mathbf{H}(\mathbf{z}_0)$$
+
+    其次，$\mathbf{H}$是单射。设$\mathbf{y}_0\neq\mathbf{z}_0$，它们对应的解分别为$\mathbf{y}=\mathbf{H}(\mathbf{y}_0)$和$\mathbf{z}=\mathbf{H}(\mathbf{z}_0)$，则$\mathbf{y}[0]\neq\mathbf{z}[0]$，因此$\mathbf{y}\neq\mathbf{z}$。
+
+    最后，$\mathbf{H}$是满射。对于任意$\mathbf{y}[n]\in S$，$\mathbf{y}_0=\mathbf{y}[0]$满足$\mathbf{H}(\mathbf{y}_0)=\mathbf{y}[n]$。
+
+    综上，$\mathbf{H}$是一个线性空间的同构映射，解空间的维数为$\dim \mathbb{R}^N=N$。
+\end{proof}
+
+由于高阶线性差分方程总能转化为同阶的线性差分方程组，因此高阶线性差分方程的解空间也是一个维数为$N$的线性空间，这就解释了为什么上一节中我们总是给出$N$个初始值来唯一确定一个高阶线性差分方程的解。
+
+前面说明解的存在性与唯一性时，已经给出了通解的表达式，只是在$A[n]$不为常数值矩阵时，没有什么比较好的办法能够简化解的计算，除非$A[n]$具有某些特殊的结构，例如对角矩阵、上三角矩阵等，但这个问题在常系数线性差分方程组中是易于解决的。
+
+对于常系数线性差分方程组，我们也已经给出了通解的表达式：
+$$\mathbf{y}[k] = A^k \mathbf{y}[0] + \sum_{i=0}^{k-1} A^{k-1-i} \mathbf{f}[i]$$
+因此，求解常系数线性差分方程组的关键在于求出$A^k$的表达式。由于在多数问题中，我们只需要求出有限的几个$\mathbf{y}[k]$，因此除了Jordan分解，我们还可以通过Cayley-Hamilton定理来求出$A^k$的表达式。Cayley-Hamilton定理（见\ref{sub:eigenvector}）的内容是，设矩阵$A$的特征多项式为
+$$p(\lambda)=\det(\lambda I - A)=\sum_{i=0}^{N} c_i \lambda^i$$
+则
+$$p(A)=\sum_{i=0}^{N} c_i A^i=0$$
+因此，$A^N$可以表示为$A^0,A^1,\cdots,A^{N-1}$的线性组合，即
+$$A^N = -\sum_{i=0}^{N-1} c_i A^i$$
+这样，对于任意的$k\geq N$，我们都可以通过递归的方式将$A^k$表示为$A^0,A^1,\cdots,A^{N-1}$的线性组合，从而求出$\mathbf{y}[k]$的表达式。
+
+本书不介绍$A^k$的Jordan分解求法，它往往是通过计算机完成的，下面给出并比较三种算法的\textbf{时间复杂度}。
+
+(1)直接迭代
+
+直接利用递推式进行计算：
+$$\mathbf{y}[k] = A \mathbf{y}[k-1] + \mathbf{f}[k-1]$$
+每一步都需要计算复杂度为$O(N^2)$的矩阵乘法，因此递归地求取$\mathbf{y}[k]$的复杂度为$O(k N^2)$。
+
+这一方法没有预处理的时间成本，并且同样适用于$A[n]$为非恒定矩阵的情况，但当$k$较大时，计算效率较低。
+
+(2)Jordan分解算法
+
+在这种算法中，我们首先需要将$A$做Jordan分解，得到$A=PJP^{-1}$，这个过程包括求特征值和特征向量，以及求矩阵$P$的逆，复杂度为$O(N^3)$。然后，我们需要计算$J^k$，由于$J$是一个块对角矩阵，$J^k$的每个块都有已知的解析表达式，因此$J^k$的计算复杂度为$O(N^2)$。因此，Jordan分解算法的预处理复杂度为$O(N^3)$。
+
+对于齐次方程，每求一个$\mathbf{y}[k]$，都要计算矩阵乘法$A\mathbf{y}[k] = P J^k P^{-1} \mathbf{y}[0]$，复杂度为$O(N^2)$，因此每求一个$\mathbf{y}[k]$的复杂度为$O(N^3)$。
+
+对于非齐次方程，由于需要计算$\sum_{i=0}^{k-1} A^{k-1-i} \mathbf{f}[i]$，每次矩阵乘法$A^{k-1-i} \mathbf{f}[i]$的复杂度为$O(N^2)$，因此每求一个$\mathbf{y}[k]$的复杂度为$O(N^3)+O(k N^2)$。
+
+(3)Cayley-Hamilton定理算法
+
+为了计算矩阵的特征多项式，通常使用Hessenberg分解算法，复杂度为$O(N^3)$；通过矩阵乘法计算$A^i,i=2,3,\cdots,N-1$，复杂度为$O(N^3)$。在预处理时，还需计算$\mathbf{y}[0],\mathbf{y}[1],\cdots,\mathbf{y}[N-1]$，以免后面将$A^k$表示为$A^0,A^1,\cdots,A^{N-1}$的线性组合之后进行重复计算，这个过程的复杂度为$O(N^3)$。因此这种算法的预处理复杂度为$O(N^3)$。
+
+对于齐次方程，$\mathbf{y}[k]$可以表示为$\mathbf{y}[0],\mathbf{y}[1],\cdots,\mathbf{y}[N-1]$的线性组合，其中，系数过程可以通过多项式快速幂算法来实现，复杂度为$O(N^2 \log k)$；矩阵乘法的复杂度为$O(N^2)$。因此每求一个$\mathbf{y}[k]$的复杂度为$O(N^2 \log k)$。
+
+对于非齐次方程，由于需要计算$\sum_{i=0}^{k-1} A^{k-1-i} \mathbf{f}[i]$，如果每个$A^{k-1-i}$都通过多项式快速幂算法来计算，那么每求一个$\mathbf{y}[k]$的复杂度为$O(k N^2 \log k)$，此时复杂度比直接迭代还要大。
+
+将上述三种算法在齐次/非齐次方程下的复杂度汇总如下：
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        算法 & 齐次方程 & 非齐次方程 \\
+        \hline
+        直接迭代 & $O(k N^2)$ & $O(k N^2)$ \\
+        \hline
+        Jordan分解算法 & $O(N^3)$ & $O(N^3)+O(k N^2)$ \\
+        \hline
+        Cayley-Hamilton定理算法 & $O(N^3)+O(N^2 \log k)$ & $O(N^3)+O(k N^2 \log k)$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+可见，当只需求解较小的$k$或方程含有非齐次项时，直接迭代算法的效率更高；当$k\gg N$且方程齐次时，Jordan分解算法效率最高，但它的系数较大，有时使用Cayley-Hamilton定理算法会更快一些。
+
+\subsection{常系数线性差分方程组的单边z变换解法}\label{sub:difference_equation_system}
+
+以非齐次项$\mathbf{f}[n]$为激励，方程组\begin{align*}
+    \mathbf{y}[n+1] = A \mathbf{y}[n] + \mathbf{f}[n],\mathbf{y}_0 = \mathbf{y}[0]
+\end{align*}
+的解$\mathbf{y}[n]$为响应，则方程描述了一个离散的因果线性时不变系统，其通解公式可以借助基本解矩阵给出。方程的基本解矩阵$\Phi[n]$满足方程：\begin{align*}
+    \Phi[n+1] = A \Phi[n],\Phi[0] = I
+\end{align*}
+它是一个因果的矩阵值离散信号。由于我们认为激励$\mathbf{f}[n]$是在$n=0$时刻施加于系统的，零状态响应可以表示为\begin{align*}
+    \mathbf{y}_{zs}[n] = \Phi[n] * \mathbf{F}(z)=\sum_{i=0}^{n} \Phi[i] * \mathbf{f}[n-i]
+\end{align*}
+
+零输入响应是齐次方程的解，由于基本解矩阵是满秩的，并且其列向量是差分方程的解，零输入响应可以表示为基本解矩阵的列向量的线性组合：\begin{align*}
+    \mathbf{y}_{zi}[n] = \Phi[n]\mathbf{c},\mathbf{c}\in\mathbb{R}^N
+\end{align*}
+
+代入初始值$\mathbf{y}[0]=\mathbf{y}_0$，可以求出$\mathbf{c}$的表达式:
+\begin{align*}
+    \mathbf{y}_0 = \Phi[0]\mathbf{c}\implies \mathbf{c} = \Phi^{-1}[0]\mathbf{y}_0 = \mathbf{y}_0
+\end{align*}
+从而得到零输入响应的表达式：
+\begin{align*}
+    \mathbf{y}_{zi}[n] = \Phi[n]\mathbf{c} = \Phi[n]\mathbf{y}_0
+\end{align*}
+最终，方程的通解可以表示为\begin{align*}
+    \mathbf{y}[n] = \mathbf{y}_{zi}[n] + \mathbf{y}_{zs}[n]= \Phi[n]\mathbf{y}_0 + \sum_{i=0}^{n} \Phi[i] * \mathbf{f}[n-i]
+\end{align*}
+
+综上，我们得到了常系数线性差分方程组的通解公式，它与\ref{sub:constant_coefficient_linear_equation_system}中的常系数线性微分方程组的通解公式非常相似：
+\begin{theorem}
+    设$\Phi[n]$为带有初始值的方程组\begin{align*}
+        \mathbf{y}[n+1] = A \mathbf{y}[n]+\mathbf{f}[n],\mathbf{y}_0 = \mathbf{y}[0]
+    \end{align*}
+    的基本解矩阵，则方程组的通解为\begin{align*}
+        \mathbf{y}[n] = \Phi[n]\mathbf{y}_0 + \sum_{i=0}^{n} \Phi[i] * \mathbf{f}[n-i]
+    \end{align*}
+\end{theorem}
+
+现在，问题归结为对基本解矩阵$\Phi[n]$的求解。
+
+与\ref{sub:laplace_ode_system}的思路一致，单边z变换同样能够处理常系数线性差分方程组，并且能够一并处理初始值问题。我们首先给出离散矩阵值函数的单边z变换的定义：
+
+\begin{definition}[离散矩阵值函数的单边z变换]
+    设$A[n]$为$N\times N$的矩阵值函数，则\textbf{单边z变换}就是它的各个分量的单边z变换：
+    \begin{align*}
+        A(z) = \sum_{n=0}^{\infty} A[n] z^{-n}
+    \end{align*}
+    收敛域为各个分量的单边z变换的收敛域的交集。
+\end{definition}
+
+特别地，列向量可以视作只有一列的矩阵，因此向量值函数的单边z变换也是定义良好的。
+
+考虑如下常系数线性差分方程组\begin{align*}
+    \mathbf{y}[n+1] = A \mathbf{y}[n] + \mathbf{f}[n],\mathbf{y}_0 = \mathbf{y}[0]
+\end{align*}
+两边同时进行单边z变换，得到\begin{align*}
+    z \mathbf{Y}(z) - \mathbf{y}_0 = A \mathbf{Y}(z) + \mathbf{F}(z)
+\end{align*}
+因此，\begin{align*}
+    \mathbf{Y}(z) = (zI - A)^{-1} (\mathbf{y}_0 + \mathbf{F}(z))
+\end{align*}
+两边同时求逆z变换，即可得到方程的解：\begin{align*}
+    \mathbf{y}[n] = \mathcal{Z}^{-1} \{(zI - A)^{-1} (\mathbf{y}_0 + \mathbf{F}(z))\}
+\end{align*}
+
+根据单边z变换的卷积和定理（我们没有单独提出这个定理，而是把它当作双边z变换的卷积定理的一个特例），令$\mathcal{Z}^{-1}\{(zI - A)^{-1}\} = \Phi[n]$，则\begin{align*}
+    \mathbf{y}[n] &= \Phi[n] * (\mathbf{y}_0 + \mathbf{F}(z))\\
+    &= \mathbf{y}_0 * \Phi[n] + \sum_{i=0}^{n} \Phi[i] * \mathbf{f}[n-i]
+\end{align*}
+
+可以看出，$\Phi[n]$正是方程的基本解，即
+
+\subsection{*离散系统的状态变量分析}\label{sub:discrete_state_variable}
+
+

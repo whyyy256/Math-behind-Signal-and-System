@@ -1,0 +1,200 @@
+\section{离散系统的频率响应特性}\label{sec:discrete_system_freq_response}
+
+\subsection{频率响应特性与零极点图}\label{sub:discrete_system_freq_response}
+
+离散系统的系统函数$H(z)$是单位脉冲响应$h[n]$的z变换。在系统稳定的情况下，$h[n]\in l^1$，此时可以对单位脉冲响应做离散时间傅里叶变换，得到系统的\textbf{频率响应特性}，记为$H(\mathrm{e}^{\mathrm{i}\Omega})$，它是系统函数在单位圆上的限制，即
+$$H(\mathrm{e}^{\mathrm{i}\Omega})=H(z)|_{z=\mathrm{e}^{\mathrm{i}\Omega}}$$
+
+类似于连续系统，我们仍然将$|H(\mathrm{e}^{\mathrm{i}\Omega})|$称为系统的\textbf{幅频特性}，将$\arg H(\mathrm{e}^{\mathrm{i}\Omega})$称为系统的\textbf{相频特性}，我们仍将相频特性记为$\varphi(\Omega)$。我们同样可以对离散系统的相频特性做解卷绕处理，见\ref{sub:distortion}，但简洁起见，本章中不讨论$\varphi(\Omega)$跳变的情况。
+
+作为系统函数在单位圆上的限制，有$Y(\mathrm{e}^{\mathrm{i}\Omega})=H(\mathrm{e}^{\mathrm{i}\Omega})X(\mathrm{e}^{\mathrm{i}\Omega})$，因此，可以通过频率响应特性看出系统的滤波特性。对于非周期离散信号，高频信号指数字角频率接近$\pm\pi$的信号，一个离散系统如果对信号的低频成分有较大的增益，对高频成分有较小的增益，则称其为\textbf{低通滤波器}，其它类型的滤波器同理。
+
+与连续系统的情况一致，我们考虑的系统函数通常是有理函数，在下一小节中将看到，此类系统可以用常系数线性差分方程描述。对于离散系统，系统函数的零极点图绘制规则与连续系统一致。仿照\ref{sub:zero_pole_characteristics}，可以根据系统函数的零极点图定性分析系统的频率响应特性。
+
+\begin{example}
+    设系统的零极点图如下图(a)所示：
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{discrete_zero}
+        \caption{离散系统的零极点图(1)}
+    \end{figure}
+    由于在$z=1$附近有零点，而在$z=-1$附近有一对共轭极点，可以定性分析出系统的频率响应特性如上图(b)所示，这表明系统具有高通滤波特性。
+
+    也可以通过矢量图来分析系统的频率响应特性，如下图所示：
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.35\textwidth]{discrete_vector}
+        \caption{离散系统的矢量图}
+    \end{figure}
+    该系统的系统函数具有如下形式：
+    $$H(z)=\frac{z-a}{(z+b+\mathrm{i}c)(z+b-\mathrm{i}c)},a,b,c>0$$
+    因此幅频特性就是复平面上的向量$z-a$与向量$z+b+\mathrm{i}c$、$z+b-\mathrm{i}c$的长度之比。
+
+    随矢量终点由$\Omega=0$向$\Omega=\pi$移动，由零点出发的矢量长度（分子）逐渐增加，而由极点出发的矢量长度（分母）逐渐减小，因此系统的增益在$\Omega=0$处较小，在$\Omega=\pi$处较大，具有高通滤波特性。
+\end{example}
+
+\subsection{相频特性与时延}\label{sub:phase_response}
+
+对于连续系统，我们通过相时延和群时延的概念，建立了系统的相频特性与系统对激励信号造成的相时延和群时延之间的关系，自然要问：对于离散系统，相频特性是否也有类似的物理意义？答案是肯定的，本小节就来讨论这个问题，并给出离散情况下的最小相位系统的概念。
+
+对于离散系统，相时延与群时延的定义是类似的，只是对于离散信号，$\Omega$的范围是$(-\pi,\pi]$，因此相时延与群时延的定义域也相应地限制在$(-\pi,\pi]$上。
+
+\begin{definition}[相时延与群时延]
+    对于一个因果、稳定的线性时不变系统，设其相频特性为$\varphi(\Omega)$，则系统的\textbf{相时延}定义为
+    $$\tau_p(\Omega)=-\frac{\varphi(\Omega)}{\Omega}$$
+    系统的\textbf{群时延}或\textbf{包络时延}定义为
+    $$\tau_g(\Omega)=-\frac{d\varphi(\Omega)}{d\Omega}$$
+\end{definition}
+
+有了对连续系统的相时延与群时延的处理经验，就可以猜想离散系统的相时延与群时延的具有类似的物理意义，即相时延$\tau_p(\Omega)$表示系统对频率为$\Omega$的频率成分的延时，群时延$\tau_g(\Omega)$表示系统对频率为$\Omega$的包络信号的延时。然而，离散系统的情况会更加复杂一些：
+
+\begin{example}
+    对于一个因果且稳定的线性时不变系统，设其系统函数为$H(z)$，激励为在$n=0$时刻施加于系统的单频离散信号
+    $$e[n]=\mathrm{e}^{\mathrm{i}\Omega n}u[n]$$
+    激励信号的z变换为：
+    $$E(z)=\sum_{n=0}^{\infty}\mathrm{e}^{\mathrm{i}\Omega n}z^{-n}=\frac{1}{1-\mathrm{e}^{\mathrm{i}\Omega}z^{-1}},|z|>1$$
+    因此响应的z变换为
+    $$R(z)=H(z)E(z)=\frac{H(z)}{1-\mathrm{e}^{\mathrm{i}\Omega}z^{-1}}$$
+    为了求出$R(z)$的逆z变换，我们考虑使用留数定理的方法。由于系统函数$H(z)$的收敛域包含$|z|\geq 1$，只要选取一个半径$R>1$的圆$C_R:t\mapsto R\mathrm{e}^{\mathrm{i}t},t\in[0,2\pi)$作为围道，就能够保证$R(z)$在$C_R$上解析，从而留数定理的方法适用。
+
+    设$H(z)$没有本性奇点，记它的极点集合为$\{p_k\}$，它们都在围道$C_R$的内部。由逆z变换的留数定理公式，有：\begin{align*}
+        r[n]&=\frac{1}{2\pi\mathrm{i}}\oint_{C_R}R(z)z^{n-1}\,dz\\
+        &=\sum_{k}\text{Res}(R(z)z^{n-1},p_k)+\text{Res}(R(z)z^{n-1},\mathrm{e}^{\mathrm{i}\Omega})\\
+        &=\sum_{k}\text{Res}(H(z)z^{n-1},p_k)+\text{Res}\left(\frac{H(z)z^{n-1}}{1-\mathrm{e}^{\mathrm{i}\Omega}z^{-1}},\mathrm{e}^{\mathrm{i}\Omega}\right)
+    \end{align*}
+
+    其中\begin{align*}
+        \text{Res}\left(\frac{H(z)z^{n-1}}{1-\mathrm{e}^{\mathrm{i}\Omega}z^{-1}},\mathrm{e}^{\mathrm{i}\Omega}\right)&=\lim_{z\to \mathrm{e}^{\mathrm{i}\Omega}}(z-\mathrm{e}^{\mathrm{i}\Omega})\frac{H(z)z^{n-1}}{1-\mathrm{e}^{\mathrm{i}\Omega}z^{-1}}\\
+        &=\lim_{z\to \mathrm{e}^{\mathrm{i}\Omega}}H(z)z^n\\
+        &=H(\mathrm{e}^{\mathrm{i}\Omega})\mathrm{e}^{\mathrm{i}\Omega n}
+    \end{align*}
+
+    对于其余极点，可以选取一个充分靠近单位圆的围道$C_r:t\mapsto r\mathrm{e}^{\mathrm{i}t},t\in[0,2\pi)$，其中$r=1-\epsilon$，$\epsilon$充分小使得$H(z)$的极点均包含在其中，于是\begin{align*}
+        \left|\sum_{k}\text{Res}(H(z)z^{n-1},p_k)\right|&=\left|\frac{1}{2\pi\mathrm{i}}\oint_{C_r}H(z)z^{n-1}\,dz\right|\\
+        &\leq \frac{1}{2\pi}\int_{0}^{2\pi}|H(r\mathrm{e}^{\mathrm{i}t})|r^{n-1}\,dt\\
+        &\leq \max_{t\in[0,2\pi)}|H(r\mathrm{e}^{\mathrm{i}t})|r^{n-1}
+    \end{align*}
+    令$n\to\infty$，由于$r<1$，上式以指数函数的速度趋于$0$。也就是说，响应中包含两部分，一部分是快速衰减的暂态项，另一部分是稳态项。在$n$充分大时，近似有
+    $$r[n]\approx H(\mathrm{e}^{\mathrm{i}\Omega})\mathrm{e}^{\mathrm{i}\Omega n}=|H(\mathrm{e}^{\mathrm{i}\Omega})|\mathrm{e}^{\mathrm{i}(\Omega n+\varphi(\Omega))}$$
+
+    响应相对激励，幅度大约变为$|H(\mathrm{e}^{\mathrm{i}\Omega})|$倍，相位延迟为$\varphi(\Omega)$。虽然离散系统中的相时延未必为整数，但若\textbf{将离散信号视为连续信号理想采样的结果}，就可以把该相位偏移折算为这个连续信号的时间延迟，从而得到系统对频率为$\Omega$的离散信号的相时延
+    $$\tau_p(\Omega)=-\frac{\varphi(\Omega)}{\Omega}$$
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{phase_delay_demo}
+        \caption{离散系统的相时延示意图}
+    \end{figure}
+    上图展示了单频的离散正弦信号经过系统后的表现。可以看到，稳态响应本身并不是激励信号延时所得的，但作为连续正弦信号的采样结果，它们的包络呈现出相时延$\tau_p(\Omega)$的效果。
+\end{example}
+
+为了处理系统函数$H(z)$的极点，我们不得不忽略一些暂态项，在这种意义下，相时延的物理意义与猜想大致相符，稳态响应的确呈现出我们希望看到的相时延的时延量。特别地，如果系统的相频特性$\varphi(\Omega)$是$\Omega$的线性函数，即$\varphi(\Omega)=-k\Omega$，则系统的相时延为常数$k$，即系统对所有频率的离散信号的相时延都是$k$，因此称其为\textbf{线性相位系统}。
+
+可以猜想，群时延也具有类似于连续情况的定义与物理直观。下面的双边带调幅信号的例子，与\ref{sub:distortion}中的思路完全一致：
+
+\begin{example}
+    对于一个因果且稳定的线性时不变系统，设其系统函数为$H(z)$，激励为离散调幅信号
+    $$e[n]=\cos(\Omega_m n)\cos(\Omega_c n)u[n]$$
+    其中$\Omega_m$为调制频率，$\Omega_c$为载波频率，且满足$0<\Omega_m\ll\Omega_c<\pi$。利用积化和差公式以及单边余弦序列的z变换公式，可以求得激励信号的z变换为
+    \begin{align*}
+        E(z)&=\mathcal{Z}\left\{\frac{1}{2}\left(\cos(\Omega_c+\Omega_m)n+\cos(\Omega_c-\Omega_m)n\right)u[n]\right\}\\
+        &=\frac{1}{4}\left[\frac{z}{z-\mathrm{e}^{\mathrm{i}(\Omega_c+\Omega_m)}}+\frac{z}{z-\mathrm{e}^{-\mathrm{i}(\Omega_c+\Omega_m)}}+\frac{z}{z-\mathrm{e}^{\mathrm{i}(\Omega_c-\Omega_m)}}+\frac{z}{z-\mathrm{e}^{-\mathrm{i}(\Omega_c-\Omega_m)}}\right],|z|>1
+    \end{align*}
+    因此响应的z变换为
+    \begin{align*}
+        R(z)&=H(z)E(z)\\
+        &=\frac{1}{4}\left[\frac{zH(z)}{z-\mathrm{e}^{\mathrm{i}(\Omega_c+\Omega_m)}}+\frac{zH(z)}{z-\mathrm{e}^{-\mathrm{i}(\Omega_c+\Omega_m)}}+\frac{zH(z)}{z-\mathrm{e}^{\mathrm{i}(\Omega_c-\Omega_m)}}+\frac{zH(z)}{z-\mathrm{e}^{-\mathrm{i}(\Omega_c-\Omega_m)}}\right]
+    \end{align*}
+
+    根据前一例子中的结果，在$n$充分大时，响应近似为
+    \begin{align*}
+        r[n]&=\frac{1}{4}\left[H(\mathrm{e}^{\mathrm{i}(\Omega_c+\Omega_m)})\mathrm{e}^{\mathrm{i}(\Omega_c+\Omega_m)n}+H(\mathrm{e}^{-\mathrm{i}(\Omega_c+\Omega_m)})\mathrm{e}^{-\mathrm{i}(\Omega_c+\Omega_m)n}\right.\\
+        &\qquad +\left.H(\mathrm{e}^{\mathrm{i}(\Omega_c-\Omega_m)})\mathrm{e}^{\mathrm{i}(\Omega_c-\Omega_m)n}+H(\mathrm{e}^{-\mathrm{i}(\Omega_c-\Omega_m)})\mathrm{e}^{-\mathrm{i}(\Omega_c-\Omega_m)n}\right]\\
+        &=|H(\mathrm{e}^{\mathrm{i}(\Omega_c+\Omega_m)})|\cos((\Omega_c+\Omega_m)n+\varphi(\Omega_c+\Omega_m))\\
+        &\qquad +|H(\mathrm{e}^{\mathrm{i}(\Omega_c-\Omega_m)})|\cos((\Omega_c-\Omega_m)n+\varphi(\Omega_c-\Omega_m))
+    \end{align*}
+    由于$\Omega_m\ll\Omega_c$，可以将幅频特性近似为$|H(\mathrm{e}^{\mathrm{i}\Omega_c})|$，对相频特性进行泰勒展开：
+    \begin{align*}
+        \varphi(\Omega_c\pm\Omega_m)\approx \varphi(\Omega_c)\pm \left.\frac{d\varphi(\Omega)}{d\Omega}\right|_{\Omega=\Omega_c}\Omega_m
+    \end{align*}
+    代入$r[n]$的表达式中，得到
+    \begin{align*}
+        r[n]&\approx \frac{1}{2}|H(\mathrm{e}^{\mathrm{i}\Omega_c})|\left[\cos\left((\Omega_c+\Omega_m)n+\varphi(\Omega_c)+\left.\frac{d\varphi(\Omega)}{d\Omega}\right|_{\Omega=\Omega_c}\Omega_m\right)\right.\\
+        &\qquad\left.+\cos\left((\Omega_c-\Omega_m)n+\varphi(\Omega_c)-\left.\frac{d\varphi(\Omega)}{d\Omega}\right|_{\Omega=\Omega_c}\Omega_m\right)\right]\\
+        &=|H(\mathrm{e}^{\mathrm{i}\Omega_c})|\cos\left(\Omega_c n+\varphi(\Omega_c)\right)\cos\left(\Omega_m n+\left.\frac{d\varphi(\Omega)}{d\Omega}\right|_{\Omega=\Omega_c}\Omega_m\right)
+    \end{align*}
+    响应相对激励，幅度大约变为$|H(\mathrm{e}^{\mathrm{i}\Omega_c})|$倍，载波信号的相位延迟为$\varphi(\Omega_c)$，调制信号的相位偏移为$\left.\dfrac{d\varphi(\Omega)}{d\Omega}\right|_{\Omega=\Omega_c}\Omega_m$。将离散信号视为连续信号理想采样的结果，就可以把调制信号的相位偏移折算为连续信号的包络波形的时间延迟，从而得到系统对频率为$\Omega_c$的离散信号的群时延
+    $$\tau_g(\Omega_c)=-\left.\frac{d\varphi(\Omega)}{d\Omega}\right|_{\Omega=\Omega_c}$$
+\end{example}
+
+\subsection{*最小相位系统}\label{sub:minimum_phase}
+
+如果我们希望系统具有最小的相位延迟特性，从而具有最小的时延特性，就需要考虑将系统设计为一个\textbf{最小相位系统}，它在具有相同幅频特性的系统中，具有最小的相位延迟。
+\begin{definition}[离散最小相位系统]
+    设因果且稳定的离散线性时不变系统给的系统函数为$H(z)$，记$H(z)$的零点集为$\{z_k\}$，如果$\forall k,|z_k|<1$，则称该系统为\textbf{离散最小相位系统}。
+\end{definition} 
+
+对于离散系统，\textbf{单位圆对应连续系统的虚轴；单位圆外侧对应虚轴右侧}。二者都可视为稳定性和最小相位性的分界线，因果信号在变换域中的收敛域均位于分界线的一侧。对于连续系统，在$s$平面沿虚轴自$s=0$走到无穷远点时，频率由低到高，稳定系统的极点位于走向左侧，最小相位系统的极点和零点均位于左侧；对于离散系统，在$z$平面沿单位圆从$z=1$逆时针走到$z=-1$时，结论同样成立。
+
+为了说明这种系统具有最小相位性，我们仿照\ref{sub:min_phase}，借助全通系统，给出系统函数为有理函数，且不考虑单位圆上有零点时的证明。
+
+\begin{lemma}[离散全通系统]
+    对于一个因果且稳定的离散线性时不变系统，如果它的系统函数$H(z)$可以表示为以下形式：
+    $$H(z)=\prod_{k=1}^{M}\frac{1-\overline{z_k}z}{z-z_k}$$
+    其中$|z_k|<1$，则该系统是全通系统。
+\end{lemma}
+\begin{proof}
+    $H(z)$的零点、极点分别为$\{\overline{1/z_k}\}$和$\{z_k\}$，由于$|z_k|<1$，$\overline{1/z_k}$位于单位圆外，而$z_k$位于单位圆内，因此系统是稳定的。
+
+    我们来验证，以上乘积式中的每一项都是全通系统，从而它们的级联也是全通系统。记
+    $$H_k(z)=\frac{1-\overline{z_k}z}{z-z_k}$$
+    则$H_k(z)$的幅频特性为\begin{align*}
+        |H_k(\mathrm{e}^{\mathrm{i}\Omega})|&=\left|\frac{1-\overline{z_k}\mathrm{e}^{\mathrm{i}\Omega}}{\mathrm{e}^{\mathrm{i}\Omega}-z_k}\right|\\
+        &=\left|\frac{1-z_k \mathrm{e}^{-\mathrm{i}\Omega}}{\mathrm{e}^{\mathrm{i}\Omega}-z_k}\right|&(|z|=|\overline{z}|)\\
+        &=\left|\mathrm{e}^{\mathrm{i}\Omega}\cdot\frac{1-z_k \mathrm{e}^{-\mathrm{i}\Omega}}{\mathrm{e}^{\mathrm{i}\Omega}-z_k}\right|&(|\mathrm{e}^{\mathrm{i}\Omega}|=1)\\
+        &=1
+    \end{align*}
+\end{proof}
+
+连续全通系统的零点、极点关于虚轴对称，而离散全通系统的零点、极点关于单位圆共轭对称。
+
+\begin{proposition}
+    具有相同幅频特性的因果且稳定的离散线性时不变系统中，最小相位系统具有最小的群时延。
+\end{proposition}
+\begin{proof}
+    仅仅考虑零点不在单位圆上的有理系统函数。设系统函数为
+    $$H(z)=\frac{K(z)\prod_{k=1}^{M}(z-z_k)}{\prod_{l=1}^{N}(z-p_l)}$$
+    其中$K(z)$为模小于1的零点对应因式的乘积，$z_k$为模大于1的零点，$p_l$为模小于1的极点。
+
+    构造以下全通系统：
+    \begin{align*}
+        A(z)=\prod_{k=1}^{M}\frac{1-\overline{z_k} z}{z-z_k}
+    \end{align*}
+    则$A(z)$的零点为$\{1/\overline{z_k}\}$，模小于1，极点为$\{z_k\}$，模大于1。将$H(z)$与$A(z)$级联，得到系统函数为
+    \begin{align*}
+    \tilde{H}(z)=H(z)A(z)=K(z)\frac{\prod_{k=1}^{M}(1-\overline{z_k} z)}{\prod_{l=1}^{N}(z-p_l)}
+    \end{align*}
+
+    因此，级联系统是最小相位系统。为了验证级联系统具有最小相位性，我们来计算全通系统造成的群时延和相时延。设$z_k=r_k \mathrm{e}^{\mathrm{i}\theta_k}(r_k>1)$，全通系统的相频特性为：
+    \begin{align*}
+        \varphi_A(\Omega)=\arg A(\mathrm{e}^{\mathrm{i}\Omega})=\sum_{k=1}^{M}\left[\arg(1-\overline{z_k}\mathrm{e}^{\mathrm{i}\Omega})-\arg(\mathrm{e}^{\mathrm{i}\Omega}-z_k)\right]
+    \end{align*}
+    利用恒等式
+    $$1-\overline{z_k} \mathrm{e}^{\mathrm{i}\Omega}=\mathrm{e}^{\mathrm{i}\Omega}(\mathrm{e}^{-\mathrm{i}\Omega}-\overline{z_k})=\mathrm{e}^{\mathrm{i}\Omega}\cdot\overline{\mathrm{e}^{\mathrm{i}\Omega}-z_k}$$
+    可以得到
+    \begin{align*}
+        \arg(1-\overline{z_k}\mathrm{e}^{\mathrm{i}\Omega})=\arg(\mathrm{e}^{\mathrm{i}\Omega})+\arg(\overline{\mathrm{e}^{\mathrm{i}\Omega}-z_k})=\Omega-\arg(\mathrm{e}^{\mathrm{i}\Omega}-z_k)
+    \end{align*}
+    因此\begin{align*}
+        \varphi_A(\Omega)=\sum_{k=1}^{M}\left[\Omega-2\arg(\mathrm{e}^{\mathrm{i}\Omega}-z_k)\right]=M\Omega-2\sum_{k=1}^{M}\arg(\mathrm{e}^{\mathrm{i}\Omega}-z_k)
+    \end{align*}
+    我们无法判断上式的符号，因此相时延$\tau_{p,A}(\Omega)=-\varphi_A(\Omega)/\Omega$的符号是不确定的。下面计算群时延：
+    \begin{align*}
+        \tau_{g,A}(\Omega)=-\frac{d\varphi_A(\Omega)}{d\Omega}&=-M+2\sum_{k=1}^{M}\frac{d\arg(\mathrm{e}^{\mathrm{i}\Omega}-z_k)}{d\Omega}\\
+        &=-M+2\sum_{k=1}^{M}\frac{1-r_k\cos(\Omega-\theta_k)}{1-2r_k\cos(\Omega-\theta_k)+r_k^2}\\
+        &=-\sum_{k=1}^{M}\left(1-\frac{2-2r_k\cos(\Omega-\theta_k)}{1-2r_k\cos(\Omega-\theta_k)+r_k^2}\right)\\
+        &=-\sum_{k=1}^{M}\frac{r_k^2-1}{1-2r_k\cos(\Omega-\theta_k)+r_k^2}
+    \end{align*}
+    由于$r_k>1$，$\tau_{g,A}(\Omega)<0$，因此全通系统的群时延为负值。级联系统的群时延为$\tau_g(\Omega)+\tau_{g,A}(\Omega)$，因此级联系统的群时延小于原系统的群时延。
+\end{proof}
+
+可见，尽管连续系统的$s$平面与离散系统的$z$平面具有深刻而优美的对应关系，但并不能将连续系统的结论直接套用到离散系统中，例如，连续系统的相时延和群时延直接反应了响应相对激励的时延特性，而离散系统的相时延和群时延则需要在忽略暂态项的意义下，才能反应出响应相对激励的时延特性；连续系统的最小相位系统同时具有最小的相时延和群时延，而离散系统的最小相位系统仅具有最小的群时延，却未必具有最小的相时延。
