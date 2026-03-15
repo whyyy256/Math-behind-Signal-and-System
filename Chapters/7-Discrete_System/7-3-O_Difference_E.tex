@@ -364,7 +364,7 @@ $$\sum_{k=0}^{N}a_k y[n-k] = \sum_{l=0}^{M}b_l x[n-l]$$
     因此\begin{align*}
     Y(z)=\frac{4-z}{z-2}\cdot\frac{1}{1-3z^{-1}+2z^{-2}}=\frac{z^2(4-z)}{(z-2)^2(z-1)}
     \end{align*}
-    由逆z变换的留数定理公式，选取$|z|>2$中得围道$C$，有\begin{align*}
+    由逆z变换的留数定理公式，选取$|z|>2$中的围道$C$，有\begin{align*}
     y[n]u[n]&=\frac{1}{2\pi\mathrm{i}}\oint_{C}Y(z)z^{n-1}\mathrm{d}z\\
     &=\mathrm{Res}\left(\frac{z^2(4-z)}{(z-2)^2(z-1)}z^{n-1},2\right)+\mathrm{Res}\left(\frac{z^2(4-z)}{(z-2)^2(z-1)}z^{n-1},1\right)\\
     &=\lim_{z\to 2}\frac{d}{dz}\left(\frac{z^{n+1}(4-z)}{(z-1)}\right)+\lim_{z\to 1}\frac{z^2(4-z)}{(z-2)^2}z^{n-1}\\
