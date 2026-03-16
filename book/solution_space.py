@@ -40,7 +40,7 @@ def plot_solution_space(t0=1.0):
 	arrow_label_x = (xmax - 0.06 * dx) + 1.3 * arrow_len
 	arrow_label_y = -0.08 * (ymax - ymin)
 	arrow_label_z = 0.02 * (zmax - zmin)
-	ax.text(arrow_label_x, arrow_label_y, arrow_label_z, r'$\mathbb{R}$', fontsize=20, color='k')
+	ax.text(arrow_label_x, arrow_label_y, arrow_label_z, r'$t\in\mathbb{R}$', fontsize=20, color='k')
 
 	# 隐藏刻度与网格（不显示单位长度和刻度）
 	ax.set_xticks([])
@@ -66,7 +66,7 @@ def plot_solution_space(t0=1.0):
 	label_x_off = 0.02 * (xmax - xmin)
 	label_y = ymin + 0.05 * (ymax - ymin)
 	label_z = zmin + 0.05 * (zmax - zmin)
-	ax.text(-label_x_off, label_y, label_z, r'$\mathbb{R}^n$', fontsize=20, color='C0')
+	ax.text(-label_x_off, label_y, label_z, r'$\mathbf{y}\in\mathbb{R}^n$', fontsize=20, color='C0')
 	ax.text(t0 - label_x_off, label_y, label_z, r'$t=t_0$', fontsize=20, color='C1')
 
 	# 绘制以 x 为自变量的平滑曲线
@@ -78,25 +78,11 @@ def plot_solution_space(t0=1.0):
 	small_z_off = 0.02 * (zmax - zmin)
 	ax.text(t0 + 0.01 * (xmax - xmin), y0 + small_y_off, z0 + small_z_off, r'$(t_0,\mathbf{y}_0)$', fontsize=20,color='red')
 
-	# 美化：去掉坐标轴底板/墙壁（尽量兼容不同 matplotlib 版本）
-	try:
-		ax.xaxis.pane.fill = False
-		ax.yaxis.pane.fill = False
-		ax.zaxis.pane.fill = False
-	except Exception:
-		pass
-	try:
-		# 兼容不同后端：将 pane 颜色设为透明，去掉背景墙
-		ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-		ax.w_yaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-		ax.w_zaxis.set_pane_color((1.0, 1.0, 1.0, 0.0))
-		# 也将轴背景设置为透明以防后端差异
-		ax.set_facecolor((1.0, 1.0, 1.0, 0.0))
-		fig.patch.set_alpha(0.0)
-	except Exception:
-		pass
+	# 彻底关闭 mplot3d 自带坐标轴（包含三面背景墙），保留上面手动画的轴线
+	ax.set_axis_off()
 
-	plt.tight_layout()
+	# 进一步压缩四周留白
+	fig.subplots_adjust(left=0.0, right=1.0, bottom=0.0, top=1.0)
 	plt.show()
 
 

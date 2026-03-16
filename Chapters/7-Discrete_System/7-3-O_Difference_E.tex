@@ -252,8 +252,8 @@ $$\left\{z\in\mathbb{C}\left||z|>r, r=\varlimsup_{n\to\infty}|x[n]|^{1/n}\right.
 单边z变换与双边z变换类似，可以参照\ref{sub:z_operation}给出单边z变换的线性性、移位性质、卷积定理等性质。本小节中，我们简要介绍与双边z变换不同的性质：
 \begin{proposition}[单边z变换的移位性质]
     设$x[n]$的单边z变换为$X(z)$，则\begin{align*}
-    \mathcal{Z}\{x[n-k]u[n]\}&=z^{-k}X(z)-\sum_{i=0}^{k-1}x[i-k]z^{-i}\\
-    \mathcal{Z}\{x[n+k]u[n]\}&=z^{k}X(z)+\sum_{i=-k}^{-1}x[i+k]z^{-i}
+    \mathcal{Z}\{x[n-k]u[n]\}&=z^{-k}X(z)+\sum_{i=0}^{k-1}x[i-k]z^{-i}=z^{-k}\left[X(z)+\sum_{i=1}^{k}x[-i]z^{i}\right]\\
+    \mathcal{Z}\{x[n+k]u[n]\}&=z^{k}X(z)-\sum_{i=-k}^{-1}x[i+k]z^{-i}=z^{k}\left[X(z)-\sum_{i=0}^{k-1}x[i]z^{-i}\right]
     \end{align*}
 \end{proposition}
 \begin{proof}
@@ -262,20 +262,20 @@ $$\left\{z\in\mathbb{C}\left||z|>r, r=\varlimsup_{n\to\infty}|x[n]|^{1/n}\right.
         &=\sum_{i=k}^{\infty}x[i-k]z^{-(i-k)}\\
         &=z^{k}\sum_{i=k}^{\infty}x[i-k]z^{-i}\\
         &=z^{k}\left[\sum_{i=0}^{\infty}x[i-k]z^{-i}-\sum_{i=0}^{k-1}x[i-k]z^{-i}\right]\\
-        &=z^{-k}\left[\mathcal{Z}\{x[n-k]u[n]\}+\sum_{i=0}^{k-1}x[i-k]z^{-i}\right]
+        &=z^{k}\left[\mathcal{Z}\{x[n-k]u[n]\}-\sum_{i=0}^{k-1}x[i-k]z^{-i}\right]
     \end{align*}
     即\begin{align*}
-    \mathcal{Z}\{x[n-k]u[n]\}&=z^{-k}X(z)-\sum_{i=0}^{k-1}x[i-k]z^{-i}
+    \mathcal{Z}\{x[n-k]u[n]\}&=z^{-k}X(z)+\sum_{i=0}^{k-1}x[i-k]z^{-i}=z^{-k}\left[X(z)+\sum_{i=1}^{k}x[-i]z^{i}\right]
     \end{align*}
     类似地，\begin{align*}
         X(z)&=\sum_{i=0}^{\infty}x[i]z^{-i}\\
         &=\sum_{i=-k}^{\infty}x[i+k]z^{-(i+k)}\\
         &=z^{-k}\sum_{i=-k}^{\infty}x[i+k]z^{-i}\\
         &=z^{-k}\left[\sum_{i=0}^{\infty}x[i+k]z^{-i}+\sum_{i=-k}^{-1}x[i+k]z^{-i}\right]\\
-        &=z^{-k}\left[\mathcal{Z}\{x[n+k]u[n]\}-\sum_{i=-k}^{-1}x[i+k]z^{-i}\right]
+        &=z^{-k}\left[\mathcal{Z}\{x[n+k]u[n]\}+\sum_{i=-k}^{-1}x[i+k]z^{-i}\right]
     \end{align*}
     即\begin{align*}
-    \mathcal{Z}\{x[n+k]u[n]\}&=z^{k}X(z)+\sum_{i=-k}^{-1}x[i+k]z^{-i}
+    \mathcal{Z}\{x[n+k]u[n]\}&=z^{k}X(z)-\sum_{i=-k}^{-1}x[i+k]z^{-i}=z^{k}\left[X(z)-\sum_{i=0}^{k-1}x[i]z^{-i}\right]
     \end{align*}
 \end{proof}
 
@@ -336,39 +336,39 @@ $$\sum_{k=0}^{N}a_k y[n-k] = \sum_{l=0}^{M}b_l x[n-l]$$
     \sum_{k=0}^{N}a_k \mathcal{Z}\{y[n-k]u[n]\}&=\sum_{l=0}^{M}b_l \mathcal{Z}\{x[n-l]u[n]\}
 \end{align*}
 利用上一小节中得到的移位性质，有\begin{align*}
-    \sum_{k=0}^{N}a_k \left(z^{-k}Y(z)-\sum_{i=0}^{k-1}y[i-k]z^{-i}\right)&=\sum_{l=0}^{M}b_l \left(z^{-l}X(z)-\sum_{j=0}^{l-1}x[j-l]z^{-j}\right)
+    \sum_{k=0}^{N}a_k z^{-k}\left[Y(z)+\sum_{i=1}^{k}y[-i]z^{i}\right]&=\sum_{l=0}^{M}b_l z^{-l}\left[X(z)+\sum_{j=1}^{l}x[-j]z^{j}\right]
 \end{align*}
 其中，\begin{align*}
     k=0&\implies \sum_{i=0}^{k-1}y[i-k]z^{-i}=0\\
     l=0&\implies \sum_{j=0}^{l-1}x[j-l]z^{-j}=0
 \end{align*}
 因此，\begin{align*}
-    Y(z)=\frac{\sum_{l=0}^{M}b_l z^{-l}X(z)+\sum_{k=1}^{N}\sum_{i=0}^{k-1}a_k y[i-k]z^{-i}-\sum_{l=1}^{M}\sum_{j=0}^{l-1}b_l x[j-l]z^{-j}}{\sum_{k=0}^{N}a_k z^{-k}}
+    Y(z)=\frac{\sum_{l=0}^{M}b_l z^{-l}\left[X(z)+\sum_{j=1}^{l}x[-j]z^{j}\right]-\sum_{k=0}^{N}a_k z^{-k}\sum_{i=1}^{k}y[-i]z^{i}}{\sum_{k=0}^{N}a_k z^{-k}}
 \end{align*}
 
 特别地，当方程右边恰为$x[n]$时，$M=0,b_0=1$，上式简化为\begin{align*}
-    Y(z)=\frac{X(z)+\sum_{k=1}^{N}\sum_{i=0}^{k-1}a_k y[i-k]z^{-i}}{\sum_{k=0}^{N}a_k z^{-k}}
+    Y(z)=\frac{X(z)-\sum_{k=0}^{N}a_k z^{-k}\sum_{i=1}^{k}y[-i]z^{i}}{\sum_{k=0}^{N}a_k z^{-k}}
 \end{align*}
 
 \begin{example}
     求解差分方程
     $$y[n]-3y[n-1]+2y[n-2]=2^n$$
-    的解，初始值为$y[-2]=1,y[-1]=0$。
+    在$n\in\mathbb{N}$时的解，初始值为$y[-2]=0,y[-1]=1$。
 
     解：将方程两边同时乘$u[n]$并做单边z变换，得到\begin{align*}
-    Y(z)-3\left(z^{-1}Y(z)-y[-1]\right)+2\left(z^{-2}Y(z)-y[-1]z^{-1}-y[-2]\right)=\frac{z}{z-2}
+    Y(z)-3(z^{-1}Y(z)+y[-1])+2(z^{-2}Y(z)+y[-2]+y[-1]z^{-1})&=\frac{z}{z-2}
     \end{align*}
     代入并整理得\begin{align*}
-    \left(1-3z^{-1}+2z^{-2}\right)Y(z)&=\frac{z}{z-2}-2
+    (1-3z^{-1}+2z^{-2})Y(z)&=\frac{z}{z-2}+3y[-1]-2y[-2]+2y[-1]z^{-1}=\frac{z}{z-2}+3-2z^{-1}
     \end{align*}
     因此\begin{align*}
-    Y(z)=\frac{4-z}{z-2}\cdot\frac{1}{1-3z^{-1}+2z^{-2}}=\frac{z^2(4-z)}{(z-2)^2(z-1)}
+    Y(z)=\frac{z}{(z-2)(1-3z^{-1}+2z^{-2})}+\frac{3+2z^{-1}}{1-3z^{-1}+2z^{-2}}=\frac{4z(z-1)}{(z-2)^2}
     \end{align*}
     由逆z变换的留数定理公式，选取$|z|>2$中的围道$C$，有\begin{align*}
     y[n]u[n]&=\frac{1}{2\pi\mathrm{i}}\oint_{C}Y(z)z^{n-1}\mathrm{d}z\\
-    &=\mathrm{Res}\left(\frac{z^2(4-z)}{(z-2)^2(z-1)}z^{n-1},2\right)+\mathrm{Res}\left(\frac{z^2(4-z)}{(z-2)^2(z-1)}z^{n-1},1\right)\\
-    &=\lim_{z\to 2}\frac{d}{dz}\left(\frac{z^{n+1}(4-z)}{(z-1)}\right)+\lim_{z\to 1}\frac{z^2(4-z)}{(z-2)^2}z^{n-1}\\
-    &=\lim_{z\to 2}\frac{[(n+1)z^n(4-z)-z^{n+1}](z-1)-z^{n+1}(4-z)}{(z-1)^2}+\lim_{z\to 1}\frac{z^{n+1}(4-z)}{(z-2)^2}\\
-    &=(2n-4)2^n+3,n\geq 0
+    &=\mathrm{Res}\left(\frac{4z^n(z-1)}{(z-2)^2},2\right)\\
+    &=\lim_{z\to 2}\frac{d}{dz}\left(4z^n(z-1)\right)\\
+    &=4\lim_{z\to 2}\left(nz^{n-1}(z-1)+z^n\right)\\
+    &=4\cdot 2^{n-1}(n+2)=2^{n+1}(n+2),n\in\mathbb{N}
 \end{align*}
 \end{example}

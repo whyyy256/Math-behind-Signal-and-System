@@ -240,25 +240,25 @@ Q(s)&=a_n\left(s^{n-1}c_0 +s^{n-2}c_1 +\cdots +c_{n-1}\right)+a_{n-1}\left(s^{n-
 \begin{align*}
     s\mathbf{Y}(s)-\mathbf{y}_0=A\mathbf{Y}(s)+\mathbf{F}(s)
 \end{align*}
-因此
+其中$\mathbf{Y}(s)$和$\mathbf{F}(s)$分别是$\mathbf{y}(t)$和$\mathbf{f}(t)$的拉普拉斯变换。因此
 \begin{align*}
     \mathbf{Y}(s)=(sI-A)^{-1}(\mathbf{y}_0+\mathbf{F}(s))
 \end{align*}
 两边同时求拉普拉斯逆变换，即可得到方程的解：\begin{align*}
     \mathbf{y}(t)=\mathcal{L} ^{-1} \left[(sI-A)^{-1}\mathbf{y}_0\right](t)+\mathcal{L} ^{-1} \left[(sI-A)^{-1}\mathbf{F}(s)\right](t)
 \end{align*}
-根据拉普拉斯变换的卷积定理，令$\mathcal{L} ^{-1} \left[(sI-A)^{-1}\right](t)=\Phi(t)$，则解为\begin{align*}
-    \mathbf{y}(t)&=\Phi(t)\mathbf{y}_0+\Phi(t)*\mathbf{f}(t)\\
-    &=\Phi(t)\mathbf{y}_0+\int_0^{t}\Phi(t-\tau)\mathbf{f}(\tau)\,d\tau
+根据拉普拉斯变换的卷积定理，令$\mathcal{L} ^{-1} \left[(sI-A)^{-1}\right](t)=\phi(t)u(t)$，则解为\begin{align*}
+    \mathbf{y}(t)&=\phi(t)u(t)\mathbf{y}_0+(\phi(t)u(t))*\mathbf{f}(t)\\
+    &=\phi(t)u(t)\mathbf{y}_0+\int_0^{t}\phi(t-\tau)\mathbf{f}(\tau)\,d\tau,t>0
 \end{align*}
-可以看出，$\Phi(t)$正是方程的基本解，即
-$$\mathcal{L}^{-1} \left[(sI-A)^{-1}\right](t)=\Phi(t)=\mathrm{e}^{At}u(t)$$
+可以看出，$\phi(t)$正是方程的基本解矩阵，即
+$$\mathcal{L}^{-1} \left[(sI-A)^{-1}\right](t)=\phi(t)u(t)=\mathrm{e}^{At}u(t)$$
 这样，我们就得到了第三章中提到的矩阵指数函数$\mathrm{e}^{At}$的拉普拉斯变换求法。
 
 \begin{definition}[特征矩阵/预解矩阵]
     设系统的状态矢量为$\mathbf{q}(t)$，由以下状态变量方程方程描述：
     $$\frac{d\mathbf{q}}{dt}=A\mathbf{q}+\mathbf{f}(t)$$
-    求解该方程的关键是求矩阵$(sI-A)^{-1}=\mathcal{L}\{\mathrm{e}^{At}\}$。我们将矩阵$(sI-A)^{-1}$称为系统的\textbf{特征矩阵}(characteristic matrix)或\textbf{预解矩阵}(pre-solution matrix)。
+    求解该方程的关键是求矩阵$(sI-A)^{-1}=\mathcal{L}\{\mathrm{e}^{At}\}$。我们将矩阵$(sI-A)^{-1}$称为系统的\textbf{特征矩阵}(characteristic matrix)或\textbf{预解矩阵}(pre-solution matrix)，记为$\Phi(s)$。
 \end{definition}
 
 称$(sI-A)^{-1}$为特征矩阵，是因为它的行列式的极点就是矩阵$A$的特征值\footnote{$(sI-A)$的每个分量都是分式函数，因此其逆矩阵的每个分量也是分式函数，行列式只会有极点而不会有其它形式的奇点}，在状态变量的可逆线性变换下，特征值是不变的，因此我们也将系统矩阵$A$的特征值称为\textbf{系统的特征值}。
@@ -287,7 +287,7 @@ $$\mathcal{L}^{-1} \left[(sI-A)^{-1}\right](t)=\Phi(t)=\mathrm{e}^{At}u(t)$$
         \end{bmatrix}
     \end{align*}
     则特征矩阵为\begin{align*}
-        (sI-A)^{-1}=\begin{bmatrix}
+        \Phi(s)=(sI-A)^{-1}=\begin{bmatrix}
             s & -1\\
             2 & s+3
         \end{bmatrix}^{-1}=\frac{1}{s^2+3s+2}\begin{bmatrix}
@@ -295,8 +295,8 @@ $$\mathcal{L}^{-1} \left[(sI-A)^{-1}\right](t)=\Phi(t)=\mathrm{e}^{At}u(t)$$
             -2 & s
         \end{bmatrix}
     \end{align*}
-    可以看出，系统的特征值为$-1,-2$。对$(sI-A)^{-1}$求拉普拉斯逆变换，即可得到系统的基本解矩阵$\mathrm{e}^{At}$：\begin{align*}
-        \mathrm{e}^{At}u(t)&=\mathcal{L} ^{-1} \left[(sI-A)^{-1}\right](t)\\
+    可以看出，系统的特征值为$-1,-2$。对$\Phi(s)$求拉普拉斯逆变换，即可得到系统的基本解矩阵$\mathrm{e}^{At}$：\begin{align*}
+        \mathrm{e}^{At}u(t)&=\mathcal{L} ^{-1} \left[\Phi(s)\right](t)\\
         &=\mathcal{L} ^{-1} \left[\frac{1}{s^2+3s+2}\begin{bmatrix}
             s+3 & 1\\
             -2 & s
@@ -345,16 +345,16 @@ $$\mathcal{L}^{-1} \left[(sI-A)^{-1}\right](t)=\Phi(t)=\mathrm{e}^{At}u(t)$$
 \end{align*}
 由前一方程，
 \begin{align*}
-    \mathbf{Q}(s)=(sI-A)^{-1}\mathbf{q}(0-)+(sI-A)^{-1}B\mathbf{E}(s)
+    \mathbf{Q}(s)=(sI-A)^{-1}\mathbf{q}(0-)+(sI-A)^{-1}B\mathbf{E}(s)=\Phi(s)\mathbf{q}(0-)+\Phi(s)B\mathbf{E}(s)
 \end{align*}
 代入后一方程，得到
 \begin{align*}
-    \mathbf{R}(s)=&C\left[(sI-A)^{-1}\mathbf{q}(0-)+(sI-A)^{-1}B\mathbf{E}(s)\right]+D\mathbf{E}(s)\\
-    =&C(sI-A)^{-1}\mathbf{q}(0-)+\left[C(sI-A)^{-1}B+D\right]\mathbf{E}(s)
+    \mathbf{R}(s)=&C\left[\Phi(s)\mathbf{q}(0-)+\Phi(s)B\mathbf{E}(s)\right]+D\mathbf{E}(s)\\
+    =&C\Phi(s)\mathbf{q}(0-)+\left[C\Phi(s)B+D\right]\mathbf{E}(s)
 \end{align*}
 因此系统函数为
 \begin{align*}
-    H(s)=\frac{R_{zs}(s)}{E(s)}=C(sI-A)^{-1}B+D
+    H(s)=\frac{R_{zs}(s)}{E(s)}=C\Phi(s)B+D
 \end{align*}
 这是一个$p\times q$的矩阵值函数。特别地，对于单输入单输出系统，系统函数为一个分式函数。
 
@@ -366,7 +366,7 @@ $$\mathcal{L}^{-1} \left[(sI-A)^{-1}\right](t)=\Phi(t)=\mathrm{e}^{At}u(t)$$
     \end{align*}
     则系统的系统函数为
     \begin{align*}
-        H(s)=\frac{R_{zs}(s)}{E(s)}=C(sI-A)^{-1}B
+        H(s)=\frac{R_{zs}(s)}{E(s)}=C\Phi(s)B
     \end{align*}
     如果在系统函数的计算过程中，没有出现零极点的抵消，即系统函数的分子和分母没有公共因子，则系统是可控且可观的，否则系统不完全可控或不完全可观。
 \end{claim}
