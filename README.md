@@ -1,5 +1,7 @@
 # Math-behind-Signal-and-System
 
+本作品《Math behind Signal and System》© 2025 严子竣 采用 [知识共享 署名-非商业性使用-禁止演绎 4.0 国际 许可协议](https://creativecommons.org/licenses/by-nc-nd/4.0/) 进行许可。
+
 ## 简介
 
 这个仓库存储了《信号与系统中的数学》的所有代码，可以找到最新版的pdf进行下载。本书正在持续更新中，预计2026年4月前完成大部分内容，在之后的半年里做一些微调。
@@ -27,5 +29,3 @@
 ## 致谢
 
 本书采用的模板修改自知乎用户@木子穿叶的[LaTeX模板](https://zhuanlan.zhihu.com/p/1903257631335883996)，在此表示感谢。
-
-<a href="https://github.com/LeoYan24/Math-behind-Signal-and-System">Math behind Signal and System</a> © 2025 by <a href="https://example.com">严子竣</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
