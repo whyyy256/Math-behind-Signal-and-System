@@ -27,3 +27,5 @@
 ## 致谢
 
 本书采用的模板修改自知乎用户@木子穿叶的[LaTeX模板](https://zhuanlan.zhihu.com/p/1903257631335883996)，在此表示感谢。
+
+<a href="https://github.com/LeoYan24/Math-behind-Signal-and-System">Math behind Signal and System</a> © 2025 by <a href="https://example.com">严子竣</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
