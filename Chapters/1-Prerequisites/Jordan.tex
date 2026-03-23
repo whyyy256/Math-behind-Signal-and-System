@@ -1,3 +1,4 @@
+\subsubsection{基本概念}
 \begin{definition}[算子]
 从向量空间$V$映射到自身的线性映射称为\textbf{算子}（operator）。$V$上所有算子的集合记为$L(V)$。在线性代数语境下，$L(V) = \text{End}(V)$，后者是自同态幺半群。
 \end{definition}
@@ -48,7 +49,7 @@ E(\lambda, T) = \ker(T - \lambda I) = \{v \in V \mid Tv = \lambda v\}
 特征子空间是$V$的线性子空间，且在$T$下不变。
 \end{definition}
 
-\textbf{特征向量的线性无关性}
+\subsubsection{特征向量的线性无关性}
 
 \begin{theorem}
 属于不同特征值的特征向量线性无关。
@@ -107,7 +108,7 @@ $V$上的每个算子至多有$\dim V$个互异特征值。
 方阵可逆当且仅当它的所有特征值不为零。
 \end{corollary}
 
-\textbf{Cayley-Hamilton定理}
+\subsubsection{Cayley-Hamilton定理}
 
 \begin{theorem}[Cayley-Hamilton]
 设$n$阶方阵$A$的特征多项式为
@@ -152,9 +153,21 @@ B_{n-3} - AB_{n-2} &= \alpha_2 I \\
 左边化简后等于$0$，故$\varphi(A) = 0$。
 \end{proof}
 
-\[\]
+\begin{theorem}[Schur]
+    复线性空间上的算子在某个基下有上三角矩阵。
+\end{theorem}
 
-\textbf{对角化}
+\subsubsection{对角化}
+
+所谓对角化，用代数的语言说，就是空间的直和分解，每个项都是算子的一维不变子空间。即
+\[
+V = \bigoplus_{i=1}^{k} V_i
+\]
+其中$V_i$是$T$的一维不变子空间。
+
+此时从矩阵看上去，$T$的矩阵表示就是对角矩阵。
+
+因此我们有这样的问题，那就是什么时候我们能找到一个那样的直和分解。这样的条件就是矩阵的可对角化条件。
 
 \begin{definition}[代数重数与几何重数]
 记$\varphi(\lambda) = (\lambda - \lambda_0)^m g(\lambda)$，其中$g(\lambda_0) \neq 0$。称$m$为特征值$\lambda_0$的\textbf{代数重数}（algebraic multiplicity）。
@@ -198,9 +211,11 @@ A = \begin{pmatrix} \lambda_0 I_k & B \\ 0 & C \end{pmatrix}
 \[
 V = \bigoplus_{i=1}^{k} E(\lambda_i, T)
 \]
-特别地，当$T$有$n = \dim V$个互异特征值时，$T$自然可以对角化。此时以$T$的特征向量构成$V$的一组基，$T$在这组基下的表示矩阵为对角矩阵$\text{diag}\{\lambda_1, \ldots, \lambda_n\}$。
+注意这里的$E(\lambda_i, T)$不一定是一维的，但是我们可以把大于一维的特征子空间继续分解为$T$的一维不变子空间的直和，于是$T$可以对角化。
 
-\textbf{不可对角化的例子}
+特别地，当$T$有$n = \dim V$个互异特征值时，每个特征子空间只能是一维的，并且至少且至多有$n$个这样的子空间，于是$T$自然可以对角化。此时以$T$的特征向量构成$V$的一组基，$T$在这组基下的表示矩阵为对角矩阵$\text{diag}\{\lambda_1, \ldots, \lambda_n\}$。
+
+\subsubsection{不可对角化的例子}
 
 \begin{example}
 考虑矩阵
@@ -219,9 +234,8 @@ A = \begin{pmatrix} 2 & 1 \\ 0 & 2 \end{pmatrix}
 由于几何重数小于代数重数，该矩阵不能对角化。
 \end{example}
 
-\[\]
 
-\textbf{广义特征向量与根子空间}
+\subsubsection{广义特征向量与根子空间}
 
 当矩阵不能对角化时，我们需要寻找更一般的分解方式。上述例子表明，有时我们不能找到足够多的线性无关特征向量，为此需要引入\textbf{广义特征向量}。
 
@@ -237,15 +251,14 @@ G(\lambda, T) = \ker(T - \lambda I)^{\dim V} = \{v \in V \mid \exists m \in \mat
 \begin{theorem}
 特征值$\lambda_0$的代数重数$=\dim G(\lambda_0, T)$.
 \end{theorem}
-证明稍困难，这里从略。
-\[\]
+根据这个定理我们就能自然看出几何重数一定不大于代数重数。
 
 广义特征向量可以立刻帮我们解决一大问题。
 \begin{theorem}
 复线性空间上存在由算子的广义特征向量组成的基。
 \end{theorem}
 
-\begin{theorem}[空间分解]
+\begin{theorem}[根子空间分解]
 设$\mathbb{F}=\mathbb{C}$，$T \in L(V)$，$\lambda_1, \ldots, \lambda_k$是$T$的所有互异特征值，则
 \[
 V = \bigoplus_{i=1}^k G(\lambda_i, T)
@@ -267,11 +280,62 @@ v = a(T)(T - \lambda_i I)^p v + b(T)(T - \lambda_j I)^q v = 0,
 \[
 \dim\left(\bigoplus_{i=1}^k G_i\right) = \sum_{i=1}^k \dim G_i = \sum_{i=1}^k \text{代数重数}(\lambda_i) = \dim V.
 \]
-因此 $V = \bigoplus_{i=1}^k G_i$。
+因此 $V = \bigoplus_{i=1}^k G_i$.
 \end{proof}
-\[\]
 
-\textbf{Jordan块与Jordan标准形}
+先前我们由Schur引理知道了复线性空间上的算子一定可以上三角化，使矩阵有几乎一半的0；从这个定理又可以看出复算子一定可以分块对角化，使矩阵大约有了更多的0. 显然，矩阵中0的数量越多，矩阵的加法乘法幂次越容易计算。我们还要继续问：既然对角化不是普遍的，那我们是否能对于一般的复算子，让它（在某个基下）的矩阵有更多的0？
+
+这个问题的答案由Jordan标准形给出。
+
+
+\subsubsection{Jordan块与Jordan标准形}
+\begin{definition}[幂零算子]
+设$N \in L(V)$。若存在正整数$m$使得$N^m = 0$，则称$N$为\textbf{幂零算子}（nilpotent operator）。使$N^m = 0$成立的最小正整数$m$称为$N$的\textbf{幂零指数}（index of nilpotency），记作$\mathrm{ind}(N)$。
+\end{definition}
+
+我们现在指出幂零指数的上界，这使得我们不用考虑比这更高的指数。
+
+\begin{theorem}[幂零指数的上界]
+设$N \in L(V)$是幂零算子，则$N^{\dim V}=0$.
+\end{theorem}
+
+\begin{proof}
+    $\ker N^{\dim V}=G(0, N)=V$.
+\end{proof}
+\begin{theorem}[幂零算子的特征值]
+设 $T \in \mathcal{L}(V)$.
+
+\begin{enumerate}
+    \item[1.] 如果 $T$ 是幂零的，那么 $0$ 是 $T$ 的特征值，并且 $T$ 没有其他的特征值。
+    \item[2.] 若 $\mathbf{F} = \mathbb{C}$，且 $0$ 是 $T$ 的唯一特征值，那么 $T$ 是幂零的。（注意$\mathbf{F} = \mathbb{C}$这个条件是必要的）
+\end{enumerate}
+\end{theorem}
+
+幂零算子启发我们考虑这样一组向量：
+\[
+v，Nv，N^2v，\ldots，N^{m-1} v
+\]
+其中$t$是使$N^t v=0$的最小整数。可以验证上面一组向量是线性无关的，于是我们考虑它们张成的空间
+\[
+C(v,N)=\mathrm{span}\{v,Nv,N^2v,\ldots,N^{t-1}v\}
+\]
+\begin{definition}[循环子空间与循环模]
+设$T \in L(V)$，$v \in V$。由$v$生成的\textbf{循环子空间}定义为
+\[
+C(v, T) = \mathrm{span}_{\mathbb{F}}\{v, Tv, T^2v, \ldots\} = \{f(T)v \mid f \in \mathbb{F}[t]\}.
+\]
+这是$V$中包含$v$的$T$-不变子空间。
+\end{definition}
+
+\begin{definition}[$T$-循环子空间]
+设$\lambda \in \mathbb{F}$，$v \in V$。定义$v$生成的\textbf{$T$-循环子空间}为
+\[
+C_{\lambda}(v, T) = C_0(v, T-\lambda I) = \{f(T-\lambda I)v \mid f \in \mathbb{F}[t]\}.
+\]
+\end{definition}
+这组向量称为循环基。
+
+由Cayley-Hamilton定理，循环子空间至多是$\dim V$维的。而对于幂零算子，循环子空间至多是$\dim V-1$维的。有更强的结论指出，$N^{1+\mathrm{rank}(N)}=0$，于是$N$的循环子空间至多是$\mathrm{rank}(N)$维的。
 
 \begin{definition}[Jordan块]
 形如
@@ -285,7 +349,7 @@ J_k(\lambda) = \begin{pmatrix}
 \]
 的矩阵称为\textbf{Jordan块}，其中对角线上都是$\lambda$，上对角线上都是$1$，其余为$0$。
 \end{definition}
-
+注意$N$在循环基下的矩阵正是$J_t(0)$.
 \begin{definition}[Jordan标准形]
 由若干个Jordan块构成的分块对角矩阵称为\textbf{Jordan标准形}：
 \[
@@ -300,98 +364,19 @@ J_{k_1}(\lambda_1) & & \\
 \begin{theorem}[Jordan标准形定理]
 复数域上任意方阵都相似于一个Jordan标准形，且在不考虑Jordan块次序的情况下，Jordan标准形唯一。
 \end{theorem}
-
-\textbf{Jordan标准形的性质}
-
-\begin{proposition}
-设$J$是矩阵$A$的Jordan标准形，则：
-\begin{enumerate}
-    \item $J$的对角元就是$A$的特征值（计重数）
-    \item 对应于特征值$\lambda$的Jordan块的个数等于$\lambda$的几何重数
-    \item 对应于特征值$\lambda$的所有Jordan块的阶数之和等于$\lambda$的代数重数
-\end{enumerate}
-\end{proposition}
-
-\begin{proof}
-(1) 由于$J$与$A$相似，它们有相同的特征多项式。$J$是上三角矩阵，其特征值就是对角元。
-
-(2) 考虑$J - \lambda I$的零空间维数。对于单个Jordan块$J_k(\mu)$：
-\[
-J_k(\mu) - \lambda I = \begin{cases}
-\text{对角为}\mu-\lambda\text{的上三角矩阵}, & \mu \neq \lambda \\
-\text{幂零Jordan块}, & \mu = \lambda
-\end{cases}
-\]
-当$\mu = \lambda$时，$J_k(\lambda) - \lambda I$的秩为$k-1$，零空间维数为$1$。因此每个Jordan块贡献$1$维特征子空间，Jordan块个数等于几何重数。
-
-(3) 所有Jordan块阶数之和等于矩阵阶数$n$，而对每个特征值$\lambda_i$，其Jordan块阶数之和恰好是$\lambda_i$作为特征多项式根的重数，即代数重数。
-\end{proof}
-
-\begin{example}
-以下是一些Jordan标准形的例子：
-\[
-\begin{pmatrix} 2 & 0 \\ 0 & 3 \end{pmatrix}, \quad
-\begin{pmatrix} 2 & 1 \\ 0 & 2 \end{pmatrix}, \quad
-\begin{pmatrix} 2 & 1 & 0 \\ 0 & 2 & 1 \\ 0 & 0 & 2 \end{pmatrix}, \quad
-\begin{pmatrix} 2 & 1 & 0 & 0 \\ 0 & 2 & 0 & 0 \\ 0 & 0 & 2 & 0 \\ 0 & 0 & 0 & 3 \end{pmatrix}
-\]
-\end{example}
-
-\textbf{Jordan标准形的计算}
-
-计算Jordan标准形的一般步骤：
-\begin{enumerate}
-    \item 计算特征多项式，求出所有特征值
-    \item 对每个特征值$\lambda$，计算$\text{rank}(A - \lambda I)^k$来确定Jordan块的结构
-    \item 构造变换矩阵$P$使得$P^{-1}AP = J$
-\end{enumerate}
-
-\begin{remark}
-Jordan标准形是矩阵在相似变换下的最简形式。当矩阵可对角化时，Jordan标准形就是对角矩阵；当不可对角化时，Jordan标准形是"最接近对角"的上三角矩阵。
-\end{remark}
-
-\[\]
-
-\textbf{Jordan标准形与循环子空间}
-
-Jordan标准形的本质是将空间分解为若干个循环子空间的直和。为了说明这一点，我们首先引入幂零算子和循环子空间的概念。
-
-\begin{definition}[幂零算子]
-设$N \in L(V)$。若存在正整数$m$使得$N^m = 0$，则称$N$为\textbf{幂零算子}（nilpotent operator）。使$N^m = 0$成立的最小正整数$m$称为$N$的\textbf{幂零指数}（index of nilpotency）。
-\end{definition}
-\begin{definition}[循环子空间]
-设$T \in L(V)$，$v \in V$。称由$v$生成的\textbf{循环子空间}（cyclic subspace）为
-\[
-C(v, T) = \text{span}\{v, Tv, T^2v, \ldots\}
-\]
-即包含$v$且在$T$下不变的最小子空间。
-\end{definition}
-
-\begin{definition}[$T$-循环子空间]
-更一般地，对于$T - \lambda I$，定义$v$生成的\textbf{$T$-循环子空间}为
-\[
-C_{\lambda}(v, T) = \text{span}\{v, (T-\lambda I)v, (T-\lambda I)^2v, \ldots\}
-\]
-\end{definition}
-\begin{example}
-Jordan块$J_k(0)$是幂零指数为$k$的幂零算子。具体地，
-\[
-J_k(0) = \begin{pmatrix}
-0 & 1 & & \\
-& 0 & \ddots & \\
-& & \ddots & 1 \\
-& & & 0
-\end{pmatrix}_{k \times k}
-\]
-满足$J_k(0)^k = 0$但$J_k(0)^{k-1} \neq 0$。
-\end{example}
+用代数的语言说，这就是
 
 \begin{theorem}[幂零算子的循环分解定理]
 设$N \in L(V)$是幂零算子，则$V$可以分解为若干个$N$-循环子空间的直和：
 \[
-V = C(v_1, N) \oplus C(v_2, N) \oplus \cdots \oplus C(v_m, N)
+V = \bigoplus_{i=1}^m C(v_i, N)
 \]
-其中每个$C(v_i, N) = \mathrm{span}\{v_i, Nv_i, N^2v_i, \ldots, N^{k_i-1}v_i\}$是$k_i$维循环子空间，$k_i$是使$N^{k_i}v_i = 0$的最小正整数。
+其中每个$C(v_i, N) = \mathrm{span}\{v_i, Nv_i, N^2v_i, \ldots, N^{t_i-1}v_i\}$是$t_i$维循环子空间，$t_i$是使$N^{k_i}v_i = 0$的最小正整数。
+
+这里的$m$由以下公式给出
+\[
+m=\dim\ker N
+\]
 
 进一步，若记$d_k$为$k$维循环子空间的个数，则
 \[
@@ -442,66 +427,44 @@ G(\lambda_i, T) = C(v_1, N) \oplus \cdots \oplus C(v_m, N)
 由于$N = T - \lambda_i I$，有$C(v_j, N) = C_{\lambda_i}(v_j, T)$。因此根子空间分解为$T$-循环子空间的直和。
 \end{proof}
 
-\begin{proposition}[Jordan块与循环子空间的对应]
-每个$k$阶Jordan块$J_k(\lambda)$对应一个$k$维的$T$-循环子空间。
-
-具体地，若$J_k(\lambda)$是$T$在子空间$W$上的限制，则存在$v \in W$使得
-\[
-W = C_{\lambda}(v, T) = \mathrm{span}\{v, (T-\lambda I)v, \ldots, (T-\lambda I)^{k-1}v\}
-\]
-且$(T-\lambda I)^k v = 0$，$(T-\lambda I)^{k-1}v \neq 0$。
+\begin{proposition}
+设$J$是矩阵$A$的Jordan标准形，则：
+\begin{enumerate}
+    \item $J$的对角元就是$A$的特征值（计重数）
+    \item 对应于特征值$\lambda$的Jordan块的个数等于$\lambda$的几何重数
+    \item 对应于特征值$\lambda$的所有Jordan块的阶数之和等于$\lambda$的代数重数
+    \item 对应于特征值$\lambda$的$k$阶Jordan块的个数等于$\mathrm{rank}((T-\lambda I)^{k-1}) - 2\cdot\mathrm{rank}((T-\lambda I)^k) + \mathrm{rank}((T-\lambda I)^{k+1})$
+\end{enumerate}
 \end{proposition}
 
-\begin{proof}
-设$J_k(\lambda)$作用在基$\{e_1, e_2, \ldots, e_k\}$上，满足：
-\[
-Te_1 = \lambda e_1, \quad Te_j = \lambda e_j + e_{j-1} \ (j \geq 2)
-\]
-即$(T-\lambda I)e_1 = 0$，$(T-\lambda I)e_j = e_{j-1}$。
-
-取$v = e_k$，则：
-\begin{align*}
-(T-\lambda I)v &= e_{k-1} \\
-(T-\lambda I)^2v &= e_{k-2} \\
-&\vdots \\
-(T-\lambda I)^{k-1}v &= e_1 \\
-(T-\lambda I)^kv &= 0
-\end{align*}
-因此$\{v, (T-\lambda I)v, \ldots, (T-\lambda I)^{k-1}v\} = \{e_k, e_{k-1}, \ldots, e_1\}$构成$W$的一组基，即$W = C_{\lambda}(v, T)$。
-\end{proof}
-
 \begin{example}
-考虑Jordan块$J_3(2) = \begin{pmatrix} 2 & 1 & 0 \\ 0 & 2 & 1 \\ 0 & 0 & 2 \end{pmatrix}$。
+\[
+A = \begin{pmatrix}
+3 & -1 & 0 & 0 \\
+1 & 1 & 0 & 0 \\
+3 & 0 & 5 & -3 \\
+4 & -1 & 3 & 1
+\end{pmatrix}
+\]
+的 Jordan 标准型。
 
-取$v = e_3 = (0, 0, 1)^{\mathrm{T}}$，则：
-\begin{align*}
-(A - 2I)v &= \begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{pmatrix}\begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix} = \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix} = e_2 \\
-(A - 2I)^2v &= \begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0 \end{pmatrix}\begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix} = e_1 \\
-(A - 2I)^3v &= 0
-\end{align*}
-
-因此$C_2(v, A) = \text{span}\{e_3, e_2, e_1\} = \mathbb{C}^3$，这是一个3维循环子空间。
+\begin{itemize}
+    \item 先算特征值：$\det(A - \lambda I) = 0 \Rightarrow (\lambda - 2)^4 = 0$，于是特征值都是 $2$。
+    \item 计算 $\operatorname{rk}(A - 2I) = 2$，于是就是两个 Jordan 块，要么是 $1$ 阶 $+$ $3$ 阶，要么是 $2$ 阶 $+$ $2$ 阶。
+    \item 计算一阶 Jordan 块的个数：
+    \[
+    n(1) = \operatorname{rk}\left((A-2I)^0\right) + \operatorname{rk}\left((A-2I)^2\right) - 2\operatorname{rk}(A-2I) = 0,
+    \]
+    于是没有 $1$ 阶 Jordan 块，那就只有两个 $2$ 阶 Jordan 块，于是 Jordan 矩阵就是
+    \[
+    J(A) = \begin{pmatrix}
+    J_2(2) & \\
+    & J_2(2)
+    \end{pmatrix}.
+    \]
+\end{itemize}
 \end{example}
 
-\begin{theorem}[Jordan标准形的结构定理]
-设$T \in L(V)$，$\lambda$是$T$的特征值。则：
-\begin{enumerate}
-    \item 对应于$\lambda$的Jordan块的个数等于$\dim \ker(T - \lambda I)$（几何重数）
-    \item 对应于$\lambda$的各Jordan块的阶数由以下公式确定：
-    \[
-    \text{$k$阶Jordan块的个数} = \text{rank}(T-\lambda I)^{k-1} - 2\cdot\text{rank}(T-\lambda I)^k + \text{rank}(T-\lambda I)^{k+1}
-    \]
-\end{enumerate}
-\end{theorem}
-
 \begin{remark}
-Jordan标准形的构造过程可以概括为：
-\begin{enumerate}
-    \item 对每个特征值$\lambda$，考虑幂零算子$N = T - \lambda I$限制在根子空间$G(\lambda, T)$上
-    \item 将$G(\lambda, T)$分解为$N$-循环子空间的直和
-    \item 每个$k$维$N$-循环子空间对应一个$k$阶Jordan块$J_k(\lambda)$
-    \item 所有Jordan块构成Jordan标准形
-\end{enumerate}
-因此，Jordan标准形深刻反映了线性算子在循环子空间上的作用结构。
+Jordan标准形是矩阵在相似变换下的最简形式。当矩阵可对角化时，Jordan标准形就是对角矩阵；当不可对角化时，Jordan标准形是"最接近对角"的上三角矩阵。
 \end{remark}
-
